@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Weapons/ShovelGun/ShovelGun.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Player/char.png" type="Texture" id=2]
 [ext_resource path="res://Player/Player.gd" type="Script" id=3]
+[ext_resource path="res://UI/GUI.tscn" type="PackedScene" id=4]
 
 [sub_resource type="GDScript" id=3]
 script/source = "extends Area2D
@@ -51,3 +52,5 @@ shape = SubResource( 2 )
 
 [node name="ShovelGun" parent="." instance=ExtResource( 1 )]
 position = Vector2( 29, 12 )
+
+[node name="GUI" parent="." instance=ExtResource( 4 )]
