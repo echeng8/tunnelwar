@@ -31,13 +31,6 @@ func _process(delta):
 			move_dir.x -= 1
 		if Input.is_action_pressed("right"):
 			move_dir.x += 1
-		if Input.is_action_pressed("click"):
-			if $Weapon.load_strength < 15:
-				$Weapon.load_strength += 1
-			speed = 100
-		if Input.is_action_just_released("click"):
-			$Weapon.fire()
-			speed = 300
 		
 		velocity = move_dir.normalized() * speed
 		
@@ -59,3 +52,7 @@ func _process(delta):
 		# we will keep jumping back until controlling player sends next position update.
 		# Therefore, we update puppet_pos to minimize jitter problems
 		puppet_pos = position
+		
+func hit(load_strength):
+	$"..".health -= 1 * load_strength
+	$"..".position.x += 1

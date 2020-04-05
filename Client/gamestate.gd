@@ -40,7 +40,7 @@ func _connected_ok():
 # Callback from SceneTree, called when server disconnect
 func _server_disconnected():
 	players.clear()
-	get_node("/root/World").queue_free()
+	get_node("/root/World/World").queue_free()
 	get_node("/root/Main").show()
 	emit_signal("server_disconnected")
 	
@@ -76,7 +76,7 @@ puppet func pre_start_game():
 	
 	# Load world
 	get_node("/root/Main").hide()
-	var world = load("res://World.tscn").instance()
+	var world = load("res://World/World.tscn").instance()
 	get_tree().get_root().add_child(world)
 	
 	# Tell Server we ready to roll

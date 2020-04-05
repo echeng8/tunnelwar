@@ -1,0 +1,53 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Weapons/ShovelGun/ShovelGun.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Player/char.png" type="Texture" id=2]
+[ext_resource path="res://Player/Player.gd" type="Script" id=3]
+
+[sub_resource type="GDScript" id=3]
+script/source = "extends Area2D
+
+
+# Declare member variables here. Examples:
+# var a = 2
+# var b = \"text\"
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	pass # Replace with function body.
+
+func hit(load_strength):
+	$\"..\".health -= 1 * load_strength
+	$\"..\".position.x += 1
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+#func _process(delta):
+#	pass
+"
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 20, 30 )
+
+[node name="Player" type="Sprite"]
+texture = ExtResource( 2 )
+script = ExtResource( 3 )
+
+[node name="NameLabel" type="Label" parent="."]
+margin_left = -10.0
+margin_top = 31.0
+margin_right = 30.0
+margin_bottom = 45.0
+text = "Player Name"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PlayerArea" type="Area2D" parent="."]
+script = SubResource( 3 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerArea"]
+shape = SubResource( 2 )
+
+[node name="ShovelGun" parent="." instance=ExtResource( 1 )]
+position = Vector2( 29, 12 )
