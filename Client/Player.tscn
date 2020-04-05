@@ -1,7 +1,17 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://char.png" type="Texture" id=1]
 [ext_resource path="res://Player.gd" type="Script" id=2]
+[ext_resource path="res://weapon.png" type="Texture" id=3]
+[ext_resource path="res://Weapon.gd" type="Script" id=4]
+[ext_resource path="res://WeaponArea.gd" type="Script" id=5]
+[ext_resource path="res://PlayerArea.gd" type="Script" id=6]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 10, 3.5 )
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 20, 30 )
 
 [node name="Player" type="Sprite"]
 texture = ExtResource( 1 )
@@ -16,3 +26,22 @@ text = "Player Name"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Weapon" type="Sprite" parent="."]
+position = Vector2( 29, 12 )
+texture = ExtResource( 3 )
+script = ExtResource( 4 )
+
+[node name="WeaponArea" type="Area2D" parent="Weapon"]
+script = ExtResource( 5 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Weapon/WeaponArea"]
+position = Vector2( 11, 1.25 )
+shape = SubResource( 1 )
+
+[node name="PlayerArea" type="Area2D" parent="."]
+script = ExtResource( 6 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerArea"]
+shape = SubResource( 2 )
+[connection signal="area_entered" from="Weapon/WeaponArea" to="Weapon" method="_on_Area2D_area_entered"]

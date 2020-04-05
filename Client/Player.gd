@@ -1,7 +1,8 @@
 extends Sprite
 
-const SPEED = 300
+var speed = 300
 var velocity = Vector2()
+export var health = 20
 
 puppet var puppet_pos
 puppet var puppet_vel = Vector2()
@@ -30,8 +31,15 @@ func _process(delta):
 			move_dir.x -= 1
 		if Input.is_action_pressed("right"):
 			move_dir.x += 1
+		if Input.is_action_pressed("click"):
+			if $Weapon.load_strength < 15:
+				$Weapon.load_strength += 1
+			speed = 100
+		if Input.is_action_just_released("click"):
+			$Weapon.fire()
+			speed = 300
 		
-		velocity = move_dir.normalized() * SPEED
+		velocity = move_dir.normalized() * speed
 		
 		rset_unreliable("puppet_pos", position)
 		rset_unreliable("puppet_vel", velocity)
@@ -42,6 +50,8 @@ func _process(delta):
 		velocity = puppet_vel
 	
 	position += velocity * delta
+	
+	print(health)
 	
 	if not is_network_master():
 		# It may happen that many frames pass before the controlling player sends
