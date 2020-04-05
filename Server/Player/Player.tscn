@@ -1,8 +1,10 @@
 [gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://char.png" type="Texture" id=1]
-[ext_resource path="res://Player.gd" type="Script" id=2]
+[ext_resource path="res://Player/char.png" type="Texture" id=1]
+[ext_resource path="res://Player/Player.gd" type="Script" id=2]
 [ext_resource path="res://weapon.png" type="Texture" id=3]
+
+
 
 [node name="Player" type="Sprite"]
 texture = ExtResource( 1 )

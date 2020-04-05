@@ -1,6 +1,6 @@
 extends Area2D
 
-export(float) var SPEED = 1500
+export(float) var SPEED = 1000
 export(float) var DAMAGE = 15
 
 var direction = 0
