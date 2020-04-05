@@ -2,9 +2,7 @@
 
 [ext_resource path="res://Player/char.png" type="Texture" id=1]
 [ext_resource path="res://Player/Player.gd" type="Script" id=2]
-[ext_resource path="res://weapon.png" type="Texture" id=3]
-
-
+[ext_resource path="res://Weapons/ShovelGun/ShovelGun.tscn" type="PackedScene" id=3]
 
 [node name="Player" type="Sprite"]
 texture = ExtResource( 1 )
@@ -20,6 +18,5 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Weapon" type="Sprite" parent="."]
-position = Vector2( 26, 12 )
-texture = ExtResource( 3 )
+[node name="ShovelGun" parent="." instance=ExtResource( 3 )]
+position = Vector2( 29, 12 )
