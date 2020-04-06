@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Player/char.png" type="Texture" id=1]
 [ext_resource path="res://Player/Player.gd" type="Script" id=2]
 [ext_resource path="res://Weapons/ShovelGun/ShovelGun.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Weapons/ShovelGun/ShovelGun.png" type="Texture" id=4]
 
 [node name="Player" type="Sprite"]
 texture = ExtResource( 1 )
@@ -20,3 +21,4 @@ __meta__ = {
 
 [node name="ShovelGun" parent="." instance=ExtResource( 3 )]
 position = Vector2( 29, 12 )
+texture = ExtResource( 4 )

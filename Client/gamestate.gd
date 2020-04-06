@@ -1,8 +1,10 @@
 extends Node
 
 # Game port and ip
-# 34.74.55.123
-const ip = "127.0.0.1"
+#server - 34.74.55.123
+#localhost - 127.0.0.1
+#const ip = "34.74.55.123" #Google Server
+const ip = "127.0.0.1" #Local Host
 const DEFAULT_PORT = 44444
 
 # Signal to let GUI know whats up

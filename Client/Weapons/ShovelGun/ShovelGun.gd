@@ -21,10 +21,10 @@ func _process(delta):
 		if Input.is_action_pressed("stab"):
 			if load_strength < 15:
 				load_strength += 1
-			$Player.speed = 100
+			#$Player.speed = 100
 		if Input.is_action_just_released("stab"):
 			stab()
-			$Player.speed = 300
+			#$Player.speed = 300
 
 func stab():
 	stabbing = [true, load_strength]
