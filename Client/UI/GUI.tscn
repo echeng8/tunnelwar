@@ -16,9 +16,19 @@ __meta__ = {
 [node name="HealthBar" type="TextureProgress" parent="."]
 margin_right = 40.0
 margin_bottom = 40.0
-value = 75.0
+max_value = 20.0
+value = 20.0
 texture_under = ExtResource( 1 )
 texture_progress = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PlayerName" type="Label" parent="."]
+margin_left = 68.0
+margin_top = 151.0
+margin_right = 149.0
+margin_bottom = 165.0
 __meta__ = {
 "_edit_use_anchors_": false
 }

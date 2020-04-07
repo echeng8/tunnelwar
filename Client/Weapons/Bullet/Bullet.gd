@@ -12,9 +12,8 @@ func _process(delta):
 	position.x += direction * SPEED * delta
 
 func _on_body_entered(body):
+	print("bulletHit")
 	if body.is_a_parent_of(self):
-		return
-	if not body.is_in_group('players'):
 		return
 	body.damage(DAMAGE)
 	queue_free()

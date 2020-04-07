@@ -1,4 +1,4 @@
-extends Sprite
+extends KinematicBody2D
 
 var speed = 300
 var velocity = Vector2()
@@ -9,15 +9,14 @@ puppet var puppet_vel = Vector2()
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	_update_health_bar()
 	if is_network_master():
-		$NameLabel.text = "You"
+		$GUI/PlayerName.text = "You"
 	else:
 		var player_id = get_network_master()
-		$NameLabel.text = gamestate.players[player_id]
+		$GUI/PlayerName.text = gamestate.players[player_id]
 		
-		puppet_pos = position # Just making sure we initilize it
-
+	puppet_pos = position # Just making sure we initilize it
+	_update_health_bar()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
