@@ -21,9 +21,7 @@ run/main_scene="res://World.tscn"
 [autoload]
 
 gamestate="*res://gamestate.gd"
-Server="*res://Server.gdns"
 
 [rendering]
 
-environment/default_clear_color=Color( 0.164706, 0.0745098, 0.0745098, 1 )
 environment/default_environment="res://default_env.tres"
