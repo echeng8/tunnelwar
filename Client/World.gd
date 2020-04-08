@@ -18,7 +18,7 @@ puppet func spawn_player(spawn_pos, id):
 puppet func remove_player(id):
 	$Players.get_node(String(id)).queue_free()
 	
-func _on_Weapon_shoot(bullet, pos, dir):
+sync func _on_Weapon_shoot(bullet, pos, dir):
 	var b = bullet.instance()
 	add_child(b)
 	b.start(pos, dir)
