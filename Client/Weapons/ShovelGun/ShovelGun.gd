@@ -37,10 +37,10 @@ func _on_Timer_timeout():
 
 sync func _shoot():
 	$Projectile.fire = true
-	var v1 = Vector2(1, 0)
-	var dir = v1.rotated(global_position)
-	$Projectile.global_position = $Muzzle.global_position
-	$Projectile.direction = dir
+	#var v1 = Vector2(1, 0)
+	#var dir = v1.rotated(global_position)
+	$Projectile.position = $Muzzle.position
+	#$Projectile.direction = dir
 	
 #sync func _shoot():
 #	var bullet = Bullet.instance()
