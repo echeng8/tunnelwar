@@ -11,3 +11,11 @@ impl Server {
         Self
     }
 }
+
+fn init(handle: init::InitHandle ){
+    handle.add_class::<Server>();
+}
+
+godot_gdnative_init!();
+godot_nativescript_init!(init);
+godot_gdnative_terminate!();
