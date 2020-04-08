@@ -1,8 +1,8 @@
 extends KinematicBody2D
 
-var speed = 300
-var velocity = Vector2()
+export var speed = 300
 export var health_points = 20
+var velocity = Vector2()
 
 puppet var puppet_pos
 puppet var puppet_vel = Vector2()
@@ -17,6 +17,7 @@ func _ready():
 		
 	puppet_pos = position # Just making sure we initilize it
 	_update_health_bar()
+	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -74,3 +75,4 @@ func damage(value):
 func hit(load_strength):
 	$"..".health_points -= 1 * load_strength
 	$"..".position.x += 1
+	

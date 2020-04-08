@@ -19,7 +19,8 @@ func _process(delta):
 func _on_body_entered(body):
 	if body.is_a_parent_of(self):
 		return
-	body.damage(DAMAGE)
+	if body.has_method('damage'):
+		body.damage(DAMAGE)
 	fire = false
 	queue_free()
 

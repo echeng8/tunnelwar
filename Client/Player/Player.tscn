@@ -6,7 +6,7 @@
 [ext_resource path="res://UI/GUI.tscn" type="PackedScene" id=4]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 20, 30 )
+extents = Vector2( 60, 68 )
 
 [node name="Player" type="KinematicBody2D"]
 script = ExtResource( 3 )

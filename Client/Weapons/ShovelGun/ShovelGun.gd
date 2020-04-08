@@ -1,11 +1,14 @@
 extends Sprite
 
 const Bullet = preload("res://Weapons/Bullet/Bullet.tscn")
+
+signal shoot
+
+export var ammo_count = 1
 export var load_strength = 0
 var stabbing = [false, 0]
 
 func _process(delta):
-	
 	match load_strength:
 		0:
 			position.x = 29
@@ -19,8 +22,7 @@ func _process(delta):
 		look_at(get_global_mouse_position())
 		
 		if Input.is_action_pressed('shoot') and $Timer.is_stopped():
-			rpc('_shoot')
-			#shoot()
+			rpc("shoot")
 			$Timer.start()
 		if Input.is_action_pressed("stab"):
 			if load_strength < 15:
@@ -37,12 +39,14 @@ func stab():
 func _on_Timer_timeout():
 	$Timer.stop()
 
-sync func _shoot():
-	var b = Bullet.instance()
-	add_child(b)
-	b.start($Muzzle.position, Vector2(1, 0).rotated($Muzzle.rotation))
-	b.fire = true
-	#b.set_as_toplevel(true)
+sync func shoot():
+	var v1 = $Muzzle.global_position
+	emit_signal('shoot', Bullet,  v1 , Vector2(1, 0).rotated(self.global_rotation))
+#	var b = Bullet.instance()
+#	add_child(b)
+#	b.start($Muzzle.position, Vector2(1, 0).rotated($Muzzle.rotation))
+#	b.fire = true
+	
 #sync func _shoot():
 #	var bullet = Bullet.instance()
 #	add_child(bullet)
