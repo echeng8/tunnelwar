@@ -9,6 +9,7 @@
 extents = Vector2( 20, 30 )
 
 [node name="Player" type="KinematicBody2D"]
+scale = Vector2( 0.4, 0.4 )
 script = ExtResource( 3 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
