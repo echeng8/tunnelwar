@@ -3,8 +3,8 @@ extends Node
 # Game port and ip
 #server - 34.74.55.123
 #localhost - 127.0.0.1
-#const ip = "34.74.55.123" #Google Server
-const ip = "127.0.0.1" #Local Host
+const ip = "34.74.55.123" #Google Server
+#const ip = "127.0.0.1" #Local Host
 const DEFAULT_PORT = 44444
 
 # Signal to let GUI know whats up
@@ -72,7 +72,8 @@ func get_player_list():
 	return players.values()
 
 
-puppet func pre_start_game():
+#puppet func pre_start_game():
+func pre_start_game():
 	# Register ourselves with the server
 	rpc_id(1, "register_player", my_name)
 	

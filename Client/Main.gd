@@ -7,7 +7,7 @@ func _ready():
 	gamestate.connect("connection_failed", self, "_on_connection_failed")
 	gamestate.connect("connection_succeeded", self, "_on_connection_success")
 	gamestate.connect("server_disconnected", self, "_on_server_disconnect")
-	gamestate.connect("players_updated", self, "update_players_list")
+	#gamestate.connect("players_updated", self, "update_players_list")
 	
 	$VBox/JoinButton.disabled = true
 	
