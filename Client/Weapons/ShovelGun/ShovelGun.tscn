@@ -10,7 +10,8 @@ offset = Vector2( 150, -20 )
 script = ExtResource( 1 )
 
 [node name="Timer" type="Timer" parent="."]
+wait_time = 2.0
 
 [node name="Muzzle" type="Position2D" parent="."]
-position = Vector2( 328.484, -27.0014 )
+position = Vector2( 355.521, -26 )
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
