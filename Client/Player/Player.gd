@@ -44,7 +44,7 @@ func _process(delta):
 	
 	position += velocity * delta
 	
-	print(health_points)
+
 	
 	if not is_network_master():
 		# It may happen that many frames pass before the controlling player sends

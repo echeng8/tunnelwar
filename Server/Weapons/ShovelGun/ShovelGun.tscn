@@ -4,7 +4,6 @@
 
 [sub_resource type="StreamTexture" id=1]
 flags = 4
-load_path = "res://.import/weapon.png-71d896b470170ce1bc2d3a427c147866.stex"
 
 [sub_resource type="RectangleShape2D" id=2]
 

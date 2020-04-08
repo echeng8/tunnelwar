@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Weapons/ShovelGun/ShovelGun.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Player/char.png" type="Texture" id=2]
+[ext_resource path="res://Art/character.png" type="Texture" id=2]
 [ext_resource path="res://Player/Player.gd" type="Script" id=3]
 [ext_resource path="res://UI/GUI.tscn" type="PackedScene" id=4]
 
@@ -15,9 +15,14 @@ script = ExtResource( 3 )
 shape = SubResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]
+scale = Vector2( 0.5, 0.5 )
 texture = ExtResource( 2 )
 
 [node name="ShovelGun" parent="." instance=ExtResource( 1 )]
-position = Vector2( 29, 12 )
+position = Vector2( 4, 17 )
 
 [node name="GUI" parent="." instance=ExtResource( 4 )]
+margin_left = -63.1747
+margin_top = -124.633
+margin_right = 92.8253
+margin_bottom = 117.367
