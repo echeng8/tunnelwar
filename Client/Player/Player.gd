@@ -11,6 +11,7 @@ puppet var puppet_vel = Vector2()
 func _ready():
 	if is_network_master():
 		$GUI/PlayerName.text = "You"
+		$Camera.current = true
 	else:
 		var player_id = get_network_master()
 		$GUI/PlayerName.text = gamestate.players[player_id]
