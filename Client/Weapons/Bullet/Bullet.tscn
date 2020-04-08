@@ -12,7 +12,6 @@ position = Vector2( 22, -4 )
 polygon = PoolVector2Array( -19.8511, -18.7043, 11.8552, -18.0572, 22.1548, -10.9968, 27.664, -6.03854, 30.7491, -0.749748, 29.3167, 4.09831, 26.4142, 7.82544, 11.8552, 19.1491, -18.8805, 19.1491, -19.9351, 17.8712 )
 
 [node name="Sprite" type="Sprite" parent="."]
-scale = Vector2( 0.5, 0.5 )
 texture = ExtResource( 1 )
 
 [node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]

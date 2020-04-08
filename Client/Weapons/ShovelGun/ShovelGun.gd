@@ -21,9 +21,10 @@ func _process(delta):
 	if is_network_master():
 		look_at(get_global_mouse_position())
 		
-		if Input.is_action_pressed('shoot') and $Timer.is_stopped():
+		if Input.is_action_pressed('shoot') and $Timer.is_stopped() and ammo_count > 0:
 			rpc("shoot")
-			$Timer.start()
+			#$Timer.start()
+			ammo_count = ammo_count - 1
 		if Input.is_action_pressed("stab"):
 			if load_strength < 15:
 				load_strength += 1
@@ -31,6 +32,12 @@ func _process(delta):
 		if Input.is_action_just_released("stab"):
 			stab()
 			#$Player.speed = 300
+	if ammo_count <= 0:
+		texture = load("res://Art/ShovelGun_RifleStock_v1.png")
+	else:
+		texture = load("res://Art/shovel gun.png")
+		
+		
 
 func stab():
 	stabbing = [true, load_strength]
