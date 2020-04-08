@@ -5,10 +5,16 @@ export(float) var DAMAGE = 20
 
 var fire = false
 var direction = 0
+var velocity = 0
+
+func start(_position, _direction):
+	position = _position
+	rotation = _direction.angle()
+	velocity = _direction * SPEED
 
 func _process(delta):
 	if fire == true:
-		position.x +=  SPEED * delta
+		position +=  velocity * delta
 		
 func _on_body_entered(body):
 	if body.is_a_parent_of(self):

@@ -5,7 +5,7 @@ export var load_strength = 0
 var stabbing = [false, 0]
 
 func _process(delta):
-	look_at(get_global_mouse_position())
+	
 	match load_strength:
 		0:
 			position.x = 29
@@ -16,6 +16,8 @@ func _process(delta):
 		15:
 			position.x = 20
 	if is_network_master():
+		look_at(get_global_mouse_position())
+		
 		if Input.is_action_pressed('shoot') and $Timer.is_stopped():
 			rpc('_shoot')
 			#shoot()
@@ -36,12 +38,11 @@ func _on_Timer_timeout():
 	$Timer.stop()
 
 sync func _shoot():
-	$Projectile.fire = true
-	#var v1 = Vector2(1, 0)
-	#var dir = v1.rotated(global_position)
-	$Projectile.position = $Muzzle.position
-	#$Projectile.direction = dir
-	
+	var b = Bullet.instance()
+	add_child(b)
+	b.start($Muzzle.position, Vector2(1, 0).rotated($Muzzle.rotation))
+	b.fire = true
+	#b.set_as_toplevel(true)
 #sync func _shoot():
 #	var bullet = Bullet.instance()
 #	add_child(bullet)
