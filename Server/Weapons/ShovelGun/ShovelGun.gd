@@ -2,6 +2,8 @@ extends Sprite
 
 const Bullet = preload("res://Weapons/Bullet/Bullet.tscn")
 
+puppet var puppet_look_at = Vector2() 
+
 func _on_Timer_timeout():
 	$Timer.stop()
 
