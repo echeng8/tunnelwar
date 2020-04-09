@@ -9,16 +9,17 @@ puppet var puppet_vel = Vector2()
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	puppet_pos = position # Just making sure we initilize it
+	update_GUI()
+	_update_health_bar()
+	
+func update_GUI():
 	if is_network_master():
 		$GUI/PlayerName.text = "You"
 		$Camera.current = true
 	else:
 		var player_id = get_network_master()
 		$GUI/PlayerName.text = gamestate.players[player_id]
-		
-	puppet_pos = position # Just making sure we initilize it
-	_update_health_bar()
-	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -45,9 +46,7 @@ func _process(delta):
 		velocity = puppet_vel
 	
 	position += velocity * delta
-	
-
-	
+		
 	if not is_network_master():
 		# It may happen that many frames pass before the controlling player sends
 		# their position again. If we don't update puppet_pos to position after moving,

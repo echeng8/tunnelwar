@@ -9,7 +9,6 @@
 extents = Vector2( 60, 68 )
 
 [node name="Player" type="KinematicBody2D"]
-scale = Vector2( 0.4, 0.4 )
 script = ExtResource( 3 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -27,3 +26,5 @@ margin_left = -63.1747
 margin_top = -124.633
 margin_right = 92.8253
 margin_bottom = 117.367
+
+[node name="Camera" type="Camera2D" parent="."]
