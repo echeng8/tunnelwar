@@ -70,9 +70,8 @@ remote func populate_world():
 		world.rpc_id(caller_id, "spawn_player", player.position, player.get_network_master())
 	
 	# Spawn new player everywhere
-	world.rpc("spawn_player", random_vector2(500, 500), caller_id)
-
-
-# Return random 2D vector inside bounds 0, 0, bound_x, bound_y
-func random_vector2(bound_x, bound_y):
-	return Vector2(randf() * bound_x, randf() * bound_y)
+	world.rpc("spawn_player", Server.player_spawn_location(), caller_id)
+	rpc_id(caller_id, "render_chunk")
+	
+#puppet func render_chunk():
+#	pass
