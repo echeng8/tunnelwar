@@ -10,6 +10,11 @@ impl Server {
     fn _init(_owner: Node) -> Self {
         Self
     }
+
+    #[export]
+    fn player_spawn_location(&self, _owner: Node) -> Vector2{
+        Vector2::new(250.0, 250.0)
+    }
 }
 
 fn init(handle: init::InitHandle ){
