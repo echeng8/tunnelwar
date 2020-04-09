@@ -4,8 +4,10 @@ export var speed = 300
 export var health_points = 20
 var velocity = Vector2()
 
-puppet var puppet_pos
-puppet var puppet_vel = Vector2()
+#puppet 
+var puppet_pos
+#puppet 
+var puppet_vel = Vector2()
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -30,22 +32,23 @@ func _process(delta):
 			move_dir.y -= 1
 		if Input.is_action_pressed("down"):
 			move_dir.y += 1
-		if Input.is_action_pressed("left"):
+		if Input.is_action_pressed("left"): 
 			move_dir.x -= 1
 		if Input.is_action_pressed("right"):
 			move_dir.x += 1
 		
-		velocity = move_dir.normalized() * speed
-		
-		rset_unreliable("puppet_pos", position)
-		rset_unreliable("puppet_vel", velocity)
-	else:
+		#velocity = move_dir.normalized() * speed
+		rpc_unreliable_id(1, '_update_player_movement', position, move_dir.normalized())
+		#rset_unreliable("puppet_pos", position)
+		#rset_unreliable("puppet_vel", velocity)
+	#else:
 		# If we are not the ones controlling this player, 
 		# sync to last known position and velocity
-		position = puppet_pos
-		velocity = puppet_vel
-	
-	position += velocity * delta
+		#position = puppet_pos
+		#velocity = puppet_vel
+
+	#velocity = puppet_vel
+	position += puppet_vel * delta
 		
 	if not is_network_master():
 		# It may happen that many frames pass before the controlling player sends
@@ -54,6 +57,11 @@ func _process(delta):
 		# Therefore, we update puppet_pos to minimize jitter problems
 		puppet_pos = position
 		
+		
+remote func _update_player_movement(position, velocity):
+	puppet_pos = position
+	puppet_vel = velocity
+	
 func _update_health_bar():
 	$GUI/HealthBar.value = health_points
 	

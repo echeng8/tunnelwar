@@ -67,7 +67,7 @@ remote func populate_world():
 	
 	# Spawn all current players on new client
 	for player in world.get_node("Players").get_children():
-		world.rpc_id(caller_id, "spawn_player", player.position, player.get_network_master())
+		world.rpc_id(caller_id, "spawn_player", player.global_position, player.get_network_master())
 	
 	# Spawn new player everywhere
 	world.rpc("spawn_player", random_vector2(500, 500), caller_id)

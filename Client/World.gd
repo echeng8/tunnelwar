@@ -3,7 +3,7 @@ extends Node2D
 onready var Player = load("res://Player/Player.tscn")
 
 
-puppet func spawn_player(spawn_pos, id):
+remotesync func spawn_player(spawn_pos, id):
 	var player = Player.instance()
 	player.position = spawn_pos
 	player.name = String(id) # Important
@@ -15,7 +15,7 @@ puppet func spawn_player(spawn_pos, id):
 	Weapon.connect("shoot", self, "_on_Weapon_shoot")
 	
 
-puppet func remove_player(id):
+remotesync func remove_player(id):
 	$Players.get_node(String(id)).queue_free()
 	
 func _on_Weapon_shoot(bullet, pos, dir):
