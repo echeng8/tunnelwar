@@ -45,8 +45,8 @@ func stab():
 
 func _on_Timer_timeout():
 	$Timer.stop()
-
-sync func shoot():
+	
+func shoot():
 	var v1 = $Muzzle.global_position
 	emit_signal('shoot', Bullet,  v1 , Vector2(1, 0).rotated(self.global_rotation))
 #	var b = Bullet.instance()

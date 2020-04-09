@@ -24,9 +24,7 @@ func _ready():
 	get_tree().connect("server_disconnected", self, "_server_disconnected")
 	
 	# Try to connect right away
-	connect_to_server()
-
-
+	#connect_to_server()
 
 func connect_to_server():
 	var host = NetworkedMultiplayerENet.new()
@@ -37,7 +35,8 @@ func connect_to_server():
 # Callback from SceneTree, called when connect to server
 func _connected_ok():
 	emit_signal("connection_succeeded")
-
+	pre_start_game()
+	
 
 # Callback from SceneTree, called when server disconnect
 func _server_disconnected():
@@ -47,7 +46,7 @@ func _server_disconnected():
 	emit_signal("server_disconnected")
 	
 	# Try to connect again
-	connect_to_server()
+	#connect_to_server()
 
 
 # Callback from SceneTree, called when unabled to connect to server
@@ -56,10 +55,11 @@ func _connected_fail():
 	emit_signal("connection_failed")
 	
 	# Try to connect again
-	connect_to_server()
+	#connect_to_server()
 
 
-puppet func register_player(id, new_player_data):
+#puppet 
+remote func register_player(id, new_player_data):
 	players[id] = new_player_data
 
 
@@ -73,8 +73,8 @@ func get_player_list():
 
 
 #puppet func pre_start_game():
-func pre_start_game():
-	# Register ourselves with the server
+func pre_start_game():	
+# Register ourselves with the server
 	rpc_id(1, "register_player", my_name)
 	
 	# Load world
@@ -84,7 +84,6 @@ func pre_start_game():
 	
 	# Tell Server we ready to roll
 	rpc_id(1, "populate_world")
-
 
 
  
