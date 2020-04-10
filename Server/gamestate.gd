@@ -42,17 +42,19 @@ remote func register_player(new_player_name):
 	# We get id this way instead of as parameter, to prevent users from pretending to be other users
 	var caller_id = get_tree().get_rpc_sender_id()
 	
+	Server.register_player(caller_id, new_player_name)
+	
 	# Add him to our list
-	players[caller_id] = new_player_name
+	#players[caller_id] = new_player_name
 	
 	# Add everyone to new player:
-	for p_id in players:
-		rpc_id(caller_id, "register_player", p_id, players[p_id]) # Send each player to new dude
+	#for p_id in players:
+	#	rpc_id(caller_id, "register_player", p_id, players[p_id]) # Send each player to new dude
 	
-	rpc("register_player", caller_id, players[caller_id]) # Send new dude to all players
+	#rpc("register_player", caller_id, players[caller_id]) # Send new dude to all players
 	# NOTE: this means new player's register gets called twice, but fine as same info sent both times
 	
-	print("Client ", caller_id, " registered as ", new_player_name)
+	#print("Client ", caller_id, " registered as ", new_player_name)
 
 
 puppetsync func unregister_player(id):
@@ -71,7 +73,3 @@ remote func populate_world():
 	
 	# Spawn new player everywhere
 	world.rpc("spawn_player", Server.player_spawn_location(), caller_id)
-	rpc_id(caller_id, "render_chunk")
-	
-#puppet func render_chunk():
-#	pass
