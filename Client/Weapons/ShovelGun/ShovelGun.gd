@@ -10,8 +10,8 @@ func _process(delta):
 	if is_network_master():
 		rpc_unreliable_id(1, "_update_weapon_position", get_global_mouse_position())
 		#rset_unreliable("puppet_look_at", get_global_mouse_position())
-		#if Input.is_action_pressed('shoot') and $Timer.is_stopped() and ammlpo;o.,o_count > 0:
-		#	rpc("shoot")
+		if Input.is_action_pressed('shoot') and $Timer.is_stopped():
+			rpc_id(1, "shoot")
 			#$Timer.start()
 		#	ammo_count = ammo_count - 1
 
@@ -28,9 +28,9 @@ remote func _update_weapon_position(player_id, mouse_position):
 func _on_Timer_timeout():
 	$Timer.stop()
 	
-#sync func shoot():
+remote func shoot(pos, dir):
 #	var v1 = $Muzzle.global_position
-#	emit_signal('shoot', Bullet,  v1 , Vector2(1, 0).rotated(self.global_rotation))
+	emit_signal('shoot', Bullet, pos, dir)
 #	var b = Bullet.instance()
 #	add_child(b)
 #	b.start($Muzzle.position, Vector2(1, 0).rotated($Muzzle.rotation))

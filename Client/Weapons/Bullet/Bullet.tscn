@@ -4,13 +4,12 @@
 [ext_resource path="res://Weapons/Bullet/Bullet.gd" type="Script" id=2]
 
 [node name="Projectile" type="Area2D"]
-position = Vector2( 0, -0.291992 )
 scale = Vector2( 0.5, 0.5 )
 script = ExtResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionPolygon2D" parent="."]
 position = Vector2( 22, -4 )
-polygon = PoolVector2Array( -19.8511, -18.7043, 11.8552, -18.0572, 22.1548, -10.9968, 27.664, -6.03854, 30.7491, -0.749748, 29.3167, 4.09831, 26.4142, 7.82544, 11.8552, 19.1491, -18.8805, 19.1491, -19.9351, 17.8712 )
+polygon = PoolVector2Array( -17.266, -41.1295, 0.670944, -40.6313, 15.4523, -39.9669, 45.1812, -39.6348, 60.7931, -29.5037, 79.2283, -12.8954, 82.8821, -3.42863, 79.2283, 6.53636, 69.5955, 17.3318, 45.8456, 32.9436, 33.5554, 34.2723, 6.64994, 35.2688, -10.2906, 35.767, -16.7678, 33.9401 )
 
 [node name="Sprite" type="Sprite" parent="."]
 texture = ExtResource( 1 )

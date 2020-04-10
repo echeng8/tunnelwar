@@ -17,8 +17,8 @@ func _process(delta):
 		position +=  velocity * delta
 		
 func _on_body_entered(body):
-	if body.is_a_parent_of(self):
-		return
+	#if body.is_a_parent_of(self):
+	#	return
 	if body.has_method('damage'):
 		body.damage(DAMAGE)
 	fire = false
