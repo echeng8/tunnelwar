@@ -7,7 +7,7 @@ const DEFAULT_PORT = 44444
 const MAX_PLAYERS = 12
 
 # Players dict stored as id:name
-var players = {}
+#var players = {}
 
 
 func _ready():
@@ -30,7 +30,8 @@ func _player_connected(_id):
 
 # Callback from SceneTree, called when client disconnects
 func _player_disconnected(id):
-	if players.has(id):
+	# if players.has(id):
+	if Server.is_peer_connected(id):
 		rpc("unregister_player", id)
 		get_node("/root/World").rpc("remove_player", id)
 	
@@ -42,21 +43,23 @@ remote func register_player(new_player_name):
 	# We get id this way instead of as parameter, to prevent users from pretending to be other users
 	var caller_id = get_tree().get_rpc_sender_id()
 	
+	Server.register_player(caller_id, new_player_name)
+	
 	# Add him to our list
-	players[caller_id] = new_player_name
+	#players[caller_id] = new_player_name
 	
 	# Add everyone to new player:
-	for p_id in players:
-		rpc_id(caller_id, "register_player", p_id, players[p_id]) # Send each player to new dude
+	#for p_id in players:
+	#	rpc_id(caller_id, "register_player", p_id, players[p_id]) # Send each player to new dude
 	
-	rpc("register_player", caller_id, players[caller_id]) # Send new dude to all players
+	#rpc("register_player", caller_id, players[caller_id]) # Send new dude to all players
 	# NOTE: this means new player's register gets called twice, but fine as same info sent both times
 	
-	print("Client ", caller_id, " registered as ", new_player_name)
+	#print("Client ", caller_id, " registered as ", new_player_name)
 
 
 puppetsync func unregister_player(id):
-	players.erase(id)
+	Server.unregister_player(id)
 	
 	print("Client ", id, " was unregistered")
 
@@ -70,6 +73,7 @@ remote func populate_world():
 		world.rpc_id(caller_id, "spawn_player", player.position, player.get_network_master())
 	
 	# Spawn new player everywhere
+<<<<<<< HEAD
 	world.rpc("spawn_player", random_vector2(500, 500), caller_id)
 	#rpc_id(caller_id, "render_chunk")
 	
@@ -85,3 +89,6 @@ func get_player_info(id):
 	for player in world.get_node("Players").get_children():
 		if player.name == String(id):
 			return player
+=======
+	world.rpc("spawn_player", Server.player_spawn_location(), caller_id)
+>>>>>>> 73d36cebc974a798e8d152cb7d7f275d033c2291
