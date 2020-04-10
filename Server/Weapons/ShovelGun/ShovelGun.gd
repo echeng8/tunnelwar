@@ -13,5 +13,8 @@ extends Node2D
 #	bullet.direction = -1 if flip_h else 1
 
 
-remote func _update_weapon_position(position):
-	rpc_unreliable("_update_weapon_position", position)
+remote func _update_weapon_position(mouse_position):
+	var id = get_tree().get_rpc_sender_id()
+	if get_parent().name == String(id):
+		look_at(mouse_position)
+		rpc_unreliable("_update_weapon_position", name, mouse_position)
