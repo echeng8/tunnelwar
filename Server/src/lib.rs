@@ -37,6 +37,16 @@ impl Server {
 
         godot_print!("Client {} registered as {:?}", id, name)
     }
+
+    #[export]
+    fn unregister_player(&mut self, _owner: Node, id: i64) {
+        self.players.remove(&id);
+    }
+
+    #[export]
+    fn is_peer_connected(&self, _owner: Node, id: i64) -> bool {
+        self.players.contains_key(&id)
+    }
 }
 
 fn init(handle: init::InitHandle ){

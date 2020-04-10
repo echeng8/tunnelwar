@@ -7,7 +7,7 @@ const DEFAULT_PORT = 44444
 const MAX_PLAYERS = 12
 
 # Players dict stored as id:name
-var players = {}
+#var players = {}
 
 
 func _ready():
@@ -30,7 +30,8 @@ func _player_connected(_id):
 
 # Callback from SceneTree, called when client disconnects
 func _player_disconnected(id):
-	if players.has(id):
+	# if players.has(id):
+	if Server.is_peer_connected(id):
 		rpc("unregister_player", id)
 		get_node("/root/World").rpc("remove_player", id)
 	
@@ -58,7 +59,7 @@ remote func register_player(new_player_name):
 
 
 puppetsync func unregister_player(id):
-	players.erase(id)
+	Server.unregister_player(id)
 	
 	print("Client ", id, " was unregistered")
 
