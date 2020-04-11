@@ -2,17 +2,39 @@
 use gdnative::*;
 use std::collections::HashMap;
 
+mod chunk_data;
+use chunk_data::ChunkData;
+
 #[derive(NativeClass)]
 #[inherit(Node)]
 struct Server {
-    players: HashMap<i64, String>
+    players: HashMap<i64, String>,
+    world: Vec<Vec<ChunkData>>
 }
 
 #[methods]
 impl Server {
     fn _init(_owner: Node) -> Self {
+        let world_size = 64;
+        let mut chunk_row = Vec::with_capacity(world_size);
+
+        let mut i = 0;
+        while i != 64 {
+            chunk_row.push(ChunkData::new());
+            i += 1;
+        }
+
+        let mut world = Vec::with_capacity(world_size);
+
+        i = 0;
+        while i != 64 {
+            world.push(chunk_row.clone());
+            i += 1;
+        }
+
         Self {
-            players: HashMap::new()
+            players: HashMap::new(),
+            world: world
         }
     }
 
@@ -47,6 +69,51 @@ impl Server {
     fn is_peer_connected(&self, _owner: Node, id: i64) -> bool {
         self.players.contains_key(&id)
     }
+
+    #[export]
+    fn update_chunks(&self, owner: Node) {
+        let players_iter = self.players.keys();
+        unsafe {
+            for player_id in players_iter {
+                // Get player node
+                let player_node = owner.get_node(NodePath::new(&GodotString::from(player_id.to_string()))).unwrap().cast::<Node2D>().unwrap();
+                
+                // Find out which chunk the player is currently in
+                let chunk_pos = Self::get_chunk_pos(player_node.get_position());
+
+                let mut updating_chunk = chunk_pos - Vector2::new(1.0, 1.0);
+
+                loop {
+                    // Check if chunk must be updated
+                    if self.world[updating_chunk.x as usize][updating_chunk.y as usize].is_rendered_for(player_id) /*TODO*/ {
+                        // Update the chunk
+                        // TODO: Self::update_chunk(player_id, updating_chunk); or just directly do an rpc
+                    }
+
+                    // Check if we're at the last chunk
+                    if updating_chunk - Vector2::new(1.0, 1.0) == chunk_pos {
+                        break
+                    }
+                    // Check if chunk is at end of row
+                    else if updating_chunk.x == (chunk_pos.x + 1.0) {
+                        updating_chunk.x = chunk_pos.x - 1.0;
+                        updating_chunk.y -= 1.0;
+                    } else {
+                        updating_chunk.x += 1.0;
+                    }
+                }
+            }
+        }
+    }
+
+    fn get_chunk_pos(position: Vector2) -> Vector2{
+        Vector2::new(position.x % 8.0, position.y % 8.0)
+    }
+
+    /*#[export]
+    fn get_player_name(&self, _owner: Node, id:i64) -> GodotString {
+        GodotString::from(self.players.get(&id).unwrap())
+    }*/
 }
 
 fn init(handle: init::InitHandle ){

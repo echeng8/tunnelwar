@@ -23,3 +23,6 @@ func _on_Weapon_shoot(bullet, pos, dir):
 	add_child(b)
 	b.start(pos, dir)
 	b.fire = true
+
+remote func render_chunk():
+	pass
