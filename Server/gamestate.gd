@@ -55,7 +55,7 @@ remote func register_player(new_player_name):
 	#rpc("register_player", caller_id, players[caller_id]) # Send new dude to all players
 	# NOTE: this means new player's register gets called twice, but fine as same info sent both times
 	
-	#print("Client ", caller_id, " registered as ", new_player_name)
+	print("Client ", caller_id, " registered as ", new_player_name)
 
 
 puppetsync func unregister_player(id):

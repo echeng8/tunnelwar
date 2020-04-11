@@ -11,7 +11,16 @@ remotesync func spawn_player(spawn_pos, id):
 	player.set_network_master(id) # Important
 	
 	$Players.add_child(player)
+	
+	var Weapon = player.get_node("ShovelGun")
+	Weapon.connect("shoot", self, "_on_Weapon_shoot")
 
 
 remotesync func remove_player(id):
 	$Players.get_node(String(id)).queue_free()
+
+func _on_Weapon_shoot(bullet, pos, dir):
+	var b = bullet.instance()
+	add_child(b)
+	b.start(pos, dir)
+	b.fire = true

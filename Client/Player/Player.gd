@@ -39,15 +39,19 @@ remote func _update_player_movement(player_id, player_pos):
 	if name == player_id:
 		player_position = player_pos
 	
-func _update_health_bar():
-	$GUI/HealthBar.value = health_points
-	
-func damage(value): 
-	health_points -= value
-	if health_points <= 0:
-		health_points = 0
-#		rpc('_die')
+remote func _update_health(health_points):
+	self.health_points = health_points
 	_update_health_bar()
+
+func _update_health_bar():
+	$GUI/HealthBar.value = self.health_points
+	
+#func damage(value): 
+#	health_points -= value
+#	if health_points <= 0:
+#		health_points = 0
+##		rpc('_die')
+#	_update_health_bar()
 	
 #sync func _die():
 #	set_physics_process(false)
