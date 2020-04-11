@@ -16,6 +16,9 @@ margin_top = 108.679
 margin_right = 511.958
 margin_bottom = 366.679
 custom_constants/separation = 100
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Title" type="Label" parent="VBox"]
 margin_right = 108.0

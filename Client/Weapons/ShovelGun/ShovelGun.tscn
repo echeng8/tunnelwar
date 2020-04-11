@@ -13,5 +13,5 @@ script = ExtResource( 1 )
 wait_time = 2.0
 
 [node name="Muzzle" type="Position2D" parent="."]
-position = Vector2( 355.521, -26 )
+position = Vector2( 355, -21 )
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

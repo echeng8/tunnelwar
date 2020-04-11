@@ -30,7 +30,7 @@ func _player_connected(_id):
 
 # Callback from SceneTree, called when client disconnects
 func _player_disconnected(id):
-	# if players.has(id):
+	#if players.has(id):
 	if Server.is_peer_connected(id):
 		rpc("unregister_player", id)
 		get_node("/root/World").rpc("remove_player", id)
@@ -59,6 +59,7 @@ remote func register_player(new_player_name):
 
 
 puppetsync func unregister_player(id):
+	#players.erase(id)
 	Server.unregister_player(id)
 	
 	print("Client ", id, " was unregistered")
@@ -70,7 +71,21 @@ remote func populate_world():
 	
 	# Spawn all current players on new client
 	for player in world.get_node("Players").get_children():
-		world.rpc_id(caller_id, "spawn_player", player.global_position, player.get_network_master())
+		world.rpc_id(caller_id, "spawn_player", player.position, player.get_network_master())
 	
 	# Spawn new player everywhere
-	world.rpc("spawn_player", Server.player_spawn_location(), caller_id)
+	world.rpc("spawn_player", random_vector2(500, 500), caller_id)
+	#rpc_id(caller_id, "render_chunk")
+	
+#puppet func render_chunk():
+#	pass
+# Return random 2D vector inside bounds 0, 0, bound_x, bound_y
+func random_vector2(bound_x, bound_y):
+	return Vector2(randf() * bound_x, randf() * bound_y)
+
+
+func get_player_info(id):
+	var world = get_node("/root/World")
+	for player in world.get_node("Players").get_children():
+		if player.name == String(id):
+			return player

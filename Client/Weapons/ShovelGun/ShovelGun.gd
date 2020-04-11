@@ -4,45 +4,33 @@ const Bullet = preload("res://Weapons/Bullet/Bullet.tscn")
 
 signal shoot
 
-export var ammo_count = 1
-#puppet 
-var puppet_look_at_pos = Vector2()
+var ammo_count
 
 func _process(delta):
 	if is_network_master():
-		var look_at_pos = get_global_mouse_position()
-		look_at(puppet_look_at_pos)
-		rpc_unreliable_id(1,"_update_weapon_position" ,look_at_pos)
-		#rset_unreliable("puppet_look_at", get_global_mouse_position())
-		if Input.is_action_pressed('shoot') and $Timer.is_stopped() and ammo_count > 0:
-			rpc("shoot")
-			#$Timer.start()
-			ammo_count = ammo_count - 1
-	else:
-		look_at(puppet_look_at_pos)	
-		
+		rpc_unreliable_id(1, "_update_weapon_position", get_global_mouse_position())
+		if Input.is_action_pressed('shoot') and $Timer.is_stopped():
+			rpc_id(1, "shoot")
+		if  Input.is_action_pressed('stab'):
+			rpc_id(1, "pre_stab")
+		if Input.is_action_just_released('stab'):
+			rpc_id(1, "stab")
 	if ammo_count <= 0:
 		texture = load("res://Art/ShovelGun_RifleStock_v1.png")
 	else:
 		texture = load("res://Art/shovel gun.png")
 
-
-remote func _update_weapon_position(position):
-	puppet_look_at_pos = position
+remote func _update_weapon_position(player_id, mouse_position):
+	if name == player_id:
+		look_at(mouse_position)	
 	
+remote func shoot(pos, dir):
+	emit_signal('shoot', Bullet, pos, dir)
+
+remote func update_ammo(ammo_count): 
+	self.ammo_count = ammo_count
+		
 func _on_Timer_timeout():
 	$Timer.stop()
-	
-#sync func shoot():
-#	var v1 = $Muzzle.global_position
-#	emit_signal('shoot', Bullet,  v1 , Vector2(1, 0).rotated(self.global_rotation))
-#	var b = Bullet.instance()
-#	add_child(b)
-#	b.start($Muzzle.position, Vector2(1, 0).rotated($Muzzle.rotation))
-#	b.fire = true
-	
-#sync func _shoot():
-#	var bullet = Bullet.instance()
-#	add_child(bullet)
-#	bullet.global_position = global_position
-#	bullet.direction = -1 if flip_h else 1	
+
+
