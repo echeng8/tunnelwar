@@ -75,10 +75,8 @@ remote func populate_world():
 	
 	# Spawn new player everywhere
 	world.rpc("spawn_player", random_vector2(500, 500), caller_id)
-	#rpc_id(caller_id, "render_chunk")
-	
-#puppet func render_chunk():
-#	pass
+
+
 # Return random 2D vector inside bounds 0, 0, bound_x, bound_y
 func random_vector2(bound_x, bound_y):
 	return Vector2(randf() * bound_x, randf() * bound_y)
@@ -89,3 +87,6 @@ func get_player_info(id):
 	for player in world.get_node("Players").get_children():
 		if player.name == String(id):
 			return player
+	# This might work instead:
+	#world.get_node("Players/" + str(id))
+	# - Mad
