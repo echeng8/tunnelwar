@@ -81,25 +81,29 @@ impl Server {
                 // Find out which chunk the player is currently in
                 let chunk_pos = Self::get_chunk_pos(player_node.get_position());
 
-                let mut updating_chunk = chunk_pos - Vector2::new(1.0, 1.0);
+                let mut updating_chunk_pos = chunk_pos - Vector2::new(1.0, 1.0);
 
                 loop {
+                    let updating_chunk = &self.world[updating_chunk_pos.x as usize][updating_chunk_pos.y as usize];
                     // Check if chunk must be updated
-                    if self.world[updating_chunk.x as usize][updating_chunk.y as usize].is_rendered_for(player_id) /*TODO*/ {
+                    let tunnel_option = updating_chunk.to_be_rendered(player_id);
+                    if tunnel_option != None {
+                        let tunnel = tunnel_option.unwrap();
+                        let blocks = updating_chunk.get_tunnel_blocks(tunnel);
                         // Update the chunk
-                        // TODO: Self::update_chunk(player_id, updating_chunk); or just directly do an rpc
+                        // TODO: Self::update_chunk(player_id, blocks); or just directly do an rpc
                     }
 
                     // Check if we're at the last chunk
-                    if updating_chunk - Vector2::new(1.0, 1.0) == chunk_pos {
+                    if updating_chunk_pos - Vector2::new(1.0, 1.0) == chunk_pos {
                         break
                     }
                     // Check if chunk is at end of row
-                    else if updating_chunk.x == (chunk_pos.x + 1.0) {
-                        updating_chunk.x = chunk_pos.x - 1.0;
-                        updating_chunk.y -= 1.0;
+                    else if updating_chunk_pos.x == (chunk_pos.x + 1.0) {
+                        updating_chunk_pos.x = chunk_pos.x - 1.0;
+                        updating_chunk_pos.y -= 1.0;
                     } else {
-                        updating_chunk.x += 1.0;
+                        updating_chunk_pos.x += 1.0;
                     }
                 }
             }
