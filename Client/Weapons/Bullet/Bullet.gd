@@ -17,8 +17,8 @@ func _process(delta):
 		position +=  velocity * delta
 		
 func _on_body_entered(body):
-	if body.has_method('damage'):
-		body.damage(DAMAGE)
+	#if body.has_method('damage'):
+	#	body.damage(DAMAGE)
 	fire = false
 	queue_free()
 

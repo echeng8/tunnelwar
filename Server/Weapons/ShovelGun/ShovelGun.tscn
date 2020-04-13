@@ -11,4 +11,12 @@ script = ExtResource( 1 )
 position = Vector2( 355, 0 )
 
 [node name="ReloadTimer" type="Timer" parent="."]
+
+[node name="Dash" type="Timer" parent="."]
+wait_time = 0.5
+
+[node name="Vulnerable" type="Timer" parent="."]
+wait_time = 2.0
 [connection signal="timeout" from="ReloadTimer" to="." method="_on_ReloadTimer_timeout"]
+[connection signal="timeout" from="Dash" to="." method="_on_Dash_timeout"]
+[connection signal="timeout" from="Vulnerable" to="." method="_on_Vulnerable_timeout"]

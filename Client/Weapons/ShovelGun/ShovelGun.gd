@@ -15,7 +15,7 @@ func _process(delta):
 			rpc_id(1, "pre_stab")
 		if Input.is_action_just_released('stab'):
 			rpc_id(1, "stab")
-	if ammo_count <= 0:
+	if ammo_count != null and ammo_count <= 0:
 		texture = load("res://Art/ShovelGun_RifleStock_v1.png")
 	else:
 		texture = load("res://Art/shovel gun.png")
@@ -24,10 +24,11 @@ remote func _update_weapon_position(player_id, mouse_position):
 	if name == player_id:
 		look_at(mouse_position)	
 	
-remote func shoot(pos, dir):
+remotesync func shooting(pos, dir):
 	emit_signal('shoot', Bullet, pos, dir)
 
 remote func update_ammo(ammo_count): 
+	#if get_parent().name == player_id:
 	self.ammo_count = ammo_count
 		
 func _on_Timer_timeout():
