@@ -9,31 +9,40 @@ var dash = false
 var dash_dir = Vector2()
 enum MoveDirection { UP, DOWN, LEFT, RIGHT, NONE }
 #func _ready():
-var player_direction =  MoveDirection.NONE # Just making sure we initilize it
 
-func _ready():
-	speed = 300
-	health_points = 20
-	speed_rate = 1
-	dash = false
+#machineman1357 changed this...
+#var player_direction =  MoveDirection.NONE # Just making sure we initilize it
+#to this.
+var player_direction =  Vector2.ZERO
+#
+#func _ready():
+#	speed = 300
+#	health_points = 20
+#	speed_rate = 1
+#	dash = false
+#machineman1357 changed this...
+#var player_direction =  MoveDirection.NONE # Just making sure we initilize it
+#to this.
 
 func _process(delta):
 	var move_dir = Vector2()
 	if(dash):
 		move_dir = dash_dir
 	else:	
-		match player_direction:
-			MoveDirection.NONE:
-				return
-			MoveDirection.UP:
-				move_dir.y -= 1
-			MoveDirection.DOWN:
-				move_dir.y += 1
-			MoveDirection.LEFT:
-				move_dir.x -= 1
-			MoveDirection.RIGHT:
-				move_dir.x += 1
-
+		#machineman1357 changed this...
+#		match player_direction:
+#			MoveDirection.NONE:
+#				return
+#			MoveDirection.UP:
+#				move_dir.y -= 1
+#			MoveDirection.DOWN:
+#				move_dir.y += 1
+#			MoveDirection.LEFT:
+#				move_dir.x -= 1
+#			MoveDirection.RIGHT:
+#				move_dir.x += 1
+		#to this.
+		move_dir = player_direction.normalized()
 	var velocity = move_dir * (speed * speed_rate)
 	position += velocity * delta
 	rpc_unreliable("_update_player_movement", name, position)
@@ -44,7 +53,14 @@ func _process(delta):
 #	self.speed_rate = speed_rate
 #	self.dash_dir = dash_dir
 
-remote func _update_player_movement(direction):
+#machineman1357 changed this...
+#remote func _update_player_movement(direction):
+#	var id = get_tree().get_rpc_sender_id()
+#	if name == String(id):
+#		player_direction = direction
+
+#to this.
+remote func _update_player_movement(var direction:Vector2):
 	var id = get_tree().get_rpc_sender_id()
 	if name == String(id):
 		player_direction = direction

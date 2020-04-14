@@ -44,17 +44,19 @@ impl Server {
     }
 
     #[export]
-    fn register_player(&mut self, mut owner: Node, id: i64, name: GodotString) {
+    fn register_player(&mut self, owner: Node, id: i64, name: GodotString) {
         // Add him to our list
         self.players.insert(id, name.to_string());
 
         unsafe {
+            let mut gamestate = owner.get_node(NodePath::from("/root/gamestate")).unwrap();
+
             // Add everyone to new player:
             for p_id in self.players.keys() {
-                owner.rpc_id(id, GodotString::from("register_player"), &[Variant::from(*p_id), Variant::from(&self.players[p_id])]);
+                gamestate.rpc_id(id, GodotString::from("register_player"), &[Variant::from(*p_id), Variant::from(&self.players[p_id])]);
             }
 
-            owner.rpc(GodotString::from("register_player"), &[Variant::from(id), Variant::from(&name)]); // Send new dude to all players
+            gamestate.rpc(GodotString::from("register_player"), &[Variant::from(id), Variant::from(&name)]); // Send new dude to all players
         }
 
         godot_print!("Client {} registered as {:?}", id, name)
@@ -81,25 +83,29 @@ impl Server {
                 // Find out which chunk the player is currently in
                 let chunk_pos = Self::get_chunk_pos(player_node.get_position());
 
-                let mut updating_chunk = chunk_pos - Vector2::new(1.0, 1.0);
+                let mut updating_chunk_pos = chunk_pos - Vector2::new(1.0, 1.0);
 
                 loop {
+                    let updating_chunk = &self.world[updating_chunk_pos.x as usize][updating_chunk_pos.y as usize];
                     // Check if chunk must be updated
-                    if self.world[updating_chunk.x as usize][updating_chunk.y as usize].is_rendered_for(player_id) /*TODO*/ {
+                    let tunnel_option = updating_chunk.to_be_rendered(player_id);
+                    if tunnel_option != None {
+                        let tunnel = tunnel_option.unwrap();
+                        let blocks = updating_chunk.get_tunnel_blocks(tunnel);
                         // Update the chunk
-                        // TODO: Self::update_chunk(player_id, updating_chunk); or just directly do an rpc
+                        // TODO: Self::update_chunk(player_id, blocks); or just directly do an rpc
                     }
 
                     // Check if we're at the last chunk
-                    if updating_chunk - Vector2::new(1.0, 1.0) == chunk_pos {
+                    if updating_chunk_pos - Vector2::new(1.0, 1.0) == chunk_pos {
                         break
                     }
                     // Check if chunk is at end of row
-                    else if updating_chunk.x == (chunk_pos.x + 1.0) {
-                        updating_chunk.x = chunk_pos.x - 1.0;
-                        updating_chunk.y -= 1.0;
+                    else if updating_chunk_pos.x == (chunk_pos.x + 1.0) {
+                        updating_chunk_pos.x = chunk_pos.x - 1.0;
+                        updating_chunk_pos.y -= 1.0;
                     } else {
-                        updating_chunk.x += 1.0;
+                        updating_chunk_pos.x += 1.0;
                     }
                 }
             }
