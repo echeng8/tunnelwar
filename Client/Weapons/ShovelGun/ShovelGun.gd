@@ -1,8 +1,9 @@
 extends Sprite
 
-const Bullet = preload("res://Weapons/Bullet/Bullet.tscn")
+const Shovel = preload("res://Weapons/Shovel/Shovel.tscn")
 
 signal shoot
+
 var player_id
 var stabbing = false
 
@@ -37,36 +38,24 @@ func _process(delta):
 				TweenNode.start()
 				yield(TweenNode, "tween_completed")
 				stabbing = false
-			#position -= velocity * delta
-			#animationPlayer.play("Thrust")
 
-#func _update_Tween(value)
-	
+func _on_shovel_pick_up (player_id):
+	if self.player_id == player_id:
+		var shovel = Shovel.instance()
+		call_deferred("add_child", shovel)
+
+func _on_Timer_timeout():
+	$Timer.stop()
+
 remote func _update_weapon_position(player_id, mouse_position):
 	if self.player_id == player_id:
 		look_at(mouse_position)
 	
 remotesync func _reload():
-	var bullet = Bullet.instance()
-	add_child(bullet)
+	var shovel = Shovel.instance()
+	add_child(shovel)
 	
 remotesync func shooting(pos, dir):
-	var bullet = get_node("Projectile")
-	bullet.get_node("Reload").start()
-	emit_signal('shoot', bullet, pos, dir)	
-
-func _on_shovel_pick_up (player_id):
-	if self.player_id == player_id:
-		var bullet = Bullet.instance()
-		call_deferred("add_child", bullet)
-
-
-
-#remote func update_ammo(ammo_count): 
-#	#if get_parent().name == player_id:
-#	self.ammo_count = ammo_count
-#
-func _on_Timer_timeout():
-	$Timer.stop()
-
-
+	var shovel = get_node("Projectile")
+	shovel.get_node("Reload").start()
+	emit_signal('shoot', shovel, pos, dir)	

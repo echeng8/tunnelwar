@@ -2,7 +2,7 @@
 
 [ext_resource path="res://Weapons/ShovelGun/ShovelGun.gd" type="Script" id=1]
 [ext_resource path="res://Art/ShovelGun_RifleStock_v1.png" type="Texture" id=2]
-[ext_resource path="res://Weapons/Bullet/Bullet.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Weapons/Shovel/Shovel.tscn" type="PackedScene" id=3]
 
 [node name="ShovelGun" type="Sprite"]
 scale = Vector2( 0.5, 0.5 )

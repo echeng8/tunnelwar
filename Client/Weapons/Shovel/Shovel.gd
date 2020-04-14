@@ -14,15 +14,23 @@ func _ready():
 	position = init_position
 	show_behind_parent = true
 
+func _process(delta):
+	if fire == true:	 
+		if(shovel_position != null):
+			global_position = shovel_position
+
 func start(_position, _direction):
 	scale = firing_scale
 	global_position = _position
 	global_rotation = _direction.angle()
 
-func _process(delta):
-	if fire == true:	 
-		if(shovel_position != null):
-			global_position = shovel_position
+func _on_VisibilityNotifier2D_screen_exited():
+	fire = false
+#	#queue_free()
+
+func _on_Reload_timeout():
+	$Reload.stop()
+	queue_free()
 
 remote func _update_shovel_movement(shovel_position):
 	#if name == player_id:
@@ -46,12 +54,3 @@ remote func _pick_up(player_id):
 remote func _off_screen():
 	fire = false
 #
-func _on_VisibilityNotifier2D_screen_exited():
-	fire = false
-#	#queue_free()
-	
-
-
-func _on_Reload_timeout():
-	$Reload.stop()
-	queue_free()

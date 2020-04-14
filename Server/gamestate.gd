@@ -83,8 +83,4 @@ func random_vector2(bound_x, bound_y):
 
 
 func get_player_info(id):
-	#var world = get_node("/root/World")
-	#for player in world.get_node("Players").get_children():
-	#	if player.name == String(id):
-	#		return player
 	return get_node("/root/World/Players/" + str(id))

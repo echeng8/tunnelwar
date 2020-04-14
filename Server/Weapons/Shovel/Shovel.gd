@@ -17,16 +17,16 @@ func _ready():
 	position = init_position
 	show_behind_parent = true
 
+func _process(delta):
+	if fire == true:
+		global_position +=  velocity * delta
+		rpc_unreliable("_update_shovel_movement", global_position)
+
 func start(_position, _direction):
 	scale = firing_scale
 	global_position = _position
 	global_rotation = _direction.angle()
 	velocity = _direction * SPEED
-
-func _process(delta):
-	if fire == true:
-		global_position +=  velocity * delta
-		rpc_unreliable("_update_shovel_movement", global_position)
 		
 func _on_body_entered(body):
 	if fire == false and get_parent().name != "ShovelGun":

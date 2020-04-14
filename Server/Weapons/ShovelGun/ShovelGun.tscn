@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://Weapons/ShovelGun/ShovelGun.gd" type="Script" id=1]
-[ext_resource path="res://Weapons/Bullet/Bullet.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Weapons/Shovel/Shovel.tscn" type="PackedScene" id=2]
 
 [node name="ShovelGun" type="Sprite"]
 scale = Vector2( 0.5, 0.5 )
@@ -22,6 +22,5 @@ position = Vector2( 335, -23 )
 
 [node name="Reload" type="Timer" parent="."]
 wait_time = 3.0
-[connection signal="timeout" from="Dash" to="." method="_on_Dash_timeout"]
 [connection signal="timeout" from="Vulnerable" to="." method="_on_Vulnerable_timeout"]
 [connection signal="timeout" from="Reload" to="." method="_on_Reload_timeout"]
