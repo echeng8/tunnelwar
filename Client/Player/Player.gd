@@ -1,5 +1,7 @@
 extends KinematicBody2D
 
+const Bullet = preload("res://Weapons/Bullet/Bullet.tscn")
+
 export var speed = 300
 export var health_points = 20
 
@@ -34,6 +36,7 @@ func _process(delta):
 		#_move(direction)
 	if(player_position != null):
 		position = player_position
+
 
 remote func _update_player_movement(player_id, player_pos):
 	if name == player_id:

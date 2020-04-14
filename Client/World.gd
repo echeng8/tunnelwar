@@ -19,10 +19,12 @@ remotesync func remove_player(id):
 	$Players.get_node(String(id)).queue_free()
 	
 func _on_Weapon_shoot(bullet, pos, dir):
-	var b = bullet.instance()
-	add_child(b)
-	b.start(pos, dir)
-	b.fire = true
+	#bullet.name = player_id
+	var shovelgun = bullet.get_parent()
+	shovelgun.remove_child(bullet)
+	add_child(bullet)
+	bullet.start(pos, dir)
+	bullet.fire = true
 
 remote func render_chunk():
 	pass
