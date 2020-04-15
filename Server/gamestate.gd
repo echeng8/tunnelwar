@@ -32,11 +32,23 @@ func _player_connected(_id):
 func _player_disconnected(id):
 	if players.has(id):
 	#if Server.is_peer_connected(id):
+		_chat_box_notify_disconnected(id)
 		rpc("unregister_player", id)
 		get_node("/root/World").rpc("remove_player", id)
 	
 	print("Client ", id, " disconnected")
 
+func _chat_box_notify_disconnected(id):
+	var world = get_node("/root/World")
+	
+	#Tell existing clients that player disconnected...
+	for p_id in players:
+		if p_id != id:
+			var dcName = str(players[id])
+			var message = "Player disconnected: " + dcName
+			if dcName == "Machineman1357":
+				message = "Our supreme [color=purple]Lead Artist[/color] " + "[color=green]Machineman1357[/color] " + "has departed!"
+			world.rpc_id(p_id, "_chat_message", message)
 
 # Player management functions
 remote func register_player(new_player_name):
@@ -75,7 +87,23 @@ remote func populate_world():
 	
 	# Spawn new player everywhere
 	world.rpc("spawn_player", random_vector2(500, 500), caller_id)
+	
+	_chat_box_notify_connection(caller_id)
 
+func _chat_box_notify_connection(caller_id):
+	var world = get_node("/root/World")
+	
+	#Welcome the new player...
+	world.rpc_id(caller_id, "_chat_message", "Welcome to [color=red]Shovelgun[/color], " + str(players[caller_id]))
+	
+	#Tell existing clients of new client's arrival...
+	for p_id in players:
+		if p_id != caller_id:
+			var callerName = str(players[caller_id])
+			var message = "Player joined: " + callerName
+			if callerName == "Machineman1357":
+				message = "Our supreme [color=purple]Lead Artist[/color] " + "[color=green]Machineman1357[/color] " + "has arrived!"
+			world.rpc_id(p_id, "_chat_message", message)
 
 # Return random 2D vector inside bounds 0, 0, bound_x, bound_y
 func random_vector2(bound_x, bound_y):
@@ -84,3 +112,6 @@ func random_vector2(bound_x, bound_y):
 
 func get_player_info(id):
 	return get_node("/root/World/Players/" + str(id))
+
+
+

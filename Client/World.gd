@@ -26,3 +26,17 @@ func _on_Weapon_shoot(shovel, pos, dir):
 
 remote func set_cell(x, y, tile):
 	$TileCollision/TileMap.set_cell(x, y, tile)
+
+remote func _chat_message(message):
+	print("I got the message: " + str(message) + "!")
+	
+	var uniqueNID = get_tree().get_network_unique_id()
+	var player = get_player_info(uniqueNID)
+	var chatBox = player.get_node("Camera2D/ChatBox")
+	chatBox._update_chat_message_box(message)
+
+func get_player_info(id):
+	return get_node("/root/World/Players/" + str(id))
+
+
+

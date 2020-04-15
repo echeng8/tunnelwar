@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://World.gd" type="Script" id=1]
 [ext_resource path="res://DirtTileSet.png" type="Texture" id=2]
+[ext_resource path="res://ChatBox/ChatBox.tscn" type="PackedScene" id=3]
 
 [sub_resource type="ConvexPolygonShape2D" id=1]
 points = PoolVector2Array( 64, 64, 0, 64, 0, 0, 64, 0 )
@@ -46,5 +47,14 @@ format = 1
 [node name="UselessButNecessary" type="CollisionShape2D" parent="TileCollision"]
 shape = SubResource( 3 )
 disabled = true
+
 [node name="Camera2D" type="Camera2D" parent="."]
 current = true
+
+[node name="ChatBox" parent="Camera2D" instance=ExtResource( 3 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = -522.767
+margin_top = 308.984
+margin_right = -522.767
+margin_bottom = 308.984
