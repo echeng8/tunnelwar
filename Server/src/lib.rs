@@ -33,6 +33,14 @@ impl Server {
             i += 1;
         }
 
+        let mut start_chunk = world[0][0].blocks;
+        start_chunk[3][3] = 0;
+        start_chunk[3][4] = 0;
+        start_chunk[4][4] = 0;
+        start_chunk[4][3] = 0;
+        world[0][0].blocks = start_chunk;
+        
+
         Self {
             players: HashMap::new(),
             world: world
