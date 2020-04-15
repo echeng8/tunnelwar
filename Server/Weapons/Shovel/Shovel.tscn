@@ -18,5 +18,4 @@ rect = Rect2( 20, 20, 20, 20 )
 [node name="Reload" type="Timer" parent="."]
 wait_time = 3.0
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
-[connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]
 [connection signal="timeout" from="Reload" to="." method="_on_Reload_timeout"]

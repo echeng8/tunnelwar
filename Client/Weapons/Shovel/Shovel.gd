@@ -24,9 +24,9 @@ func start(_position, _direction):
 	global_position = _position
 	global_rotation = _direction.angle()
 
-func _on_VisibilityNotifier2D_screen_exited():
-	fire = false
-#	#queue_free()
+#func _on_VisibilityNotifier2D_screen_exited():
+#	fire = false
+##	#queue_free()
 
 func _on_Reload_timeout():
 	$Reload.stop()
@@ -36,14 +36,21 @@ remote func _update_shovel_movement(shovel_position):
 	#if name == player_id:
 	self.shovel_position = shovel_position
 	
-#func _on_body_entered(body):
-#	if fire == false and get_parent().name != "ShovelGun":
-#		emit_signal('pick_up', body.name, self)
-#		queue_free()
-##	else:
-##		if body.has_method('damage'):
-##			body.damage(DAMAGE)
-#	fire = false
+func _on_body_entered(body):
+	#print(get_parent().name)
+	if fire == false and get_parent().name != "ShovelGun":
+		$Reload.stop()
+		#emit_signal('_pick_up', body.name)
+		#rpc('_pick_up', body.name)
+		queue_free()
+	#elif get_parent().name == "ShovelGun" :
+	#	if body.has_method('damage'):
+	#		body.damage(STAB_DAMAGE)
+	else:
+		#if body.has_method('damage'):
+		#	body.damage(DAMAGE)
+		queue_free()
+	fire = false
 #	#queue_free()
 
 remote func _pick_up(player_id):

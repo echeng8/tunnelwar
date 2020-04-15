@@ -6,17 +6,37 @@ signal shoot
 
 export var stab_speed_reduct_rate = .5
 export var dash_speed_rate = 3
+export var stabbing_dist = 7000
 var normal_speed_rate = 1
 var can_stab = false
+var stabbing = false
 var player_id
 
-func _ready():
-	player_id = get_parent().name
-	var shovel = get_node("Projectile")
-	shovel.connect("_pick_up", self, "_on_shovel_pick_up")
+#onready var animationPlayer = $AnimationPlayer
+onready var TweenNode = get_node("Tween")
+onready var ShovelNode = get_node("Projectile")
 
-func _stab():
-	get_parent().speed_rate = normal_speed_rate
+func _ready():
+	_disable_collision(true)
+	player_id = get_parent().name
+	ShovelNode.connect("_pick_up", self, "_on_shovel_pick_up")
+
+func _process(delta):
+	if stabbing == true: 
+		var currPos = position
+		var velocity = Vector2(1, 0).rotated(rotation) * stabbing_dist
+		var newPos = position + (velocity * delta)
+		rpc("_stabbing", position, newPos)
+		stabbing = false
+#	if can_stab == true:
+#		print("here")
+#		var velocity = Vector2(1, 0).rotated(rotation) * -1000
+#		var newPos = position + (velocity * delta)
+#		rpc("_pre_stabbing", position, newPos)
+#		can_stab = false
+func _disable_collision(disable):
+	if ShovelNode != null:
+		ShovelNode.get_node("CollisionShape2D").disabled = disable	
 
 func _on_shovel_pick_up (player_id):
 	if self.player_id == player_id:
@@ -54,23 +74,49 @@ remote func shoot():
 		rpc('shooting', $Muzzle.global_position, Vector2(1, 0).rotated(self.global_rotation))
 
 remotesync func shooting(pos, dir):
+	_disable_collision(false)
 	var shovel = get_node("Projectile")
 	$Reload.start()
 	shovel.get_node("Reload").start()
 	emit_signal('shoot', shovel, pos, dir)
 
 remote func pre_stab():
-	if $Dash.is_stopped() and $Vulnerable.is_stopped():
+	print("pre_stab")
+	if $Vulnerable.is_stopped(): #and can_stab == false:
 		can_stab = true
 		get_parent().speed_rate = stab_speed_reduct_rate
+		#pull back some
+
+remote func no_stab():
+	can_stab = false
+	get_parent().speed_rate = normal_speed_rate
 
 remote func stab():
-	if can_stab:
-		can_stab = false
-		_stab()#call remote func and server to use animation to stab
-		#_dash(true)
+	print("stab")
+	_disable_collision(false)
+	stabbing = true
+	get_parent().speed_rate = normal_speed_rate
+#	var velocity = Vector2(1, 0).rotated(rotation) * stabbing_dist
+#	var newPos = position + (velocity * last_delta)
+#	rpc("_stabbing", position, newPos)
 
+remotesync func _pre_stabbing(currPos, newPos):
+	TweenNode.interpolate_property(self, "position", self.position, newPos, 1.0, Tween.TRANS_LINEAR, Tween.EASE_OUT)
+	TweenNode.start()
+	yield(TweenNode, "tween_completed")
+
+remotesync func _stabbing(currPos, newPos):
+	TweenNode.interpolate_property(self, "position", currPos, newPos, 1.0, Tween.TRANS_LINEAR, Tween.EASE_OUT)
+	TweenNode.start()
+	yield(TweenNode, "tween_completed")
+	_disable_collision(true)
+	TweenNode.interpolate_property(self, "position", self.position, currPos , 1.0, Tween.TRANS_LINEAR, Tween.EASE_OUT)
+	TweenNode.start()
+	yield(TweenNode, "tween_completed")
+	$Vulnerable.start()
+	
 remotesync func _reload():
 	var shovel = Shovel.instance()
 	add_child(shovel)
+	ShovelNode = shovel
 

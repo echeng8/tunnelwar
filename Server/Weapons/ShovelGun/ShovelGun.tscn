@@ -22,5 +22,9 @@ position = Vector2( 335, -23 )
 
 [node name="Reload" type="Timer" parent="."]
 wait_time = 3.0
+
+[node name="Tween" type="Tween" parent="."]
+playback_speed = 10.0
+playback/speed = 10.0
 [connection signal="timeout" from="Vulnerable" to="." method="_on_Vulnerable_timeout"]
 [connection signal="timeout" from="Reload" to="." method="_on_Reload_timeout"]
