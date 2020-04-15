@@ -12,11 +12,12 @@ struct Server {
     world: Vec<Vec<ChunkData>>
 }
 
+static WORLD_SIZE: usize = 64;
+
 #[methods]
 impl Server {
     fn _init(_owner: Node) -> Self {
-        let world_size = 64;
-        let mut chunk_row = Vec::with_capacity(world_size);
+        let mut chunk_row = Vec::with_capacity(WORLD_SIZE);
 
         let mut i = 0;
         while i != 64 {
@@ -24,7 +25,7 @@ impl Server {
             i += 1;
         }
 
-        let mut world = Vec::with_capacity(world_size);
+        let mut world = Vec::with_capacity(WORLD_SIZE);
 
         i = 0;
         while i != 64 {
@@ -35,6 +36,24 @@ impl Server {
         Self {
             players: HashMap::new(),
             world: world
+        }
+    }
+
+    #[export]
+    fn initialize_world(&self, owner: Node) {
+        // Initialize world map on server-side
+        unsafe {
+            let mut tile_map = owner.get_node(NodePath::from("/root/World/TileCollision/TileMap")).unwrap().cast::<TileMap>().unwrap();
+            for chunk_x in 0..WORLD_SIZE {
+                for chunk_y in 0..WORLD_SIZE {
+                    let chunk = &self.world[chunk_x][chunk_y];
+                    for x in 0..8 {
+                        for y in 0..8 {
+                            tile_map.set_cell(x + (chunk_x as i64 * 8), y + (chunk_y as i64 * 8), chunk.blocks[x as usize][y as usize] - 1, false, false, false, Vector2::new(0.0, 0.0));
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -88,7 +107,7 @@ impl Server {
                 loop {
                     let updating_chunk = &self.world[updating_chunk_pos.x as usize][updating_chunk_pos.y as usize];
                     // Check if chunk must be updated
-                    let tunnel_option = updating_chunk.to_be_rendered(player_id);
+                    let tunnel_option = updating_chunk.to_be_rendered(player_id, player_node.get_position());
                     if tunnel_option != None {
                         let tunnel = tunnel_option.unwrap();
                         let blocks = updating_chunk.get_tunnel_blocks(tunnel);

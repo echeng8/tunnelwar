@@ -3,8 +3,8 @@ use std::collections::HashMap;
 
 //#[derive(Copy)]
 pub struct ChunkData {
-    players: HashMap<i64, Vec<i64>>/* TODO */,
-    blocks: [[i64; 8]; 8],
+    pub players: HashMap<i64, Vec<i64>>/* TODO */,
+    pub blocks: [[i64; 8]; 8],
     tunnel_positions: [[i64; 8]; 8],
     rendered_for: Vec<i64>
 }
@@ -30,9 +30,15 @@ impl ChunkData {
         }
     }
 
-    pub fn to_be_rendered(&self, player_id: &i64) -> Option<i64> {
-        self.rendered_for.contains(player_id);
-        None
+    pub fn to_be_rendered(&self, player_id: &i64, player_pos: Vector2) -> Option<i64> {
+        // TODO: switch over to using the players field
+        // for figuring out a player's tunnel's id
+        if self.rendered_for.contains(player_id) {
+            None
+        } else {
+            let block_pos = player_pos / 64.0;
+            Some(self.tunnel_positions[block_pos.x as i64 as usize][block_pos.y as i64 as usize])
+        }
     }
 
     pub fn get_tunnel_blocks(&self, tunnel_id: i64) -> [[i64; 8]; 8] {
