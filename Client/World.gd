@@ -24,5 +24,5 @@ func _on_Weapon_shoot(shovel, pos, dir):
 	shovel.start(pos, dir)
 	shovel.fire = true
 
-remote func render_chunk():
-	pass
+remote func set_cell(x, y, tile):
+	$TileCollision/TileMap.set_cell(x, y, tile)

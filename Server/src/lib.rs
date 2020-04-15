@@ -93,7 +93,7 @@ impl Server {
 
     #[export]
     fn update_chunks(&self, owner: Node) {
-        let players_iter = self.players.keys();
+        let players_iter = self.players.keys().clone();
         unsafe {
             for player_id in players_iter {
                 // Get player node
@@ -112,7 +112,12 @@ impl Server {
                         let tunnel = tunnel_option.unwrap();
                         let blocks = updating_chunk.get_tunnel_blocks(tunnel);
                         // Update the chunk
-                        // TODO: Self::update_chunk(player_id, blocks); or just directly do an rpc
+                        let mut world_node = owner.get_node(NodePath::from("/root/World")).unwrap();
+                        for x in 0..8 {
+                            for y in 0..8 {
+                                world_node.rpc_id(*player_id, GodotString::from("set_cell"), &[Variant::from_i64(x + (chunk_pos.x as i64 * 8)), Variant::from_i64(y + (chunk_pos.y as i64 * 8)), Variant::from_i64(blocks[x as usize][y as usize] - 1)]);
+                            }
+                        }
                     }
 
                     // Check if we're at the last chunk
