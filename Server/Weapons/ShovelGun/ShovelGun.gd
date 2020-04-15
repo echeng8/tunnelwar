@@ -1,74 +1,122 @@
-extends Node2D
+extends Sprite
 
-const Bullet = preload("res://Weapons/Bullet/Bullet.tscn")
+const Shovel = preload("res://Weapons/Shovel/Shovel.tscn")
 
 signal shoot
 
-export var ammo_count = 1
 export var stab_speed_reduct_rate = .5
 export var dash_speed_rate = 3
+export var stabbing_dist = 7000
 var normal_speed_rate = 1
-var player_id
 var can_stab = false
+var stabbing = false
+var player_id
+
+#onready var animationPlayer = $AnimationPlayer
+onready var TweenNode = get_node("Tween")
+onready var ShovelNode = get_node("Projectile")
 
 func _ready():
+	_disable_collision(true)
 	player_id = get_parent().name
-	rpc('update_ammo', ammo_count)
+	ShovelNode.connect("_pick_up", self, "_on_shovel_pick_up")
 
-#func _process(delta):
-#	if ammo_count != null and ammo_count <= 0:
-#		texture = load("res://Art/ShovelGun_RifleStock_v1.png")
+func _process(delta):
+	if stabbing == true: 
+		var currPos = position
+		var velocity = Vector2(1, 0).rotated(rotation) * stabbing_dist
+		var newPos = position + (velocity * delta)
+		rpc("_stabbing", position, newPos)
+		stabbing = false
+#	if can_stab == true:
+#		print("here")
+#		var velocity = Vector2(1, 0).rotated(rotation) * -1000
+#		var newPos = position + (velocity * delta)
+#		rpc("_pre_stabbing", position, newPos)
+#		can_stab = false
+func _disable_collision(disable):
+	if ShovelNode != null:
+		ShovelNode.get_node("CollisionShape2D").disabled = disable	
+
+func _on_shovel_pick_up (player_id):
+	if self.player_id == player_id:
+		var shovel = Shovel.instance()
+		call_deferred("add_child", shovel)
+
+#func _dash(can_dash):
+#	if can_dash:
+#		get_parent()._dash(can_dash, dash_speed_rate, Vector2(1, 0).rotated(self.global_rotation))
+#		$Dash.start()
 #	else:
-#		texture = load("res://Art/shovel gun.png")
+#		get_parent()._dash(can_dash, normal_speed_rate)
+#		$Dash.stop()
+#		$Vulnerable.start()
+#
+#func _on_Dash_timeout():
+#	_dash(false)
+#
+func _on_Vulnerable_timeout():
+	$Vulnerable.stop()
 
-func decrement_ammo(count): 
-	ammo_count = ammo_count - count
-	
-func increment_ammo(count):
-	ammo_count = ammo_count + count
+func _on_Reload_timeout():
+	$Reload.stop()
+	if !has_node("Projectile"):
+		rpc("_reload")
 	
 remote func _update_weapon_position(mouse_position):
 	var id = get_tree().get_rpc_sender_id()
-	if get_parent().name == String(id):
+	if 	player_id == String(id):
 		look_at(mouse_position)
-		rpc_unreliable("_update_weapon_position", name, mouse_position)
+		rpc_unreliable("_update_weapon_position", player_id, mouse_position)
 		
 remote func shoot():
-	if ammo_count > 0 and $Dash.is_stopped() and $Vulnerable.is_stopped():
-		decrement_ammo(1)
-		$ReloadTimer.start()
-		rpc('update_ammo', ammo_count)
+	if has_node("Projectile") and $Vulnerable.is_stopped():
 		rpc('shooting', $Muzzle.global_position, Vector2(1, 0).rotated(self.global_rotation))
 
 remotesync func shooting(pos, dir):
-	emit_signal('shoot', Bullet, pos, dir)
+	_disable_collision(false)
+	var shovel = get_node("Projectile")
+	$Reload.start()
+	shovel.get_node("Reload").start()
+	emit_signal('shoot', shovel, pos, dir)
 
 remote func pre_stab():
-	if $Dash.is_stopped() and $Vulnerable.is_stopped():
+	print("pre_stab")
+	if $Vulnerable.is_stopped(): #and can_stab == false:
 		can_stab = true
 		get_parent().speed_rate = stab_speed_reduct_rate
+		#pull back some
+
+remote func no_stab():
+	can_stab = false
+	get_parent().speed_rate = normal_speed_rate
 
 remote func stab():
-	if can_stab:
-		can_stab = false
-		_dash(true)
-		
-func _on_ReloadTimer_timeout():
-	$ReloadTimer.stop()
-	increment_ammo(1)
-	rpc('update_ammo', ammo_count)
+	print("stab")
+	_disable_collision(false)
+	stabbing = true
+	get_parent().speed_rate = normal_speed_rate
+#	var velocity = Vector2(1, 0).rotated(rotation) * stabbing_dist
+#	var newPos = position + (velocity * last_delta)
+#	rpc("_stabbing", position, newPos)
 
-func _dash(can_dash):
-	if can_dash:
-		get_parent()._dash(can_dash, dash_speed_rate, Vector2(1, 0).rotated(self.global_rotation))
-		$Dash.start()
-	else:
-		get_parent()._dash(can_dash, normal_speed_rate)
-		$Dash.stop()
-		$Vulnerable.start()
+remotesync func _pre_stabbing(currPos, newPos):
+	TweenNode.interpolate_property(self, "position", self.position, newPos, 1.0, Tween.TRANS_LINEAR, Tween.EASE_OUT)
+	TweenNode.start()
+	yield(TweenNode, "tween_completed")
+
+remotesync func _stabbing(currPos, newPos):
+	TweenNode.interpolate_property(self, "position", currPos, newPos, 1.0, Tween.TRANS_LINEAR, Tween.EASE_OUT)
+	TweenNode.start()
+	yield(TweenNode, "tween_completed")
+	_disable_collision(true)
+	TweenNode.interpolate_property(self, "position", self.position, currPos , 1.0, Tween.TRANS_LINEAR, Tween.EASE_OUT)
+	TweenNode.start()
+	yield(TweenNode, "tween_completed")
+	$Vulnerable.start()
 	
-func _on_Dash_timeout():
-	_dash(false)
-	
-func _on_Vulnerable_timeout():
-	$Vulnerable.stop()
+remotesync func _reload():
+	var shovel = Shovel.instance()
+	add_child(shovel)
+	ShovelNode = shovel
+

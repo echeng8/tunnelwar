@@ -22,8 +22,8 @@ remotesync func spawn_player(spawn_pos, id):
 remotesync func remove_player(id):
 	$Players.get_node(String(id)).queue_free()
 
-func _on_Weapon_shoot(bullet, pos, dir):
-	var b = bullet.instance()
-	add_child(b)
-	b.start(pos, dir)
-	b.fire = true
+func _on_Weapon_shoot(shovel, pos, dir):
+	shovel.get_parent().remove_child(shovel)
+	add_child(shovel)
+	shovel.start(pos, dir)
+	shovel.fire = true
