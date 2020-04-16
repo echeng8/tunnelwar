@@ -39,9 +39,18 @@ func _process(delta):
 	if is_network_master():
 		_align_camera_to_player()
 
+
+#### HEALTH
+remote func _update_health(health_points):
+	self.health_points = health_points
+	_update_health_bar()
+	
 func _update_health_bar():
 	$GUI/HealthBar.value = self.health_points
-
+	
+	
+	
+#### CAMERA
 func _parent_camera_to_me():
 	cameraReference = get_node("/root/World/Camera2D")
 	_reparent(cameraReference, self)
@@ -52,18 +61,19 @@ func _parent_camera_to_me():
 func _align_camera_to_player():
 	cameraReference.align()
 
-#This is just a helper function I (machineman1357) created.
-func _reparent(var nodeToReparent, var newParent):
-  nodeToReparent.get_parent().remove_child(nodeToReparent)
-  newParent.add_child(nodeToReparent) 
 
+
+
+#### MOVEMENT 
 remote func _update_player_movement(player_id, player_pos):
 	if name == player_id:
 		player_position = player_pos
-	
-remote func _update_health(health_points):
-	self.health_points = health_points
-	_update_health_bar()
+
+
+#### HELPER FUNCTIONS
+func _reparent(var nodeToReparent, var newParent):
+  nodeToReparent.get_parent().remove_child(nodeToReparent)
+  newParent.add_child(nodeToReparent) 
 
 #func damage(value): 
 #	health_points -= value
