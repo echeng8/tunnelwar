@@ -14,19 +14,25 @@ var player_id
 
 #onready var animationPlayer = $AnimationPlayer
 onready var TweenNode = get_node("Tween")
-onready var ShovelNode = get_node("Projectile")
+onready var ShovelNode = get_node("Projectile" + player_id)
 
 func _ready():
 	_disable_collision(true)
-	player_id = get_parent().name
 	ShovelNode.connect("_pick_up", self, "_on_shovel_pick_up")
+
+func setup():
+	player_id = get_parent().name
+	print("ShovelGun" + player_id)
+	name = name + player_id
+	print(name)
+	$Projectile.setup()
 
 func _process(delta):
 	if stabbing == true: 
 		var currPos = position
 		var velocity = Vector2(1, 0).rotated(rotation) * stabbing_dist
 		var newPos = position + (velocity * delta)
-		rpc("_stabbing", position, newPos)
+		rpc("_stabbing", player_id, position, newPos)
 		stabbing = false
 #	if can_stab == true:
 #		print("here")
@@ -42,7 +48,7 @@ func _on_shovel_pick_up (player_id):
 	if self.player_id == player_id:
 		var shovel = Shovel.instance()
 		call_deferred("add_child", shovel)
-
+		shovel.call_deferred("setup")
 #func _dash(can_dash):
 #	if can_dash:
 #		get_parent()._dash(can_dash, dash_speed_rate, Vector2(1, 0).rotated(self.global_rotation))
@@ -60,8 +66,8 @@ func _on_Vulnerable_timeout():
 
 func _on_Reload_timeout():
 	$Reload.stop()
-	if !has_node("Projectile"):
-		rpc("_reload")
+	if !has_node("Projectile" + player_id):
+		rpc("_reload", player_id)
 	
 remote func _update_weapon_position(mouse_position):
 	var id = get_tree().get_rpc_sender_id()
@@ -70,12 +76,12 @@ remote func _update_weapon_position(mouse_position):
 		rpc_unreliable("_update_weapon_position", player_id, mouse_position)
 		
 remote func shoot():
-	if has_node("Projectile") and $Vulnerable.is_stopped():
-		rpc('shooting', $Muzzle.global_position, Vector2(1, 0).rotated(self.global_rotation))
+	if has_node("Projectile" + player_id) and $Vulnerable.is_stopped():
+		rpc('shooting', player_id, $Muzzle.global_position, Vector2(1, 0).rotated(self.global_rotation))
 
-remotesync func shooting(pos, dir):
+remotesync func shooting(player_id, pos, dir):
 	_disable_collision(false)
-	var shovel = get_node("Projectile")
+	var shovel = get_node("Projectile" + player_id)
 	$Reload.start()
 	shovel.get_node("Reload").start()
 	emit_signal('shoot', shovel, pos, dir)
@@ -105,7 +111,7 @@ remotesync func _pre_stabbing(currPos, newPos):
 	TweenNode.start()
 	yield(TweenNode, "tween_completed")
 
-remotesync func _stabbing(currPos, newPos):
+remotesync func _stabbing(player_id, currPos, newPos):
 	TweenNode.interpolate_property(self, "position", currPos, newPos, 1.0, Tween.TRANS_LINEAR, Tween.EASE_OUT)
 	TweenNode.start()
 	yield(TweenNode, "tween_completed")
@@ -115,8 +121,9 @@ remotesync func _stabbing(currPos, newPos):
 	yield(TweenNode, "tween_completed")
 	$Vulnerable.start()
 	
-remotesync func _reload():
+remotesync func _reload(player_id):
 	var shovel = Shovel.instance()
 	add_child(shovel)
 	ShovelNode = shovel
+	ShovelNode.setup()
 

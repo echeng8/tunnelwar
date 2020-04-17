@@ -14,6 +14,9 @@ func _ready():
 	#	of the other players on the client's computah
 	if is_network_master():
 		_parent_camera_to_me()
+
+func setup():
+	$ShovelGun.setup()
 	
 func update_GUI():
 	if is_network_master():
@@ -41,9 +44,10 @@ func _process(delta):
 
 
 #### HEALTH
-remote func _update_health(health_points):
-	self.health_points = health_points
-	_update_health_bar()
+remote func _update_health(player_id, health_points):
+	if name == player_id:
+		self.health_points = health_points
+		_update_health_bar()
 	
 func _update_health_bar():
 	$GUI/HealthBar.value = self.health_points

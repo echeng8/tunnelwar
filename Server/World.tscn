@@ -36,3 +36,5 @@ format = 1
 [node name="UselessButNecessary" type="CollisionShape2D" parent="TileCollision"]
 shape = SubResource( 2 )
 disabled = true
+
+[node name="Projectiles" type="Node" parent="."]
