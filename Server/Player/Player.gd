@@ -8,6 +8,9 @@ var speed_rate = 1
 
 var player_direction =  Vector2.ZERO
 
+func setup():
+	$ShovelGun.setup()
+
 func _process(delta):
 	var move_dir = Vector2()
 #	if(dash):
@@ -23,7 +26,7 @@ func damage(value):
 	if health_points <= 0:
 		health_points = 0
 #		rpc('_die')
-	rpc("_update_health", health_points)
+	rpc("_update_health", name, health_points)
 
 #
 #func _dash(dash, speed_rate, dash_dir = null):

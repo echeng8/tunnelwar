@@ -8,10 +8,10 @@ remotesync func spawn_player(spawn_pos, id):
 	player.position = spawn_pos
 	player.name = String(id) # Important
 	player.set_network_master(id) # Important
-	
+	player.setup()
 	$Players.add_child(player)
 	
-	var Weapon = player.get_node("ShovelGun")
+	var Weapon = player.get_node("ShovelGun" + String(id))
 	Weapon.connect("shoot", self, "_on_Weapon_shoot")
 	
 
@@ -19,10 +19,11 @@ remotesync func remove_player(id):
 	$Players.get_node(String(id)).queue_free()
 	
 func _on_Weapon_shoot(shovel, pos, dir):
+	print("hereshot")
 	shovel.get_parent().remove_child(shovel)
-	add_child(shovel)
+	$Projectiles.add_child(shovel)
 	shovel.start(pos, dir)
-	shovel.fire = true
+	#shovel.fire = true
 
 remote func set_cell(x, y, tile):
 	$TileCollision/TileMap.set_cell(x, y, tile)

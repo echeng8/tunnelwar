@@ -54,3 +54,6 @@ shape = SubResource( 2 )
 position = Vector2( 6144, 12288 )
 scale = Vector2( 4096, 0.1 )
 shape = SubResource( 2 )
+disabled = true
+
+[node name="Projectiles" type="Node" parent="."]

@@ -76,3 +76,5 @@ margin_left = -522.767
 margin_top = 308.984
 margin_right = -522.767
 margin_bottom = 308.984
+
+[node name="Projectiles" type="Node" parent="."]
