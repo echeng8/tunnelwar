@@ -21,7 +21,7 @@ wait_time = 2.0
 position = Vector2( 335, -23 )
 
 [node name="Reload" type="Timer" parent="."]
-wait_time = 3.0
+wait_time = 8.0
 
 [node name="Tween" type="Tween" parent="."]
 playback_speed = 10.0

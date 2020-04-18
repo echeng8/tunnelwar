@@ -62,16 +62,25 @@ remotesync func shooting(player_id, pos, dir):
 		var shovel = get_node("Projectile" + player_id)
 		emit_signal('shoot', shovel, pos, dir)	
 
+#remotesync func _stabbing(player_id, currPos, newPos):
+#	if self.player_id == player_id:
+#		TweenNode.interpolate_property(self, "position", currPos, newPos, 1.0, Tween.TRANS_LINEAR, Tween.EASE_OUT)
+#		TweenNode.start()
+#		yield(TweenNode, "tween_completed")
+#		TweenNode.interpolate_property(self, "position", self.position, currPos , 1.0, Tween.TRANS_LINEAR, Tween.EASE_OUT)
+#		TweenNode.start()
+#		yield(TweenNode, "tween_completed")
+
 remotesync func _stabbing(player_id, currPos, newPos):
 	if self.player_id == player_id:
 		TweenNode.interpolate_property(self, "position", currPos, newPos, 1.0, Tween.TRANS_LINEAR, Tween.EASE_OUT)
 		TweenNode.start()
-		yield(TweenNode, "tween_completed")
-		TweenNode.interpolate_property(self, "position", self.position, currPos , 1.0, Tween.TRANS_LINEAR, Tween.EASE_OUT)
+		
+remotesync func _after_stabbing(player_id, currPos, newPos):
+	if self.player_id == player_id:
+		TweenNode.interpolate_property(self, "position", currPos, newPos, 1.0, Tween.TRANS_LINEAR, Tween.EASE_OUT)
 		TweenNode.start()
-		yield(TweenNode, "tween_completed")
 
 remotesync func _pre_stabbing(currPos, newPos):
 	TweenNode.interpolate_property(self, "position", currPos, newPos, 1.0, Tween.TRANS_LINEAR, Tween.EASE_OUT)
 	TweenNode.start()
-	yield(TweenNode, "tween_completed")

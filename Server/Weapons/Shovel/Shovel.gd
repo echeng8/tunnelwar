@@ -42,20 +42,24 @@ func _on_body_entered(body):
 #		emit_signal('_pick_up', body.name)
 #		rpc('_pick_up', player_id, body.name)
 #		queue_free()
-	fire = false
+
 	if get_parent().name == "ShovelGun" + player_id:
 		if body.has_method('damage'):
 			body.damage(STAB_DAMAGE)
 	else:
 		if body.has_method('damage'):
 			body.damage(DAMAGE)
-			queue_free()
+			fire = false
+			rpc("destory_shovel", player_id)
 	#fire = false
 	#queue_free()
 #
 #func _on_VisibilityNotifier2D_screen_exited():ww
 
+remotesync func destory_shovel(player_id):
+	queue_free()
+
 func _on_Reload_timeout():
 	$Reload.stop()
 	rpc("_on_Reload_timeout", player_id)
-	queue_free()
+	rpc("destory_shovel", player_id)

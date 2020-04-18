@@ -16,6 +16,6 @@ scale = Vector2( 2.52064, 1.99761 )
 rect = Rect2( 20, 20, 20, 20 )
 
 [node name="Reload" type="Timer" parent="."]
-wait_time = 3.0
+wait_time = 8.0
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="timeout" from="Reload" to="." method="_on_Reload_timeout"]

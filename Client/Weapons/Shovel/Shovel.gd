@@ -43,24 +43,28 @@ remote func _on_Reload_timeout(player_id):
 remote func _update_shovel_movement(player_id, shovel_position):
 	if self.player_id == player_id:
 		self.shovel_position = shovel_position
-	
-func _on_body_entered(body):
-	#print(get_parent().name)
-	#if fire == false and get_parent().name != "ShovelGun" + body.name:
-		#emit_signal('_pick_up', body.name)
-		#rpc('_pick_up', body.name)
-	#	print("queue2")
-	#	queue_free()
-	#elif get_parent().name == "ShovelGun" :
-	#	if body.has_method('damage'):
-	#		body.damage(STAB_DAMAGE)
-	#else:
-		#if body.has_method('damage'):
-		#	body.damage(DAMAGE)
-	print("queue3")
-	queue_free()
-	fire = false
-#	#queue_free()
+
+remotesync func destory_shovel(player_id):
+	if self.player_id == player_id:
+		queue_free()
+
+#func _on_body_entered(body):
+#	#print(get_parent().name)
+#	#if fire == false and get_parent().name != "ShovelGun" + body.name:
+#		#emit_signal('_pick_up', body.name)
+#		#rpc('_pick_up', body.name)
+#	#	print("queue2")
+#	#	queue_free()
+#	#elif get_parent().name == "ShovelGun" :
+#	#	if body.has_method('damage'):
+#	#		body.damage(STAB_DAMAGE)
+#	#else:
+#		#if body.has_method('damage'):
+#		#	body.damage(DAMAGE)
+#	print("queue3")
+#	queue_free()
+#	fire = false
+##	#queue_free()
 
 remote func _pick_up(shovel_player_id, player_id):
 	if self.player_id == shovel_player_id:
