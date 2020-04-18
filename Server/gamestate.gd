@@ -55,7 +55,7 @@ remote func register_player(new_player_name):
 	# We get id this way instead of as parameter, to prevent users from pretending to be other users
 	var caller_id = get_tree().get_rpc_sender_id()
 	
-	#Server.register_player(caller_id, new_player_name)
+	Server.register_player(caller_id, new_player_name)
 	
 	# Add him to our list
 	players[caller_id] = new_player_name

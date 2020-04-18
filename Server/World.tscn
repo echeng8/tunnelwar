@@ -33,6 +33,24 @@ tile_set = SubResource( 1 )
 collision_use_parent = true
 format = 1
 
-[node name="UselessButNecessary" type="CollisionShape2D" parent="TileCollision"]
+[node name="Wall1" type="CollisionShape2D" parent="TileCollision"]
+position = Vector2( 6144, 0 )
+scale = Vector2( 4096, 0.1 )
 shape = SubResource( 2 )
-disabled = true
+
+[node name="Wall2" type="CollisionShape2D" parent="TileCollision"]
+position = Vector2( 0, 6144 )
+rotation = 1.5708
+scale = Vector2( 4096, 0.1 )
+shape = SubResource( 2 )
+
+[node name="Wall3" type="CollisionShape2D" parent="TileCollision"]
+position = Vector2( 12288, 6144 )
+rotation = 1.5708
+scale = Vector2( 4096, 0.1 )
+shape = SubResource( 2 )
+
+[node name="Wall4" type="CollisionShape2D" parent="TileCollision"]
+position = Vector2( 6144, 12288 )
+scale = Vector2( 4096, 0.1 )
+shape = SubResource( 2 )

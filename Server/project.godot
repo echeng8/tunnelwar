@@ -25,4 +25,5 @@ Server="*res://Server.gdns"
 
 [rendering]
 
+environment/default_clear_color=Color( 0.117647, 0.0509804, 0.027451, 1 )
 environment/default_environment="res://default_env.tres"

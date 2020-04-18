@@ -71,22 +71,9 @@ impl Server {
     }
 
     #[export]
-    fn register_player(&mut self, owner: Node, id: i64, name: GodotString) {
+    fn register_player(&mut self, _owner: Node, id: i64, name: GodotString) {
         // Add him to our list
         self.players.insert(id, name.to_string());
-
-        unsafe {
-            let mut gamestate = owner.get_node(NodePath::from("/root/gamestate")).unwrap();
-
-            // Add everyone to new player:
-            for p_id in self.players.keys() {
-                gamestate.rpc_id(id, GodotString::from("register_player"), &[Variant::from(*p_id), Variant::from(&self.players[p_id])]);
-            }
-
-            gamestate.rpc(GodotString::from("register_player"), &[Variant::from(id), Variant::from(&name)]); // Send new dude to all players
-        }
-
-        godot_print!("Client {} registered as {:?}", id, name)
     }
 
     #[export]
@@ -100,52 +87,65 @@ impl Server {
     }
 
     #[export]
-    fn update_chunks(&self, owner: Node) {
+    fn update_chunks(&mut self, owner: Node) {
         let players_iter = self.players.keys().clone();
         unsafe {
             for player_id in players_iter {
                 // Get player node
-                let player_node = owner.get_node(NodePath::new(&GodotString::from(player_id.to_string()))).unwrap().cast::<Node2D>().unwrap();
+                let player_node_option = owner.get_node_or_null(NodePath::new(&GodotString::from(format!("/root/World/Players/{}", player_id.to_string()))));
+
+                let player_node: Node2D;
+                if !player_node_option.is_none() {
+                    player_node = player_node_option.unwrap().cast::<Node2D>().unwrap();
+                } else {
+                    continue
+                }          
                 
                 // Find out which chunk the player is currently in
                 let chunk_pos = Self::get_chunk_pos(player_node.get_position());
 
-                let mut updating_chunk_pos = chunk_pos - Vector2::new(1.0, 1.0);
+                for chunk_x in -1i64..1 {
+                    for chunk_y in -1i64..1 {
+                        //godot_print!("{}", updating_chunk_pos);
 
-                loop {
-                    let updating_chunk = &self.world[updating_chunk_pos.x as usize][updating_chunk_pos.y as usize];
-                    // Check if chunk must be updated
-                    let tunnel_option = updating_chunk.to_be_rendered(player_id, player_node.get_position());
-                    if tunnel_option != None {
-                        let tunnel = tunnel_option.unwrap();
-                        let blocks = updating_chunk.get_tunnel_blocks(tunnel);
-                        // Update the chunk
-                        let mut world_node = owner.get_node(NodePath::from("/root/World")).unwrap();
-                        for x in 0..8 {
-                            for y in 0..8 {
-                                world_node.rpc_id(*player_id, GodotString::from("set_cell"), &[Variant::from_i64(x + (chunk_pos.x as i64 * 8)), Variant::from_i64(y + (chunk_pos.y as i64 * 8)), Variant::from_i64(blocks[x as usize][y as usize] - 1)]);
+                        let updating_chunk = &mut self.world[(chunk_pos.x as i64 + chunk_x) as usize][(chunk_pos.y as i64 + chunk_y) as usize];
+                        // Check if chunk must be updated
+                        let tunnel_option = updating_chunk.to_be_rendered(player_id, player_node.get_position());
+                        if tunnel_option != None {
+                            updating_chunk.render_for(*player_id);
+                            let tunnel = tunnel_option.unwrap();
+                            let blocks = updating_chunk.get_tunnel_blocks(tunnel);
+                            // Update the chunk
+                            let mut world_node = owner.get_node(NodePath::from("/root/World")).unwrap();
+                            for x in 0..8 {
+                                for y in 0..8 {
+                                    world_node.rpc_id(*player_id, GodotString::from("set_cell"), &[Variant::from_i64(x + (chunk_pos.x as i64)), Variant::from_i64(y + (chunk_pos.y as i64)), Variant::from_i64(blocks[x as usize][y as usize] - 1)]);
+                                }
                             }
                         }
                     }
 
-                    // Check if we're at the last chunk
-                    if updating_chunk_pos - Vector2::new(1.0, 1.0) == chunk_pos {
-                        break
-                    }
-                    // Check if chunk is at end of row
-                    else if updating_chunk_pos.x == (chunk_pos.x + 1.0) {
-                        updating_chunk_pos.x = chunk_pos.x - 1.0;
-                        updating_chunk_pos.y -= 1.0;
-                    } else {
-                        updating_chunk_pos.x += 1.0;
-                    }
+                    // // Check if we're at the last chunk
+                    // if updating_chunk_pos == chunk_pos { godot_print!("hi") }
+                    // if updating_chunk_pos - Vector2::new(1.0, -1.0) == chunk_pos {
+                    //     break
+                    // }
+                    // // Check if chunk is at end of row
+                    // else if updating_chunk_pos.x == (chunk_pos.x + 1.0) {
+                    //     updating_chunk_pos.x = chunk_pos.x - 1.0;
+                    //     updating_chunk_pos.y -= 1.0;
+                    // } else {
+                    //     updating_chunk_pos.x += 1.0;
+                    // }
                 }
             }
         }
     }
 
-    fn get_chunk_pos(position: Vector2) -> Vector2{
-        Vector2::new(position.x % 8.0, position.y % 8.0)
+    fn get_chunk_pos(position: Vector2) -> Vector2 {
+        //godot_print!("{}", position);
+        godot_print!("{}, {}", (position.x / 64.0) as i64 , (position.y / 64.0) as i64);
+        Vector2::new((position.x / 64.0) as i32 as f32, (position.y / 64.0) as i32 as f32)
     }
 
     /*#[export]

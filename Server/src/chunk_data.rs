@@ -41,6 +41,10 @@ impl ChunkData {
         }
     }
 
+    pub fn render_for(&mut self, id: i64) {
+        self.rendered_for.push(id);
+    }
+
     pub fn get_tunnel_blocks(&self, tunnel_id: i64) -> [[i64; 8]; 8] {
         let mut tunnel_blocks = [[1; 8]; 8];
 

@@ -4,8 +4,11 @@ onready var Player = load("res://Player/Player.tscn")
 
 func _ready():
 	Server.initialize_world()
-
-
+	
+func _process(delta):
+	Server.update_chunks()
+	
+	
 remotesync func spawn_player(spawn_pos, id):
 	var player = Player.instance()
 	
