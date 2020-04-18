@@ -76,10 +76,18 @@ remotesync func _stabbing(player_id, currPos, newPos):
 		TweenNode.interpolate_property(self, "position", currPos, newPos, 1.0, Tween.TRANS_LINEAR, Tween.EASE_OUT)
 		TweenNode.start()
 		
+		get_parent().get_node("VulBod/exclam_mark").visible = true
+		get_parent().get_node("VulBod/norm_face").visible = false
+		get_parent().get_node("VulBod/vul_face").visible = true
+
 remotesync func _after_stabbing(player_id, currPos, newPos):
 	if self.player_id == player_id:
 		TweenNode.interpolate_property(self, "position", currPos, newPos, 1.0, Tween.TRANS_LINEAR, Tween.EASE_OUT)
 		TweenNode.start()
+		
+		get_parent().get_node("VulBod/exclam_mark").visible = false
+		get_parent().get_node("VulBod/norm_face").visible = true
+		get_parent().get_node("VulBod/vul_face").visible = false
 
 remotesync func _pre_stabbing(currPos, newPos):
 	TweenNode.interpolate_property(self, "position", currPos, newPos, 1.0, Tween.TRANS_LINEAR, Tween.EASE_OUT)
