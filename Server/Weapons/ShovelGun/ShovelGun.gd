@@ -6,7 +6,7 @@ signal shoot
 
 export var stab_speed_reduct_rate = .5
 export var dash_speed_rate = 3
-export var stabbing_dist = 9000
+export var stabbing_dist = 7000
 export var pull_back_dist = -1500
 export var init_position = Vector2(-10,17)
 var normal_speed_rate = 1
@@ -68,6 +68,7 @@ func _on_shovel_pick_up (player_id):
 #	_dash(false)
 #
 func _on_Vulnerable_timeout():
+	after_stabbing = true
 	$Vulnerable.stop()
 
 func _on_Reload_timeout():
@@ -103,7 +104,7 @@ remote func pre_stab():
 		#pull back some
 
 remote func no_stab():
-	pre_stab = false
+	after_stabbing = true
 	get_parent().speed_rate = normal_speed_rate
 
 remote func stab():
@@ -121,7 +122,7 @@ remotesync func _stabbing(player_id, currPos, newPos):
 	TweenNode.interpolate_property(self, "position", currPos, newPos, 1.0, Tween.TRANS_LINEAR, Tween.EASE_OUT)
 	TweenNode.start()
 	yield(TweenNode, "tween_completed")
-	after_stabbing = true
+	$Vulnerable.start()
 	
 remotesync func _after_stabbing(player_id, currPos, newPos):
 	_disable_collision(ShovelNode, true)
@@ -129,7 +130,6 @@ remotesync func _after_stabbing(player_id, currPos, newPos):
 	TweenNode.start()
 	yield(TweenNode, "tween_completed")
 	#stop_moving = false
-	$Vulnerable.start()
 	pre_stab = false
 
 
