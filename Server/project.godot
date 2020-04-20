@@ -23,6 +23,12 @@ run/main_scene="res://World.tscn"
 gamestate="*res://gamestate.gd"
 Server="*res://Server.gdns"
 
+[layer_names]
+
+2d_physics/layer_1="World"
+2d_physics/layer_2="Player"
+2d_physics/layer_3="Projectile"
+
 [rendering]
 
 environment/default_clear_color=Color( 0.117647, 0.0509804, 0.027451, 1 )

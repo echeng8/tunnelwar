@@ -5,6 +5,7 @@ export(float) var DAMAGE = 20
 export var STAB_DAMAGE = 10
 export(Vector2) var init_position = Vector2(335, -23)
 export(Vector2) var firing_scale = Vector2(.5, .5)
+var reflect = false
 
 signal _pick_up
 
@@ -20,13 +21,22 @@ func _ready():
 func setup():
 	player_id = get_parent().player_id
 	name = name + player_id
+	add_to_group("shovels")
 	print("Shovel:" + player_id)
 
 func _process(delta):
 	if fire == true:
-		print("here1" + String(global_position))
+		if reflect:
+			velocity = -velocity
+			reflect = false 
 		global_position +=  velocity * delta
 		rpc_unreliable("_update_shovel_movement", player_id, global_position)
+		
+			
+
+func reflecting():
+	reflect = true
+	
 
 func start(_position, _direction):
 	scale = firing_scale
@@ -42,10 +52,10 @@ func _on_body_entered(body):
 #		emit_signal('_pick_up', body.name)
 #		rpc('_pick_up', player_id, body.name)
 #		queue_free()
-
 	if get_parent().name == "ShovelGun" + player_id:
-		if body.has_method('damage'):
-			body.damage(STAB_DAMAGE)
+		if body.name != player_id:
+			if body.has_method('damage'):
+				body.damage(STAB_DAMAGE)
 	else:
 		if body.has_method('damage'):
 			body.damage(DAMAGE)
@@ -63,3 +73,13 @@ func _on_Reload_timeout():
 	$Reload.stop()
 	rpc("_on_Reload_timeout", player_id)
 	rpc("destory_shovel", player_id)
+
+
+func _on_Projectile_area_shape_entered(area_id, area, area_shape, self_shape):
+	print("ShovelArea")
+	if is_in_group("shovels"):
+		if get_parent().name == "ShovelGun" + player_id and area.get_parent().name != "ShovelGun" + area.player_id:
+			print(area)
+			print(area.name)
+			if area.has_method('reflecting'):
+				area.reflecting()
