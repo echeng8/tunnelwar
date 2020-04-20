@@ -64,7 +64,7 @@ func _on_body_entered(body):
 	#fire = false
 	#queue_free()
 #
-#func _on_VisibilityNotifier2D_screen_exited():ww
+#func _on_VisibilityNotifier2D_screen_exited():
 
 remotesync func destory_shovel(player_id):
 	queue_free()
@@ -79,7 +79,5 @@ func _on_Projectile_area_shape_entered(area_id, area, area_shape, self_shape):
 	print("ShovelArea")
 	if is_in_group("shovels"):
 		if get_parent().name == "ShovelGun" + player_id and area.get_parent().name != "ShovelGun" + area.player_id:
-			print(area)
-			print(area.name)
 			if area.has_method('reflecting'):
 				area.reflecting()

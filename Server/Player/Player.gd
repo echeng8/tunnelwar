@@ -24,10 +24,16 @@ func _process(delta):
 func damage(value): 
 	health_points -= value
 	if health_points <= 0:
-		health_points = 0
-#		rpc('_die')
+		die()
 	rpc("_update_health", name, health_points)
+		
+func die():
+	var pos = gamestate.random_vector2(1000, 1000)
+	rpc("respawn", pos, 20)
 
+remotesync func respawn(pos, health_points):
+	position = pos
+	self.health_points = health_points
 #
 #func _dash(dash, speed_rate, dash_dir = null):
 #	self.dash = dash
