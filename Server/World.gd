@@ -6,7 +6,8 @@ func _ready():
 	Server.initialize_world()
 	
 func _process(delta):
-	Server.update_chunks()
+	#Server.update_chunks()
+	pass
 	
 	
 remotesync func spawn_player(spawn_pos, id):
