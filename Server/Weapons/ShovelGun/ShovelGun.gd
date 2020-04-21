@@ -95,7 +95,6 @@ remotesync func shooting(player_id, pos, dir):
 	emit_signal('shoot', shovel, pos, dir)
 
 remote func pre_stab():
-	
 	if $Vulnerable.is_stopped() and pre_stab == false:
 		#stop_moving = true
 		pre_stab = true

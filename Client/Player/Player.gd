@@ -65,7 +65,9 @@ func _parent_camera_to_me():
 func _align_camera_to_player():
 	cameraReference.align()
 
-
+remotesync func respawn(pos, health_points):
+	position = pos
+	self.health_points = health_points
 
 
 #### MOVEMENT 
