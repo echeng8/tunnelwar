@@ -30,13 +30,12 @@ impl ChunkData {
         }
     }
 
-    pub fn to_be_rendered(&self, player_id: &i64, player_pos: Vector2) -> Option<i64> {
+    pub fn to_be_rendered(&self, player_id: &i64, block_pos: Vector2) -> Option<i64> {
         // TODO: switch over to using the players field
         // for figuring out a player's tunnel's id
         if self.rendered_for.contains(player_id) {
             None
         } else {
-            let block_pos = player_pos / 64.0;
             Some(self.tunnel_positions[block_pos.x as i64 as usize][block_pos.y as i64 as usize])
         }
     }
