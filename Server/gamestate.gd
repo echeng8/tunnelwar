@@ -42,12 +42,12 @@ func _chat_box_notify_disconnected(id):
 	var world = get_node("/root/World")
 	
 	#Tell existing clients that player disconnected...
+	var dcName = str(players[id])
+	var message = "Player disconnected: " + dcName
+	if dcName == "Machineman1357":
+		message = "Our supreme [color=purple]Lead Artist[/color] [color=green]Machineman1357[/color] has departed!"
 	for p_id in players:
 		if p_id != id:
-			var dcName = str(players[id])
-			var message = "Player disconnected: " + dcName
-			if dcName == "Machineman1357":
-				message = "Our supreme [color=purple]Lead Artist[/color] " + "[color=green]Machineman1357[/color] " + "has departed!"
 			world.rpc_id(p_id, "_chat_message", message)
 
 # Player management functions
@@ -55,7 +55,7 @@ remote func register_player(new_player_name):
 	# We get id this way instead of as parameter, to prevent users from pretending to be other users
 	var caller_id = get_tree().get_rpc_sender_id()
 	
-	Server.register_player(caller_id, new_player_name)
+	#Server.register_player(caller_id, new_player_name)
 	
 	# Add him to our list
 	players[caller_id] = new_player_name
@@ -97,12 +97,12 @@ func _chat_box_notify_connection(caller_id):
 	world.rpc_id(caller_id, "_chat_message", "Welcome to [color=red]Shovelgun[/color], " + str(players[caller_id]))
 	
 	#Tell existing clients of new client's arrival...
+	var callerName = str(players[caller_id])
+	var message = "Player joined: " + callerName
+	if callerName == "Machineman1357":
+		message = "Our supreme [color=purple]Lead Artist[/color] " + "[color=green]Machineman1357[/color] " + "has arrived!"
 	for p_id in players:
 		if p_id != caller_id:
-			var callerName = str(players[caller_id])
-			var message = "Player joined: " + callerName
-			if callerName == "Machineman1357":
-				message = "Our supreme [color=purple]Lead Artist[/color] " + "[color=green]Machineman1357[/color] " + "has arrived!"
 			world.rpc_id(p_id, "_chat_message", message)
 
 # Return random 2D vector inside bounds 0, 0, bound_x, bound_y

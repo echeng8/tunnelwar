@@ -3,7 +3,8 @@ extends Node2D
 onready var Player = load("res://Player/Player.tscn")
 
 func _ready():
-	Server.initialize_world()
+	#Server.initialize_world()
+	pass
 	
 func _process(delta):
 	#Server.update_chunks()
