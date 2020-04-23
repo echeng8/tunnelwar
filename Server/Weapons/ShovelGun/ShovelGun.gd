@@ -6,8 +6,8 @@ signal shoot
 
 export var stab_speed_reduct_rate = .5
 export var dash_speed_rate = 3
-export var stabbing_dist = 7000
-export var pull_back_dist = -1500
+export var stabbing_dist = 13000
+export var pull_back_dist = -2500
 export var init_position = Vector2(-10,17)
 var normal_speed_rate = 1
 var pre_stab = false

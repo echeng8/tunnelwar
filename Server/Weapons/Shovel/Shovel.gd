@@ -54,11 +54,13 @@ func _on_body_entered(body):
 #		queue_free()
 	if get_parent().name == "ShovelGun" + player_id:
 		if body.name != player_id:
+			var knockdir = Vector2(1, 0).rotated(self.global_rotation)
 			if body.has_method('damage'):
-				body.damage(STAB_DAMAGE)
+				body.damage(STAB_DAMAGE, knockdir)
 	else:
 		if body.has_method('damage'):
-			body.damage(DAMAGE)
+			var knockdir = Vector2(1, 0).rotated(self.global_rotation)
+			body.damage(DAMAGE, knockdir)
 			fire = false
 			rpc("destory_shovel", player_id)
 	#fire = false

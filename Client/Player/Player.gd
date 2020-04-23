@@ -2,6 +2,7 @@ extends KinematicBody2D
 
 export var health_points = 20
 
+var velocity
 var player_position
 
 var cameraReference
@@ -34,8 +35,9 @@ func _process(delta):
 		var downValue = Input.get_action_strength("down")
 		var movementValuesMerged = Vector2(leftValue + rightValue, upValue + downValue)
 		rpc_unreliable_id(1, '_update_player_movement', movementValuesMerged)
-	if(player_position != null):
-		position = player_position
+	if(velocity != null):
+		move_and_slide(velocity, Vector2(0,0))
+		#position = player_position
 	
 	#the align function HAS to be called AFTER the position is changed, because
 	#	or else it will be aligned with the previous position, dum dum
@@ -69,11 +71,14 @@ remotesync func respawn(pos, health_points):
 	position = pos
 	self.health_points = health_points
 
+remote func _update_player_movement(player_id, player_vel):
+	if name == player_id:
+		velocity = player_vel
 
 #### MOVEMENT 
-remote func _update_player_movement(player_id, player_pos):
-	if name == player_id:
-		player_position = player_pos
+#remote func _update_player_movement(player_id, player_pos):
+#	if name == player_id:
+#		player_position = player_pos
 
 
 #### HELPER FUNCTIONS

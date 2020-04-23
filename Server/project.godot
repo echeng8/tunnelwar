@@ -21,7 +21,6 @@ run/main_scene="res://World.tscn"
 [autoload]
 
 gamestate="*res://gamestate.gd"
-Server="*res://Server.gdns"
 
 [layer_names]
 
