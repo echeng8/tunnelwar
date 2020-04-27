@@ -1,8 +1,8 @@
 extends Node
 
 ####DEBUG VARIABLES####
-const DEBUG_SPAWN_X = 5000
-const DEBUG_SPAWN_Y = 5000
+const DEBUG_SPAWN_X = 500
+const DEBUG_SPAWN_Y = 500
 ####/DEBUG VARIABLES####
 
 # Default game port
