@@ -1,5 +1,10 @@
 extends Node
 
+####DEBUG VARIABLES####
+const DEBUG_SPAWN_X = 5000
+const DEBUG_SPAWN_Y = 5000
+####/DEBUG VARIABLES####
+
 # Default game port
 const DEFAULT_PORT = 44444
 
@@ -86,7 +91,7 @@ remote func populate_world():
 		world.rpc_id(caller_id, "spawn_player", player.position, player.get_network_master())
 	
 	# Spawn new player everywhere
-	world.rpc("spawn_player", random_vector2(500, 500), caller_id)
+	world.rpc("spawn_player", random_vector2(DEBUG_SPAWN_X, DEBUG_SPAWN_Y), caller_id)
 	
 	_chat_box_notify_connection(caller_id)
 

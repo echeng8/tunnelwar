@@ -37,18 +37,21 @@ format = 1
 position = Vector2( 6144, 0 )
 scale = Vector2( 4096, 0.1 )
 shape = SubResource( 2 )
+disabled = true
 
 [node name="Wall2" type="CollisionShape2D" parent="TileCollision"]
 position = Vector2( 0, 6144 )
 rotation = 1.5708
 scale = Vector2( 4096, 0.1 )
 shape = SubResource( 2 )
+disabled = true
 
 [node name="Wall3" type="CollisionShape2D" parent="TileCollision"]
 position = Vector2( 12288, 6144 )
 rotation = 1.5708
 scale = Vector2( 4096, 0.1 )
 shape = SubResource( 2 )
+disabled = true
 
 [node name="Wall4" type="CollisionShape2D" parent="TileCollision"]
 position = Vector2( 6144, 12288 )
