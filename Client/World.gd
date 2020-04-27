@@ -33,7 +33,7 @@ remote func _chat_message(message):
 	
 	var uniqueNID = get_tree().get_network_unique_id()
 	var player = get_player_info(uniqueNID)
-	var chatBox = player.get_node("Camera2D/ChatBox")
+	var chatBox = $ScreenHUD/ChatBox
 	chatBox._update_chat_message_box(message)
 
 func get_player_info(id):
