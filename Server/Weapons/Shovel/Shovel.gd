@@ -1,7 +1,7 @@
 extends Area2D
 
 export(float) var SPEED = 1000
-export(float) var DAMAGE = 20
+export(float) var DAMAGE = 10
 export var STAB_DAMAGE = 10
 export(Vector2) var init_position = Vector2(335, -23)
 export(Vector2) var firing_scale = Vector2(.5, .5)

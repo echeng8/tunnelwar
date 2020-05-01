@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/DirtTileImage.png-cd9201858dd415bb8e23cb10b6e7e69a.image"
+
+[deps]
+
+source_file="res://Art/Environment/DirtTileImage.png"
+dest_files=[ "res://.import/DirtTileImage.png-cd9201858dd415bb8e23cb10b6e7e69a.image" ]
+
+[params]
+

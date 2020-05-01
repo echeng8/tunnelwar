@@ -35,8 +35,8 @@ func _process(delta):
 
 func damage(damage_points, knockback_dir): 
 	health_points -= damage_points
-	#if health_points <= 0:
-		#die()
+	if health_points <= 0:
+		die()
 	rpc("_update_health", name, health_points)
 	if knockback_dir != null:
 		self.knockback_dir = knockback_dir
