@@ -33,7 +33,6 @@ func _ready():
 
 func connect_to_server():
 	var host = NetworkedMultiplayerENet.new()
-	print(ip + " " + str(port))
 	host.create_client(ip, port)
 	get_tree().set_network_peer(host)
 

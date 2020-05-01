@@ -37,10 +37,11 @@ func damage(damage_points, knockback_dir):
 	health_points -= damage_points
 	if health_points <= 0:
 		die()
-	rpc("_update_health", name, health_points)
-	if knockback_dir != null:
-		self.knockback_dir = knockback_dir
-		knockback_timer = knockback_time
+	else: 
+		rpc("_update_health", name, health_points)
+		if knockback_dir != null:
+			self.knockback_dir = knockback_dir
+			knockback_timer = knockback_time
 		
 func die():
 	var pos = gamestate.random_vector2(500, 500)
@@ -49,6 +50,7 @@ func die():
 remotesync func respawn(pos, health_points):
 	position = pos
 	self.health_points = health_points
+	rpc("_update_health", name, health_points)
 #
 #func _dash(dash, speed_rate, dash_dir = null):
 #	self.dash = dash

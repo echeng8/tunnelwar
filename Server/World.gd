@@ -41,10 +41,14 @@ remote func _chat_box_received_message(var message: String):
 	#is it a command?
 	if message.begins_with("!"):
 		var messageSplit:Array = message.split(" ", true, 0)
-		if messageSplit[0] == "!set_s" && messageSplit.size() == 2:
-			var targetPlayer = get_node("Players/" + str(caller_id))
+		var targetPlayer = get_node("Players/" + str(caller_id))
+		
+		if messageSplit[0] == "!set_s" && messageSplit.size() == 2: #!set_s [speed]
 			rpc_id(caller_id, "_chat_message", "[color=maroon][HAX][/color] prev_speed: " + str(targetPlayer.speed) + ", new_speed: " + messageSplit[1])
 			targetPlayer.speed = int(messageSplit[1])
+		if messageSplit[0] == "!kill":
+			targetPlayer.die()
+			
 	else:
 		var gameState = get_node("/root/gamestate")
 		for p_id in gameState.players:
