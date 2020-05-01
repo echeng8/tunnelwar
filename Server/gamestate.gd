@@ -6,7 +6,7 @@ const DEBUG_SPAWN_Y = 500
 ####/DEBUG VARIABLES####
 
 # Default game port
-const DEFAULT_PORT = 44444
+const DEFAULT_PORT = 25525
 
 # Max number of players
 const MAX_PLAYERS = 12

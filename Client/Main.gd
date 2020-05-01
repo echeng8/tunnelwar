@@ -9,22 +9,22 @@ func _ready():
 	gamestate.connect("server_disconnected", self, "_on_server_disconnect")
 
 func _on_JoinButton_pressed():
-	gamestate.my_name = $VBox/HBox/LineEdit.text
+	gamestate.my_name = $UIVBox/NameHBox/NameEdit.text
 	gamestate.connect_to_server()
 
 
 func _on_connection_success():
-	$VBox/JoinButton.disabled = true
+	$UIVBox/JoinButton.disabled = true
 
 func _on_connection_failed():
-	$VBox/JoinButton.disabled = false
+	$UIVBox/JoinButton.disabled = false
 	
 	status.text = "Connection Failed, trying again"
 	status.modulate = Color.red
 
 
 func _on_server_disconnect():
-	$VBox/JoinButton.disabled = false
+	$UIVBox/JoinButton.disabled = false
 	
 	status.text = "Server Disconnected, trying to connect..."
 	status.modulate = Color.red

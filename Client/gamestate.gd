@@ -2,14 +2,15 @@ extends Node
 
 ####DEBUG VARIABLES####
 #todo add frolicks's server ip address
+
 ####/DEBUG VARIABLES####
 
 # Game port and ip
 #server - 34.74.55.123
  #localhost - 127.0.0.1
 #const ip = "34.74.55.123" #Google Server
-const ip = "127.0.0.1" #Local Host
-const DEFAULT_PORT = 44444
+var ip = "47.41.16.52" #Local Host
+var DEFAULT_PORT = 25525
 
 # Signal to let GUI know whats up
 signal connection_failed()
