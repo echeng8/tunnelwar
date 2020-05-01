@@ -9,8 +9,8 @@ extends Node
 #server - 34.74.55.123
  #localhost - 127.0.0.1
 #const ip = "34.74.55.123" #Google Server
-var ip = "47.41.16.52" #Local Host
-var DEFAULT_PORT = 25525
+var ip = "" #Local Host
+var port = 0
 
 # Signal to let GUI know whats up
 signal connection_failed()
@@ -33,7 +33,8 @@ func _ready():
 
 func connect_to_server():
 	var host = NetworkedMultiplayerENet.new()
-	host.create_client(ip, DEFAULT_PORT)
+	print(ip + " " + str(port))
+	host.create_client(ip, port)
 	get_tree().set_network_peer(host)
 
 

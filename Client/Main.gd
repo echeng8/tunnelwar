@@ -10,6 +10,13 @@ func _ready():
 
 func _on_JoinButton_pressed():
 	gamestate.my_name = $UIVBox/NameHBox/NameEdit.text
+	
+	#DEV TOOLS - SERVER IP SET
+	gamestate.ip = $UIVBox/DEVServerConnect/ServerIPHBox/ServerIPEdit.text
+	gamestate.port = int($UIVBox/DEVServerConnect/ServerPortHBox/ServerPortEdit.text)
+	
+	#/DEV TOOLS - SERVER IP SET
+	
 	gamestate.connect_to_server()
 
 
