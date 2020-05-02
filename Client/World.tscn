@@ -1,7 +1,8 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://World.gd" type="Script" id=1]
 [ext_resource path="res://UI/ScreenHUD.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Dev/Maps/DEVTMap.tscn" type="PackedScene" id=3]
 
 [sub_resource type="ConvexPolygonShape2D" id=1]
 points = PoolVector2Array( 64, 64, 0, 64, 0, 0, 64, 0 )
@@ -100,3 +101,8 @@ scale = Vector2( 3, 3 )
 texture = SubResource( 6 )
 region_enabled = true
 region_rect = Rect2( 0, 0, 1e+07, 1e+07 )
+
+[node name="DEVTMap" parent="." instance=ExtResource( 3 )]
+position = Vector2( -2253.59, 630.09 )
+scale = Vector2( 5, 5 )
+z_index = 1

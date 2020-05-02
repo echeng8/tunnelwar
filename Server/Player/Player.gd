@@ -43,9 +43,8 @@ func damage(damage_points, knockback_dir):
 			self.knockback_dir = knockback_dir
 			knockback_timer = knockback_time
 		
-func die():
-	var pos = gamestate.random_vector2(500, 500)
-	rpc("respawn", pos, 20)
+func die(): ##todo make this so its 1 call to respawn only w/out passing pos params
+	rpc("respawn", Vector2(gamestate.DEV_SPAWN_X, gamestate.DEV_SPAWN_Y), 20)
 
 remotesync func respawn(pos, health_points):
 	position = pos
