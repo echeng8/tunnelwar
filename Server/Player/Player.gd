@@ -1,7 +1,7 @@
 extends KinematicBody2D
 
 export var speed = 600
-export var health_points = 20
+export var health_points = 40
 export var knockback_time = 45
 
 var knockback_timer = 0

@@ -1,7 +1,5 @@
 extends KinematicBody2D
 
-export var health_points = 20
-
 var velocity
 var player_position
 
@@ -10,7 +8,6 @@ var cameraReference
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	update_GUI()
-	_update_health_bar()
 	#When player is spawned (AKA ready) then only parent the camera to self, and not any
 	#	of the other players on the client's computah
 	if is_network_master():
@@ -48,11 +45,10 @@ func _process(delta):
 #### HEALTH
 remote func _update_health(player_id, health_points):
 	if name == player_id:
-		self.health_points = health_points
-		_update_health_bar()
+		_update_health_bar(health_points)
 	
-func _update_health_bar():
-	$GUI/HealthBar.value = self.health_points
+func _update_health_bar(health_points):
+	$GUI/HealthBar.value = health_points
 	
 	
 	
@@ -85,21 +81,6 @@ remote func _update_player_movement(player_id, player_vel):
 func _reparent(var nodeToReparent, var newParent):
   nodeToReparent.get_parent().remove_child(nodeToReparent)
   newParent.add_child(nodeToReparent) 
-
-#func damage(value): 
-#	health_points -= value
-#	if health_points <= 0:
-#		health_points = 0
-##		rpc('_die')
-#	_update_health_bar()
-	
-#sync func _die():
-#	set_physics_process(false)
-#	$Rifle.set_process(false)
-#	for child in get_children():
-#		if child.has_method('hide'):
-#			child.hide()
-#	$CollisionShape2D.disabled = true
 
 
 

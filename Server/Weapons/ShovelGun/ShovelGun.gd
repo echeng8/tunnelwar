@@ -6,7 +6,7 @@ signal shoot
 
 export var stab_speed_reduct_rate = .5
 export var dash_speed_rate = 3
-export var stabbing_dist = 13000
+export var stabbing_dist = 10000
 export var pull_back_dist = -2500
 export var init_position = Vector2(-10,17)
 var normal_speed_rate = 1
@@ -77,7 +77,10 @@ func _on_Reload_timeout():
 		rpc("_reload", player_id)
 	
 remote func _update_weapon_position(mouse_position):
-	#if stop_moving == false:
+	#if stop_moving == false: #code from dash
+	if get_parent().speed_rate == stab_speed_reduct_rate: #can't move mouse when slowed
+		return; 
+	
 	var id = get_tree().get_rpc_sender_id()
 	if 	player_id == String(id):
 		look_at(mouse_position)
@@ -110,8 +113,7 @@ remote func stab():
 	if $Vulnerable.is_stopped() and pre_stab == true:
 		_disable_collision(ShovelNode, false)
 		stabbing = true
-		get_parent().speed_rate = normal_speed_rate
-
+		
 remotesync func _pre_stabbing(currPos, newPos):
 	TweenNode.interpolate_property(self, "position", self.position, newPos, 1.0, Tween.TRANS_LINEAR, Tween.EASE_OUT)
 	TweenNode.start()
@@ -129,18 +131,8 @@ remotesync func _after_stabbing(player_id, currPos, newPos):
 	TweenNode.start()
 	yield(TweenNode, "tween_completed")
 	#stop_moving = false
+	get_parent().speed_rate = normal_speed_rate
 	pre_stab = false
-
-
-#remotesync func _stabbing(player_id, currPos, newPos):
-#	TweenNode.interpolate_property(self, "position", currPos, newPos, 1.0, Tween.TRANS_LINEAR, Tween.EASE_OUT)
-#	TweenNode.start()
-#	yield(TweenNode, "tween_completed")
-#	_disable_collision(true)
-#	TweenNode.interpolate_property(self, "position", self.position, currPos , 1.0, Tween.TRANS_LINEAR, Tween.EASE_OUT)
-#	TweenNode.start()
-#	yield(TweenNode, "tween_completed")
-#	$Vulnerable.start()
 	
 remotesync func _reload(player_id):
 	var shovel = Shovel.instance()

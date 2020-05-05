@@ -15,7 +15,10 @@ position = Vector2( 336, 0 )
 wait_time = 0.5
 
 [node name="Vulnerable" type="Timer" parent="."]
-wait_time = 2.0
+wait_time = 1.25
+__meta__ = {
+"_editor_description_": "time you're waiting around slowed"
+}
 
 [node name="Projectile" parent="." instance=ExtResource( 2 )]
 position = Vector2( 335, -23 )
