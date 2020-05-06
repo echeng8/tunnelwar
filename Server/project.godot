@@ -8,19 +8,24 @@
 
 config_version=4
 
-_global_script_classes=[  ]
+_global_script_classes=[ {
+"base": "Node",
+"class": "StateMachine",
+"language": "GDScript",
+"path": "res://Weapons/ShovelGun/StateMachine.gd"
+} ]
 _global_script_class_icons={
-
+"StateMachine": ""
 }
 
 [application]
 
 config/name="Server"
-run/main_scene="res://World.tscn"
+run/main_scene="res://World/World.tscn"
 
 [autoload]
 
-gamestate="*res://gamestate.gd"
+gamestate="*res://Scripts_General/gamestate.gd"
 
 [layer_names]
 

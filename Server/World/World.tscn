@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://World.gd" type="Script" id=1]
-[ext_resource path="res://DirtTileSet.png" type="Texture" id=2]
+[ext_resource path="res://World/World.gd" type="Script" id=1]
+[ext_resource path="res://World/DirtTileSet.png" type="Texture" id=2]
 
 [sub_resource type="TileSet" id=1]
 0/name = "DirtTileSet.png 0"
