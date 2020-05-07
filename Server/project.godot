@@ -12,7 +12,7 @@ _global_script_classes=[ {
 "base": "Node",
 "class": "StateMachine",
 "language": "GDScript",
-"path": "res://Weapons/ShovelGun/StateMachine.gd"
+"path": "res://Scripts_General/Base_Classes/FSM/StateMachine.gd"
 } ]
 _global_script_class_icons={
 "StateMachine": ""

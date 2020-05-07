@@ -25,12 +25,15 @@ func setup():
 
 func _process(delta):
 	if is_network_master():
-		rpc_unreliable_id(1, "_update_weapon_position", get_global_mouse_position())
-		if Input.is_action_pressed('shoot') :
-			rpc_id(1, "shoot")
+		#remote setting variables on server
+		rset_unreliable_id(1, "mousepos", get_global_mouse_position()) #todo check for cheating potential 
 		if  Input.is_action_just_pressed('stab'):
 			$Timer.start()
 			rpc_id(1, "pre_stab")
+		
+		if Input.is_action_pressed('shoot') :
+			rpc_id(1, "shoot")
+
 		if Input.is_action_just_released('stab') and $Timer.is_stopped():
 			print("stab")
 			rpc_id(1, "stab")

@@ -17,6 +17,12 @@ var after_stabbing = false
 #var stop_moving = false
 var player_id
 
+
+#Client Set Variables 
+puppet var mousepos = Vector2(0,0); #todo cheater check
+
+
+
 #onready var animationPlayer = $AnimationPlayer
 onready var TweenNode = get_node("Tween")
 var ShovelNode
