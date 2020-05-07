@@ -40,18 +40,6 @@ func setup():
 var velocity = Vector2.ZERO
 var newPos = Vector2.ZERO	
 
-#func _process(delta):
-#	if stabbing == true: 
-#		velocity = Vector2(1, 0).rotated(rotation) * stabbing_dist
-#		newPos = position + (velocity * delta)
-#		rpc("_stabbing", player_id, position, newPos)
-#		stabbing = false
-#	if after_stabbing == true:		
-#		rpc("_after_stabbing", player_id, position, init_position)
-#		after_stabbing = false
-		
-	
-		
 func _disable_collision(obj, disable):
 	if obj != null:
 		obj.get_node("CollisionShape2D").disabled = disable
@@ -62,42 +50,9 @@ func _on_shovel_pick_up (player_id):
 		call_deferred("add_child", shovel)
 		shovel.call_deferred("setup")
 	
-#
-
-func _on_Reload_timeout():
-	$Reload.stop()
-	if !has_node("Projectile" + player_id):
-		rpc("_reload", player_id)
-	
-#remote func _update_weapon_position(mouse_position):
-#	#if stop_moving == false: #code from dash
-#	if get_parent().speed_rate == stab_speed_reduct_rate: #can't move mouse when slowed
-#		return; 
-#
-#	var id = get_tree().get_rpc_sender_id()
-#	if 	player_id == String(id):
-#		look_at(mouse_position)
-#		rpc_unreliable("_update_weapon_position", player_id, mouse_position)
-		
-remote func shoot():
-	if has_node("Projectile" + player_id) and $Vulnerable.is_stopped():
-		rpc('shooting', player_id, $Muzzle.global_position, Vector2(1, 0).rotated(self.global_rotation))
-
-remotesync func shooting(player_id, pos, dir):
-	_disable_collision(ShovelNode, false)
-	var shovel = get_node("Projectile" + player_id)
-	$Reload.start()
-	shovel.get_node("Reload").start()
-	emit_signal('shoot', shovel, pos, dir)
-
 remote func no_stab():
 	after_stabbing = true
 	get_parent().speed_rate = normal_speed_rate
-
-#remote func stab():
-#	if $Vulnerable.is_stopped() and pre_stab == true:
-#		_disable_collision(ShovelNode, false)
-#		stabbing = true
 		
 remotesync func _pre_stabbing(currPos, newPos):
 	TweenNode.interpolate_property(self, "position", self.position, newPos, 1.0, Tween.TRANS_LINEAR, Tween.EASE_OUT)
@@ -118,6 +73,24 @@ remotesync func _after_stabbing(player_id, currPos, newPos):
 	#stop_moving = false
 	get_parent().speed_rate = normal_speed_rate
 	pre_stab = false
+
+
+##SHOOTING STUFF #########################################################
+func _on_Reload_timeout():
+	$Reload.stop()
+	if !has_node("Projectile" + player_id):
+		rpc("_reload", player_id)
+		
+remote func shoot():
+	if has_node("Projectile" + player_id) and $Vulnerable.is_stopped():
+		rpc('shooting', player_id, $Muzzle.global_position, Vector2(1, 0).rotated(self.global_rotation))
+
+remotesync func shooting(player_id, pos, dir):
+	_disable_collision(ShovelNode, false)
+	var shovel = get_node("Projectile" + player_id)
+	$Reload.start()
+	shovel.get_node("Reload").start()
+	emit_signal('shoot', shovel, pos, dir)
 	
 remotesync func _reload(player_id):
 	var shovel = Shovel.instance()

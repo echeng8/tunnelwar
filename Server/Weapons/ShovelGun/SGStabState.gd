@@ -22,5 +22,5 @@ func process(delta):
 func _on_Vulnerable_timeout():
 	print("TEST")
 	ShovelGun.rpc("_after_stabbing", ShovelGun.player_id, ShovelGun.position, ShovelGun.init_position)
-	yield(get_tree().create_timer(ShovelGun.pull_back_dur), "timeout")
+	#yield(get_tree().create_timer(ShovelGun.pull_back_dur), "timeout") #toddo account for time the shovel retracts? 
 	fsm.change_to("SGDefaultState")
