@@ -8,6 +8,7 @@ export var stab_speed_reduct_rate = .5
 export var dash_speed_rate = 3
 export var stabbing_dist = 10000
 export var pull_back_dist = -2500
+export var pull_back_dur = 1;
 export var init_position = Vector2(-10,17)
 var normal_speed_rate = 1
 var pre_stab = false
@@ -19,9 +20,10 @@ var player_id
 
 
 #Client Set Variables 
-puppet var mousepos = Vector2(0,0); #todo cheater check
-
-
+puppet var mousepos = Vector2(0,0) #todo cheater check
+puppet var stab_btn_jp = false # stab button just pressed
+puppet var stab_btn_jr = false # stab button just released
+puppet var shoot_btn_p = false # shoot button pressed
 
 #onready var animationPlayer = $AnimationPlayer
 onready var TweenNode = get_node("Tween")
@@ -34,23 +36,21 @@ func setup():
 	ShovelNode = get_node("Projectile" + player_id)
 	ShovelNode.connect("_pick_up", self, "_on_shovel_pick_up")
 	_disable_collision(ShovelNode, true)
+
+var velocity = Vector2.ZERO
+var newPos = Vector2.ZERO	
+
+#func _process(delta):
+#	if stabbing == true: 
+#		velocity = Vector2(1, 0).rotated(rotation) * stabbing_dist
+#		newPos = position + (velocity * delta)
+#		rpc("_stabbing", player_id, position, newPos)
+#		stabbing = false
+#	if after_stabbing == true:		
+#		rpc("_after_stabbing", player_id, position, init_position)
+#		after_stabbing = false
+		
 	
-func _process(delta):
-	var velocity = Vector2.ZERO
-	var newPos = Vector2.ZERO
-	if stabbing == true: 
-		velocity = Vector2(1, 0).rotated(rotation) * stabbing_dist
-		newPos = position + (velocity * delta)
-		rpc("_stabbing", player_id, position, newPos)
-		stabbing = false
-	if after_stabbing == true:		
-		rpc("_after_stabbing", player_id, position, init_position)
-		after_stabbing = false
-	if can_stab == true:
-		velocity = Vector2(1, 0).rotated(rotation) * pull_back_dist
-		newPos = position + (velocity * delta)
-		rpc("_pre_stabbing", position, newPos)
-		can_stab = false
 		
 func _disable_collision(obj, disable):
 	if obj != null:
@@ -61,36 +61,23 @@ func _on_shovel_pick_up (player_id):
 		var shovel = Shovel.instance()
 		call_deferred("add_child", shovel)
 		shovel.call_deferred("setup")
-#func _dash(can_dash):
-#	if can_dash:
-#		get_parent()._dash(can_dash, dash_speed_rate, Vector2(1, 0).rotated(self.global_rotation))
-#		$Dash.start()
-#	else:
-#		get_parent()._dash(can_dash, normal_speed_rate)
-#		$Dash.stop()
-#		$Vulnerable.start()
+	
 #
-#func _on_Dash_timeout():
-#	_dash(false)
-#
-func _on_Vulnerable_timeout():
-	after_stabbing = true
-	$Vulnerable.stop()
 
 func _on_Reload_timeout():
 	$Reload.stop()
 	if !has_node("Projectile" + player_id):
 		rpc("_reload", player_id)
 	
-remote func _update_weapon_position(mouse_position):
-	#if stop_moving == false: #code from dash
-	if get_parent().speed_rate == stab_speed_reduct_rate: #can't move mouse when slowed
-		return; 
-	
-	var id = get_tree().get_rpc_sender_id()
-	if 	player_id == String(id):
-		look_at(mouse_position)
-		rpc_unreliable("_update_weapon_position", player_id, mouse_position)
+#remote func _update_weapon_position(mouse_position):
+#	#if stop_moving == false: #code from dash
+#	if get_parent().speed_rate == stab_speed_reduct_rate: #can't move mouse when slowed
+#		return; 
+#
+#	var id = get_tree().get_rpc_sender_id()
+#	if 	player_id == String(id):
+#		look_at(mouse_position)
+#		rpc_unreliable("_update_weapon_position", player_id, mouse_position)
 		
 remote func shoot():
 	if has_node("Projectile" + player_id) and $Vulnerable.is_stopped():
@@ -103,22 +90,14 @@ remotesync func shooting(player_id, pos, dir):
 	shovel.get_node("Reload").start()
 	emit_signal('shoot', shovel, pos, dir)
 
-remote func pre_stab():
-	if $Vulnerable.is_stopped() and pre_stab == false:
-		#stop_moving = true
-		pre_stab = true
-		can_stab = true
-		get_parent().speed_rate = stab_speed_reduct_rate
-		#pull back some
-
 remote func no_stab():
 	after_stabbing = true
 	get_parent().speed_rate = normal_speed_rate
 
-remote func stab():
-	if $Vulnerable.is_stopped() and pre_stab == true:
-		_disable_collision(ShovelNode, false)
-		stabbing = true
+#remote func stab():
+#	if $Vulnerable.is_stopped() and pre_stab == true:
+#		_disable_collision(ShovelNode, false)
+#		stabbing = true
 		
 remotesync func _pre_stabbing(currPos, newPos):
 	TweenNode.interpolate_property(self, "position", self.position, newPos, 1.0, Tween.TRANS_LINEAR, Tween.EASE_OUT)
@@ -133,7 +112,7 @@ remotesync func _stabbing(player_id, currPos, newPos):
 	
 remotesync func _after_stabbing(player_id, currPos, newPos):
 	_disable_collision(ShovelNode, true)
-	TweenNode.interpolate_property(self, "position", currPos, newPos, 1.0, Tween.TRANS_LINEAR, Tween.EASE_OUT)
+	TweenNode.interpolate_property(self, "position", currPos, newPos, pull_back_dur, Tween.TRANS_LINEAR, Tween.EASE_OUT)
 	TweenNode.start()
 	yield(TweenNode, "tween_completed")
 	#stop_moving = false
@@ -146,3 +125,16 @@ remotesync func _reload(player_id):
 	ShovelNode = shovel
 	ShovelNode.setup()
 
+
+##DASHING OLD CODE
+#func _dash(can_dash):
+#	if can_dash:
+#		get_parent()._dash(can_dash, dash_speed_rate, Vector2(1, 0).rotated(self.global_rotation))
+#		$Dash.start()
+#	else:
+#		get_parent()._dash(can_dash, normal_speed_rate)
+#		$Dash.stop()
+#		$Vulnerable.start()
+#
+#func _on_Dash_timeout():
+#	_dash(false)

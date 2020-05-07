@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Weapons/ShovelGun/ShovelGun.gd" type="Script" id=1]
 [ext_resource path="res://Weapons/Shovel/Shovel.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Scripts_General/Base_Classes/FSM/StateMachine.gd" type="Script" id=3]
 [ext_resource path="res://Weapons/ShovelGun/SGDefaultState.gd" type="Script" id=4]
 [ext_resource path="res://Weapons/ShovelGun/SGPulledState.gd" type="Script" id=5]
+[ext_resource path="res://Weapons/ShovelGun/SGStabState.gd" type="Script" id=6]
 
 [node name="ShovelGun" type="Sprite"]
 scale = Vector2( 0.5, 0.5 )
@@ -20,6 +21,9 @@ script = ExtResource( 4 )
 [node name="SGPulledState" type="Node" parent="StateMachine"]
 script = ExtResource( 5 )
 
+[node name="SGStabState" type="Node" parent="StateMachine"]
+script = ExtResource( 6 )
+
 [node name="Muzzle" type="Position2D" parent="."]
 position = Vector2( 336, 0 )
 
@@ -28,6 +32,7 @@ wait_time = 0.5
 
 [node name="Vulnerable" type="Timer" parent="."]
 wait_time = 1.25
+one_shot = true
 __meta__ = {
 "_editor_description_": "time you're waiting around slowed"
 }
@@ -41,5 +46,5 @@ wait_time = 8.0
 [node name="Tween" type="Tween" parent="."]
 playback_speed = 10.0
 playback/speed = 10.0
-[connection signal="timeout" from="Vulnerable" to="." method="_on_Vulnerable_timeout"]
+[connection signal="timeout" from="Vulnerable" to="StateMachine/SGStabState" method="_on_Vulnerable_timeout"]
 [connection signal="timeout" from="Reload" to="." method="_on_Reload_timeout"]
