@@ -1,12 +1,12 @@
 extends Control
 
-onready var status = get_node("VBox/Status")
+onready var status = $UIVBox/Status
 
 
 func _ready():
-	gamestate.connect("connection_failed", self, "_on_connection_failed")
-	gamestate.connect("connection_succeeded", self, "_on_connection_success")
-	gamestate.connect("server_disconnected", self, "_on_server_disconnect")
+	assert(gamestate.connect("connection_failed", self, "_on_connection_failed") == 0)
+	assert(gamestate.connect("connection_succeeded", self, "_on_connection_success") == 0)
+	assert(gamestate.connect("server_disconnected", self, "_on_server_disconnect") == 0)
 
 func _on_JoinButton_pressed():
 	gamestate.my_name = $UIVBox/NameHBox/NameEdit.text

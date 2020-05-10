@@ -55,11 +55,6 @@ func _ready():
 var velocity = Vector2.ZERO
 var newPos = Vector2.ZERO	
 
-func _disable_collision(obj, disable):
-	if obj != null:
-		obj.get_node("CollisionShape2D").disabled = disable
-	
-	
 ######ANIMATION FUNCTIONS to be called by states
 		
 remotesync func _pre_stabbing(currPos, newPos):
@@ -76,6 +71,12 @@ remotesync func _after_stabbing(player_id, currPos, newPos):
 	TweenNode.start()
 
 
+
+##HELPER FUNCTION #####################################################
+func _disable_collision(obj, disable):
+	if obj != null:
+		obj.get_node("CollisionShape2D").disabled = disable
+		
 ##SHOOTING STUFF #########################################################
 func _on_Reload_timeout():
 	$Reload.stop()

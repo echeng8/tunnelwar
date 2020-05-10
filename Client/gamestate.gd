@@ -1,14 +1,6 @@
 extends Node
 
-####DEBUG VARIABLES####
-#todo add frolicks's server ip address
-
-####/DEBUG VARIABLES####
-
-# Game port and ip
-#server - 34.74.55.123
  #localhost - 127.0.0.1
-#const ip = "34.74.55.123" #Google Server
 var ip = "" #Local Host
 var port = 0
 
@@ -24,9 +16,9 @@ var players = {}
 
 
 func _ready():
-	get_tree().connect("connected_to_server", self, "_connected_ok")
-	get_tree().connect("connection_failed", self, "_connected_fail")
-	get_tree().connect("server_disconnected", self, "_server_disconnected")
+	assert(get_tree().connect("connected_to_server", self, "_connected_ok") == 0)
+	assert(get_tree().connect("connection_failed", self, "_connected_fail") == 0)
+	assert(get_tree().connect("server_disconnected", self, "_server_disconnected") == 0)
 	
 	# Try to connect right away
 	#connect_to_server()

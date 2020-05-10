@@ -26,7 +26,7 @@ func _update_chat_message_box(message):
 
 func _on_SendButton_pressed() -> void:
 	var world = get_node("/root/World")
-	var uniqueNID = get_tree().get_network_unique_id()
+#	var uniqueNID = get_tree().get_network_unique_id()
 	world.rpc_id(1, "_chat_box_received_message", $"UserInput".text)
 	#reset text
 	$UserInput.text = ""

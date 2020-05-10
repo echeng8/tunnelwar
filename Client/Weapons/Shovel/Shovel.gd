@@ -20,7 +20,7 @@ func setup():
 	name = name + player_id
 	print("Shovel:" + player_id)
 
-func _process(delta):
+func _process(_delta):
 	if fire == true:	 
 		if(shovel_position != null):
 			global_position = shovel_position
