@@ -30,8 +30,7 @@ func _process(delta):
 	if is_network_master():
 		#set variables on server
 		rset_unreliable_id(1, "mousepos", get_global_mouse_position()) #todo check for cheating potential 
-		rset_id(1, "stab_btn_jp", Input.is_action_pressed('stab'))
-		#rset_id(1, "stab_btn_jr", Input.is_action_released('stab'))
+		rset_id(1, "stab_btn_p", Input.is_action_pressed('stab'))
 		rset_unreliable_id(1, "shoot_btn_p", Input.is_action_pressed('shoot')) 
 	
 		if Input.is_action_pressed('shoot') :

@@ -27,8 +27,7 @@ var player_id
 
 #Client Set Variables 
 puppet var mousepos = Vector2(0,0) #todo cheater check
-puppet var stab_btn_jp = false # stab button just pressed
-puppet var stab_btn_jr = false # stab button just released
+puppet var stab_btn_p = false # stab button just pressed
 puppet var shoot_btn_p = false # shoot button pressed
 
 onready var TweenNode = get_node("Tween")
