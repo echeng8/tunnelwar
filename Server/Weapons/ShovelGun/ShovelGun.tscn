@@ -30,21 +30,13 @@ position = Vector2( 336, 0 )
 [node name="Dash" type="Timer" parent="."]
 wait_time = 0.5
 
-[node name="Vulnerable" type="Timer" parent="."]
-wait_time = 1.25
-one_shot = true
-__meta__ = {
-"_editor_description_": "time you're waiting around slowed"
-}
+[node name="Reload" type="Timer" parent="."]
+wait_time = 8.0
 
 [node name="Projectile" parent="." instance=ExtResource( 2 )]
 position = Vector2( 335, -23 )
 
-[node name="Reload" type="Timer" parent="."]
-wait_time = 8.0
-
 [node name="Tween" type="Tween" parent="."]
 playback_speed = 10.0
 playback/speed = 10.0
-[connection signal="timeout" from="Vulnerable" to="StateMachine/SGStabState" method="_on_Vulnerable_timeout"]
 [connection signal="timeout" from="Reload" to="." method="_on_Reload_timeout"]

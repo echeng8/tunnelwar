@@ -4,7 +4,9 @@ var ShovelGun
 
 func enter():
 	ShovelGun = get_parent().get_parent()
-	assert("ShovelGun" in ShovelGun.name) 
+	assert("ShovelGun" in ShovelGun.name)
+	
+	ShovelGun.get_parent().speed_rate = ShovelGun.normal_speed_rate 
 	
 	
 # Optional handler functions for game loop events

@@ -5,8 +5,12 @@ const Shovel = preload("res://Weapons/Shovel/Shovel.tscn")
 signal shoot
 
 var player_id
-var stabbing = false
 
+
+#server set animation durations
+remote var pull_dur = 1
+remote var stab_dur = 1
+remote var reset_dur = 1
 
 #onready var animationPlayer = $AnimationPlayer
 onready var TweenNode = get_node("Tween")
@@ -20,15 +24,14 @@ func _ready():
 func setup():
 	player_id = get_parent().name
 	name = name + player_id
-	print(name)
 	$Projectile.setup()
 
 func _process(delta):
 	if is_network_master():
 		#set variables on server
 		rset_unreliable_id(1, "mousepos", get_global_mouse_position()) #todo check for cheating potential 
-		rset_unreliable_id(1, "stab_btn_jp", Input.is_action_just_pressed('stab'))
-		rset_unreliable_id(1, "stab_btn_jr", Input.is_action_just_released('stab'))
+		rset_id(1, "stab_btn_jp", Input.is_action_pressed('stab'))
+		#rset_id(1, "stab_btn_jr", Input.is_action_released('stab'))
 		rset_unreliable_id(1, "shoot_btn_p", Input.is_action_pressed('shoot')) 
 	
 		if Input.is_action_pressed('shoot') :
@@ -37,28 +40,30 @@ func _process(delta):
 remote func _update_weapon_position(player_id, mouse_position):
 	if self.player_id == player_id:
 		look_at(mouse_position)
-
+		
+remotesync func _pre_stabbing(currPos, newPos):
+	TweenNode.interpolate_property(self, "position", self.position, newPos, pull_dur, Tween.TRANS_LINEAR, Tween.EASE_OUT)
+	TweenNode.start()
+	print(pull_dur)
+	
 remotesync func _stabbing(player_id, currPos, newPos):
 	if self.player_id == player_id:
-		TweenNode.interpolate_property(self, "position", currPos, newPos, 1.0, Tween.TRANS_LINEAR, Tween.EASE_OUT)
+		TweenNode.interpolate_property(self, "position", self.position, newPos, stab_dur, Tween.TRANS_LINEAR, Tween.EASE_OUT)
 		TweenNode.start()
 		
-		get_parent().get_node("VulBod/exclam_mark").visible = true
+		get_parent().get_node("VulBod/exclam_mark").visible = true #TODO make conditional based on state 
 		get_parent().get_node("VulBod/norm_face").visible = false
 		get_parent().get_node("VulBod/vul_face").visible = true
 
 remotesync func _after_stabbing(player_id, currPos, newPos):
 	if self.player_id == player_id:
-		TweenNode.interpolate_property(self, "position", currPos, newPos, 1.0, Tween.TRANS_LINEAR, Tween.EASE_OUT)
+		TweenNode.interpolate_property(self, "position", currPos, newPos, reset_dur, Tween.TRANS_LINEAR, Tween.EASE_OUT) #todo fix pull-back duration not actually working
 		TweenNode.start()
 		
 		get_parent().get_node("VulBod/exclam_mark").visible = false
 		get_parent().get_node("VulBod/norm_face").visible = true
 		get_parent().get_node("VulBod/vul_face").visible = false
 
-remotesync func _pre_stabbing(currPos, newPos):
-	TweenNode.interpolate_property(self, "position", currPos, newPos, 1.0, Tween.TRANS_LINEAR, Tween.EASE_OUT)
-	TweenNode.start()
 
 
 ##SHOOTING STUFF ############
@@ -79,12 +84,3 @@ remotesync func _reload(player_id):
 		var shovel = Shovel.instance()
 		add_child(shovel)
 		shovel.setup()
-
-#remotesync func _stabbing(player_id, currPos, newPos):
-#	if self.player_id == player_id:
-#		TweenNode.interpolate_property(self, "position", currPos, newPos, 1.0, Tween.TRANS_LINEAR, Tween.EASE_OUT)
-#		TweenNode.start()
-#		yield(TweenNode, "tween_completed")
-#		TweenNode.interpolate_property(self, "position", self.position, currPos , 1.0, Tween.TRANS_LINEAR, Tween.EASE_OUT)
-#		TweenNode.start()
-#		yield(TweenNode, "tween_completed")

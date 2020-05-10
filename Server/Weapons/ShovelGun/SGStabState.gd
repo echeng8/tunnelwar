@@ -1,7 +1,7 @@
 extends "res://Scripts_General/Base_Classes/FSM/State.gd"
 
 var ShovelGun 
-var a = true
+var duration = 0
 
 func enter():
 	ShovelGun = get_parent().get_parent()
@@ -12,15 +12,11 @@ func enter():
 	ShovelGun.newPos = ShovelGun.position + (ShovelGun.velocity * 1/60)
 	ShovelGun.rpc("_stabbing", ShovelGun.player_id, ShovelGun.position, ShovelGun.newPos)
 	
+	duration = 0
 # Optional handler functions for game loop events
 func process(delta):
-	return; 
- 
-
-
-
-func _on_Vulnerable_timeout():
-	print("TEST")
-	ShovelGun.rpc("_after_stabbing", ShovelGun.player_id, ShovelGun.position, ShovelGun.init_position)
-	#yield(get_tree().create_timer(ShovelGun.pull_back_dur), "timeout") #toddo account for time the shovel retracts? 
-	fsm.change_to("SGDefaultState")
+	duration += delta
+	
+	if(duration > ShovelGun.vulnerability_time): 
+		ShovelGun.rpc("_after_stabbing", ShovelGun.player_id, ShovelGun.position, ShovelGun.init_position)
+		fsm.change_to("SGDefaultState")
