@@ -65,7 +65,7 @@ func _align_camera_to_player():
 
 remotesync func respawn(pos, health_points):
 	position = pos
-	self.health_points = health_points
+	#self.health_points = health_points
 
 remote func _update_player_movement(player_id, player_vel):
 	if name == player_id:
