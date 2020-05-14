@@ -11,8 +11,13 @@ var speed_rate = 1
 
 var input_direction =  Vector2.ZERO
 
+#initialization
 func setup():
 	$ShovelGun.setup()
+
+func on_client_node_connect():	#called when client node is ready
+	rpc("set_health", health_points)
+
 
 func _physics_process(delta):
 	var move_dir = Vector2()
@@ -53,6 +58,9 @@ puppet func set_input_direction(var direction:Vector2):
 
 remotesync func set_player_position(pos):
 	position = pos 
+	
+remote func send_hp():	#sends hp to client
+	rset("health_points", health_points)
 	
 #
 #func _dash(dash, speed_rate, dash_dir = null):

@@ -1,22 +1,23 @@
 extends KinematicBody2D
-
-var velocity
-var player_position
 var cameraReference
 
-
+#PSEUDO PUPPETS - set by server 
+var health_points
+ 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	update_GUI()
-	
 	if is_network_master():
-		_parent_camera_to_me()
+		_parent_camera_to_me()	
+	rpc_id(1, "on_client_node_connect")
+
 
 func setup():
 	$ShovelGun.setup()
 	
+	
 func update_GUI():
-	##SET NAME
+	#display name
 	var player_id = get_network_master()
 	$GUI/PlayerName.text = gamestate.players[player_id]
 
@@ -31,15 +32,16 @@ func _process(delta):
 		rpc_unreliable_id(1, 'set_input_direction', movementValuesMerged)
 	
 	
-	#the align function HAS to be called AFTER the position is changed, because
-	#	or else it will be aligned with the previous position, dum dum
+	#TODO refactor
 	if is_network_master():
 		_align_camera_to_player()
 
 
 #### HEALTH
 remote func set_health(health_points):
-	$GUI/HealthBar.value = health_points #TODO MAKE PUBLIC VARIABLE TO BE RSET BY SERVER
+	health_points = health_points 
+	$GUI/HPNumDisplay.text = str(int(health_points / 10))
+	#$GUI/HealthBar.value = health_points #TODO MAKE PUBLIC VARIABLE TO BE RSET BY SERVER
 
 #The align function is a Camera2D node-specific function that:
 #	"Align(s) the camera to the tracked node"; tracked node being

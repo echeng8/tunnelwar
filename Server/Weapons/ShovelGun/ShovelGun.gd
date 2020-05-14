@@ -105,18 +105,5 @@ remotesync func _reload(player_id):
 	add_child(shovel)
 	ShovelNode = shovel
 	ShovelNode.setup()
-
-
-##DASHING OLD CODE
-#export var dash_speed_rate = 3
-#func _dash(can_dash):
-#	if can_dash:
-#		get_parent()._dash(can_dash, dash_speed_rate, Vector2(1, 0).rotated(self.global_rotation))
-#		$Dash.start()
-#	else:
-#		get_parent()._dash(can_dash, normal_speed_rate)
-#		$Dash.stop()
-#		$Vulnerable.start()
-#
-#func _on_Dash_timeout():
-#	_dash(false)
+	_disable_collision(ShovelNode, true) #quickfix to allow melee combat after shooting
+	 

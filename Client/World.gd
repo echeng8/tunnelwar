@@ -13,7 +13,6 @@ remotesync func spawn_player(spawn_pos, id):
 	
 	var Weapon = player.get_node("ShovelGun" + String(id))
 	Weapon.connect("shoot", self, "_on_Weapon_shoot")
-	print("SPAWNED ", player.name)
 	
 
 remotesync func remove_player(id):
@@ -31,8 +30,6 @@ remote func set_cell(x, y, tile):
 	$TileCollision/TileMap.set_cell(x, y, tile)
 
 remote func _chat_message(message):
-#	var uniqueNID = get_tree().get_network_unique_id()
-#	var player = get_player_info(uniqueNID)
 	var chatBox = $ScreenHUD/ChatBox
 	chatBox._update_chat_message_box(message)
 

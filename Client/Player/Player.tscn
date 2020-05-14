@@ -44,7 +44,19 @@ texture = ExtResource( 6 )
 position = Vector2( -10, 17 )
 
 [node name="GUI" parent="." instance=ExtResource( 4 )]
-margin_left = -63.1747
-margin_top = -125.096
-margin_right = 92.8253
-margin_bottom = 116.904
+margin_left = -47.0
+margin_top = -91.0
+margin_right = 71.0
+margin_bottom = 50.0
+
+[node name="PlayerName" parent="GUI" index="2"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -53.2684
+margin_top = 1.92212
+margin_right = 27.7316
+margin_bottom = 15.9221
+
+[editable path="GUI"]
