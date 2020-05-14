@@ -2,8 +2,8 @@ extends KinematicBody2D
 
 var velocity
 var player_position
-
 var cameraReference
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -16,11 +16,9 @@ func setup():
 	$ShovelGun.setup()
 	
 func update_GUI():
-	if is_network_master():
-		$GUI/PlayerName.text = "You"
-	else:
-		var player_id = get_network_master()
-		$GUI/PlayerName.text = gamestate.players[player_id]
+	##SET NAME
+	var player_id = get_network_master()
+	$GUI/PlayerName.text = gamestate.players[player_id]
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -30,7 +28,6 @@ func _process(delta):
 		var upValue = -Input.get_action_strength("up")
 		var downValue = Input.get_action_strength("down")
 		var movementValuesMerged = Vector2(leftValue + rightValue, upValue + downValue)
-		print(movementValuesMerged)
 		rpc_unreliable_id(1, 'set_input_direction', movementValuesMerged)
 	
 	
@@ -41,12 +38,8 @@ func _process(delta):
 
 
 #### HEALTH
-remote func _update_health(player_id, health_points):
-	if name == player_id:
-		_update_health_bar(health_points)
-	
-func _update_health_bar(health_points):
-	$GUI/HealthBar.value = health_points
+remote func set_health(health_points):
+	$GUI/HealthBar.value = health_points #TODO MAKE PUBLIC VARIABLE TO BE RSET BY SERVER
 
 #The align function is a Camera2D node-specific function that:
 #	"Align(s) the camera to the tracked node"; tracked node being
@@ -56,7 +49,6 @@ func _align_camera_to_player():
 
 remotesync func set_player_position(pos):
 	position = pos 
-
 
 ###### HELPER FUNCTIONS
 func _reparent(var nodeToReparent, var newParent):

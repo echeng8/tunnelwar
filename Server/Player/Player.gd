@@ -33,22 +33,22 @@ func damage(damage_points, knockback_dir):
 	if health_points <= 0:
 		die()
 	else: 
-		rpc("_update_health", name, health_points)
+		rpc("set_health", health_points)
 		if knockback_dir != null:
 			self.knockback_dir = knockback_dir
 			knockback_timer = knockback_time
 		
-func die(): ##todo make this so its 1 call to respawn only w/out passing pos params
-	rpc("respawn", Vector2(gamestate.DEV_SPAWN_X, gamestate.DEV_SPAWN_Y), 20)
+func die():
+	#TODO DEATH SCREEN
+	respawn(Vector2(gamestate.DEV_SPAWN_X, gamestate.DEV_SPAWN_Y), 40) ##placeholder
 
-remotesync func respawn(pos, health_points):
+func respawn(pos, health_points):
 	rpc("set_player_position", pos)
 	self.health_points = health_points
-	rpc("_update_health", name, health_points)
+	rpc("set_health", health_points)
 
 
 puppet func set_input_direction(var direction:Vector2):
-		print("di: ", direction, get_tree().get_rpc_sender_id())
 		input_direction = direction
 
 remotesync func set_player_position(pos):
