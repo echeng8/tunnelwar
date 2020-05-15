@@ -7,7 +7,7 @@ signal shoot
 #gameplay values 
 export var stab_charge_time = 0.5 #seconds you need to pull back in order to stab
 export var vulnerability_time = 1 #seconds you are vulnerable after the stab TODO
-export var stab_speed_reduct_rate = .5
+export var slowed_move_rate = .5
 
 #pull back animation 
 export var pull_back_dist = -2500
@@ -36,12 +36,12 @@ var ShovelNode
 func setup():
 	player_id = get_parent().name
 	name = name + player_id
-
-	_disable_collision(ShovelNode, true)
+	
+	$Shovel.setup()
+	ShovelNode = get_node("Shovel" + player_id)
 	
 	#shooting todo make state
-	$Projectile.setup()
-	ShovelNode = get_node("Projectile" + player_id)
+
 	ShovelNode.connect("_pick_up", self, "_on_shovel_pick_up")
 
 
@@ -54,7 +54,7 @@ func _ready():
 var velocity = Vector2.ZERO
 var newPos = Vector2.ZERO	
 
-######ANIMATION FUNCTIONS to be called by states
+######ANIMATION FUNCTIONS to be called by states (todo put in states?)
 		
 remotesync func _pre_stabbing(currPos, newPos):
 	TweenNode.interpolate_property(self, "position", self.position, newPos, pull_dur, Tween.TRANS_LINEAR, Tween.EASE_OUT)
@@ -62,10 +62,11 @@ remotesync func _pre_stabbing(currPos, newPos):
 
 remotesync func _stabbing(player_id, currPos, newPos):
 	TweenNode.interpolate_property(self, "position", currPos, newPos, stab_dur, Tween.TRANS_LINEAR, Tween.EASE_OUT)
+	print(TweenNode.get_runtime())
+	TweenNode.interpolate_callback(self, stab_dur, "_disable_collision", ShovelNode, true) 
 	TweenNode.start()
 	
 remotesync func _after_stabbing(player_id, currPos, newPos):
-	_disable_collision(ShovelNode, true)
 	TweenNode.interpolate_property(self, "position", currPos, newPos, reset_dur, Tween.TRANS_LINEAR, Tween.EASE_OUT) #todo fix pull-back duration not actually working
 	TweenNode.start()
 
@@ -73,13 +74,15 @@ remotesync func _after_stabbing(player_id, currPos, newPos):
 
 ##HELPER FUNCTION #####################################################
 func _disable_collision(obj, disable):
-	if obj != null:
+	print(obj.name)
+	var obj_ref = weakref(obj)
+	if obj_ref:
 		obj.get_node("CollisionShape2D").disabled = disable
 		
 ##SHOOTING STUFF #########################################################
 func _on_Reload_timeout():
 	$Reload.stop()
-	if !has_node("Projectile" + player_id):
+	if !has_node("Shovel" + player_id):
 		rpc("_reload", player_id)
 
 func _on_shovel_pick_up (player_id):
@@ -87,15 +90,14 @@ func _on_shovel_pick_up (player_id):
 		var shovel = Shovel.instance()
 		call_deferred("add_child", shovel)
 		shovel.call_deferred("setup")
-	
-	
+
 remote func shoot():
-	if has_node("Projectile" + player_id):
+	if has_node("Shovel" + player_id):
 		rpc('shooting', player_id, $Muzzle.global_position, Vector2(1, 0).rotated(self.global_rotation))
 
 remotesync func shooting(player_id, pos, dir):
 	_disable_collision(ShovelNode, false)
-	var shovel = get_node("Projectile" + player_id)
+	var shovel = get_node("Shovel" + player_id)
 	$Reload.start()
 	shovel.get_node("Reload").start()
 	emit_signal('shoot', shovel, pos, dir)

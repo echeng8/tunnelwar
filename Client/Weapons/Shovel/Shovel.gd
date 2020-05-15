@@ -10,15 +10,12 @@ var player_id
 var shovel_position
 
 func _ready():
-	#player_id = get_parent().player_id
-	#print(player_id)
 	position = init_position
 	show_behind_parent = true
 
 func setup():
 	player_id = get_parent().player_id
 	name = name + player_id
-	print("Shovel:" + player_id)
 
 func _process(_delta):
 	if fire == true:	 

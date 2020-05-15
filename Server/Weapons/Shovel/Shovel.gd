@@ -1,10 +1,16 @@
 extends Area2D
 
-export(float) var SPEED = 1000
-export(float) var DAMAGE = 10
-export var STAB_DAMAGE = 10
-export(Vector2) var init_position = Vector2(335, -23)
+############ MECHANICS 
+export(float) var speed = 1000
+export(float) var damage = 10
+
+#knockback stats
+var knockback_speed = 2000 #game units per second
+var knockback_duration = 0.1 #in seconds
+
+############ IMPLEMENTATION
 export(Vector2) var firing_scale = Vector2(.5, .5)
+
 var reflect = false
 
 signal _pick_up
@@ -14,8 +20,7 @@ var direction = 0
 var velocity = 0
 var player_id
 
-func _ready():
-	position = init_position
+func _ready(): 
 	show_behind_parent = true
 
 func setup():
@@ -31,51 +36,30 @@ func _process(delta):
 			reflect = false 
 		global_position +=  velocity * delta
 		rpc_unreliable("_update_shovel_movement", player_id, global_position)
-		
-			
 
 func reflecting():
 	reflect = true
-	
 
 func start(_position, _direction):
-	scale = firing_scale
+	#scale = firing_scale
 	global_position = _position
 	global_rotation = _direction.angle()
-	velocity = _direction * SPEED
+	velocity = _direction * speed
 	fire = true
 		
-func _on_body_entered(body):
-	#print(get_parent().name)
-#	if fire == false and get_parent().name != "ShovelGun" + body.name:
-#		$Reload.stop()
-#		emit_signal('_pick_up', body.name)
-#		rpc('_pick_up', player_id, body.name)
-#		queue_free()
-	if get_parent().name == "ShovelGun" + player_id:
-		if body.name != player_id:
-			var knockdir = Vector2(1, 0).rotated(self.global_rotation)
-			if body.has_method('damage'):
-				body.damage(STAB_DAMAGE, knockdir)
-	else:
-		if body.has_method('damage'):
-			var knockdir = Vector2(1, 0).rotated(self.global_rotation)
-			body.damage(DAMAGE, knockdir)
-			fire = false
-			rpc("destory_shovel", player_id)
-	#fire = false
-	#queue_free()
-#
-#func _on_VisibilityNotifier2D_screen_exited():
-
 remotesync func destory_shovel(player_id):
 	queue_free()
+	
+func _on_body_entered(body):
+	if(body.has_method("get_struck_by")):
+		body.get_struck_by(self) 
+		
+#toddo destroy shovel when shot at someone
 
 func _on_Reload_timeout():
 	$Reload.stop()
 	rpc("_on_Reload_timeout", player_id)
 	rpc("destory_shovel", player_id)
-
 
 func _on_Projectile_area_shape_entered(area_id, area, area_shape, self_shape):
 	print("ShovelArea")

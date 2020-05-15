@@ -13,7 +13,7 @@ script = ExtResource( 1 )
 [node name="Muzzle" type="Position2D" parent="."]
 position = Vector2( 336, 0 )
 
-[node name="Projectile" parent="." instance=ExtResource( 3 )]
+[node name="Shovel" parent="." instance=ExtResource( 3 )]
 show_behind_parent = true
 position = Vector2( 335.439, -23.0358 )
 

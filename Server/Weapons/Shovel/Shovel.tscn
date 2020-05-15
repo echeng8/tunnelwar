@@ -2,7 +2,7 @@
 
 [ext_resource path="res://Weapons/Shovel/Shovel.gd" type="Script" id=1]
 
-[node name="Projectile" type="Area2D" groups=[
+[node name="Shovel" type="Area2D" groups=[
 "shovels",
 ]]
 collision_layer = 4
@@ -20,7 +20,7 @@ scale = Vector2( 2.52064, 1.99761 )
 rect = Rect2( 20, 20, 20, 20 )
 
 [node name="Reload" type="Timer" parent="."]
-wait_time = 8.0
+wait_time = 2.0
 [connection signal="area_shape_entered" from="." to="." method="_on_Projectile_area_shape_entered"]
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="timeout" from="Reload" to="." method="_on_Reload_timeout"]

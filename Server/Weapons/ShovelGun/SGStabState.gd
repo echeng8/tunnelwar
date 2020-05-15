@@ -20,3 +20,4 @@ func process(delta):
 	if(duration > ShovelGun.vulnerability_time): 
 		ShovelGun.rpc("_after_stabbing", ShovelGun.player_id, ShovelGun.position, ShovelGun.init_position)
 		fsm.change_to("SGDefaultState")
+

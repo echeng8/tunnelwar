@@ -29,7 +29,8 @@ func _process(delta):
 		var upValue = -Input.get_action_strength("up")
 		var downValue = Input.get_action_strength("down")
 		var movementValuesMerged = Vector2(leftValue + rightValue, upValue + downValue)
-		rpc_unreliable_id(1, 'set_input_direction', movementValuesMerged)
+		
+		rset_unreliable_id(1, 'input_direction', movementValuesMerged)
 	
 	
 	#TODO refactor

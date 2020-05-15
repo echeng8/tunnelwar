@@ -1,5 +1,7 @@
 extends Node
 
+#todo reg class
+
 var fsm: StateMachine
 
 func enter():

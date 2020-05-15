@@ -7,8 +7,6 @@ func enter():
 	assert("ShovelGun" in ShovelGun.name)
 	
 	ShovelGun._disable_collision(ShovelGun.ShovelNode, true)
-	ShovelGun.get_parent().speed_rate = ShovelGun.normal_speed_rate 
-	
 	
 # Optional handler functions for game loop events
 func process(delta):

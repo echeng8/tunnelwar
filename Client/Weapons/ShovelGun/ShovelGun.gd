@@ -17,14 +17,14 @@ onready var TweenNode = get_node("Tween")
 
 func _ready():
 	#player_id = get_parent().name
-	var shovel = get_node("Projectile" + player_id)
+	var shovel = get_node("Shovel" + player_id)
 	shovel.connect("_pick_up", self, "_on_shovel_pick_up")
 	print(shovel.name)
 
 func setup():
 	player_id = get_parent().name
 	name = name + player_id
-	$Projectile.setup()
+	$Shovel.setup()
 
 func _process(delta):
 	if is_network_master():
@@ -43,9 +43,8 @@ remote func _update_weapon_position(player_id, mouse_position):
 remotesync func _pre_stabbing(currPos, newPos):
 	TweenNode.interpolate_property(self, "position", self.position, newPos, pull_dur, Tween.TRANS_LINEAR, Tween.EASE_OUT)
 	TweenNode.start()
-	print(pull_dur)
 	
-remotesync func _stabbing(player_id, currPos, newPos):
+remote func _stabbing(player_id, currPos, newPos):
 	if self.player_id == player_id:
 		TweenNode.interpolate_property(self, "position", self.position, newPos, stab_dur, Tween.TRANS_LINEAR, Tween.EASE_OUT)
 		TweenNode.start()
@@ -63,8 +62,6 @@ remotesync func _after_stabbing(player_id, currPos, newPos):
 		get_parent().get_node("VulBod/norm_face").visible = true
 		get_parent().get_node("VulBod/vul_face").visible = false
 
-
-
 ##SHOOTING STUFF ############
 
 func _on_shovel_pick_up (player_id):
@@ -75,7 +72,7 @@ func _on_shovel_pick_up (player_id):
 		
 remotesync func shooting(player_id, pos, dir):
 	if self.player_id == player_id:
-		var shovel = get_node("Projectile" + player_id)
+		var shovel = get_node("Shovel" + player_id)
 		emit_signal('shoot', shovel, pos, dir)	
 
 remotesync func _reload(player_id):
