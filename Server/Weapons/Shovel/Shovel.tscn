@@ -5,6 +5,7 @@
 [node name="Shovel" type="Area2D" groups=[
 "shovels",
 ]]
+position = Vector2( 335, -23 )
 collision_layer = 4
 collision_mask = 6
 script = ExtResource( 1 )
@@ -18,9 +19,5 @@ visible = false
 position = Vector2( -47.9776, -62.5688 )
 scale = Vector2( 2.52064, 1.99761 )
 rect = Rect2( 20, 20, 20, 20 )
-
-[node name="Reload" type="Timer" parent="."]
-wait_time = 2.0
 [connection signal="area_shape_entered" from="." to="." method="_on_Projectile_area_shape_entered"]
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
-[connection signal="timeout" from="Reload" to="." method="_on_Reload_timeout"]

@@ -27,14 +27,11 @@ script = ExtResource( 6 )
 [node name="Muzzle" type="Position2D" parent="."]
 position = Vector2( 336, 0 )
 
-[node name="Dash" type="Timer" parent="."]
-wait_time = 0.5
-
-[node name="Reload" type="Timer" parent="."]
-wait_time = 8.0
-
 [node name="Shovel" parent="." instance=ExtResource( 2 )]
 position = Vector2( 335, -23 )
+
+[node name="Reload" type="Timer" parent="."]
+wait_time = 4.0
 
 [node name="Tween" type="Tween" parent="."]
 playback_speed = 10.0

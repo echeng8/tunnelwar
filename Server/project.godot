@@ -26,6 +26,7 @@ run/main_scene="res://World/World.tscn"
 [autoload]
 
 gamestate="*res://Scripts_General/gamestate.gd"
+HelperFunctions="*res://Scripts_General/HelperFunctions.gd"
 
 [layer_names]
 

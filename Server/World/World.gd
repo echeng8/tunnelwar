@@ -10,6 +10,9 @@ func _process(delta):
 	#Server.update_chunks()
 	pass
 	
+
+remotesync func remove_player(id):
+	$Players.get_node(String(id)).queue_free()
 	
 remotesync func spawn_player(spawn_pos, id):
 	var player = Player.instance()
@@ -21,20 +24,9 @@ remotesync func spawn_player(spawn_pos, id):
 	
 	$Players.add_child(player)
 	
-	var Weapon = player.get_node("ShovelGun" + String(id))
-	Weapon.connect("shoot", self, "_on_Weapon_shoot")
 
 
-remotesync func remove_player(id):
-	$Players.get_node(String(id)).queue_free()
-
-func _on_Weapon_shoot(shovel, pos, dir):
-	print("hereshot")
-	shovel.get_parent().remove_child(shovel)
-	$Projectiles.add_child(shovel)
-	shovel.start(pos, dir)
-	#shovel.fire = true
-
+######CHAT STUFF
 remote func _chat_box_received_message(var message: String):
 	var caller_id = get_tree().get_rpc_sender_id()
 	

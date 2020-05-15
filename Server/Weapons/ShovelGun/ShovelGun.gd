@@ -44,7 +44,6 @@ func setup():
 
 	ShovelNode.connect("_pick_up", self, "_on_shovel_pick_up")
 
-
 func _ready():
 	#set animation durations on client
 	rset("pull_dur", pull_dur)
@@ -62,7 +61,6 @@ remotesync func _pre_stabbing(currPos, newPos):
 
 remotesync func _stabbing(player_id, currPos, newPos):
 	TweenNode.interpolate_property(self, "position", currPos, newPos, stab_dur, Tween.TRANS_LINEAR, Tween.EASE_OUT)
-	print(TweenNode.get_runtime())
 	TweenNode.interpolate_callback(self, stab_dur, "_disable_collision", ShovelNode, true) 
 	TweenNode.start()
 	
@@ -74,16 +72,46 @@ remotesync func _after_stabbing(player_id, currPos, newPos):
 
 ##HELPER FUNCTION #####################################################
 func _disable_collision(obj, disable):
-	print(obj.name)
-	var obj_ref = weakref(obj)
-	if obj_ref:
+	var wr = weakref(obj)
+	if (wr.get_ref()):
 		obj.get_node("CollisionShape2D").disabled = disable
 		
 ##SHOOTING STUFF #########################################################
+func shoot():
+	if not has_node("Shovel" + player_id):
+		return 
+	
+	$Reload.start()
+	_disable_collision(ShovelNode, false)
+
+	var g_pos = ShovelNode.global_position
+	var g_rot = ShovelNode.global_rotation 
+	print(" PRE Shovel rotation at", ShovelNode.global_rotation)
+	remove_child(ShovelNode)
+	get_node("/root/World/Projectiles").add_child(ShovelNode)
+	
+	ShovelNode.global_position = g_pos
+	ShovelNode.global_rotation = g_rot
+	
+	
+	print(" after Shovel rotation at", ShovelNode.global_rotation)
+	rpc("reparent_shovelnode")
+	
+	ShovelNode.start()
+
+
+
 func _on_Reload_timeout():
 	$Reload.stop()
 	if !has_node("Shovel" + player_id):
-		rpc("_reload", player_id)
+		rpc("_reload")
+	
+remotesync func _reload():
+	var shovel = Shovel.instance()
+	add_child(shovel)
+	ShovelNode = shovel
+	ShovelNode.setup()
+	_disable_collision(ShovelNode, true) #quickfix to allow melee combat after shooting
 
 func _on_shovel_pick_up (player_id):
 	if self.player_id == player_id:
@@ -91,21 +119,4 @@ func _on_shovel_pick_up (player_id):
 		call_deferred("add_child", shovel)
 		shovel.call_deferred("setup")
 
-remote func shoot():
-	if has_node("Shovel" + player_id):
-		rpc('shooting', player_id, $Muzzle.global_position, Vector2(1, 0).rotated(self.global_rotation))
 
-remotesync func shooting(player_id, pos, dir):
-	_disable_collision(ShovelNode, false)
-	var shovel = get_node("Shovel" + player_id)
-	$Reload.start()
-	shovel.get_node("Reload").start()
-	emit_signal('shoot', shovel, pos, dir)
-	
-remotesync func _reload(player_id):
-	var shovel = Shovel.instance()
-	add_child(shovel)
-	ShovelNode = shovel
-	ShovelNode.setup()
-	_disable_collision(ShovelNode, true) #quickfix to allow melee combat after shooting
-	 

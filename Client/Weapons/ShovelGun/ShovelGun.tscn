@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://Weapons/ShovelGun/ShovelGun.gd" type="Script" id=1]
+[ext_resource path="res://Weapons/ShovelGun.gd" type="Script" id=1]
 [ext_resource path="res://Art/ShovelGun_RifleStock_v1.png" type="Texture" id=2]
 [ext_resource path="res://Weapons/Shovel/Shovel.tscn" type="PackedScene" id=3]
 
@@ -15,7 +15,7 @@ position = Vector2( 336, 0 )
 
 [node name="Shovel" parent="." instance=ExtResource( 3 )]
 show_behind_parent = true
-position = Vector2( 335.439, -23.0358 )
+position = Vector2( 335, -23 )
 
 [node name="Tween" type="Tween" parent="."]
 playback_speed = 10.0

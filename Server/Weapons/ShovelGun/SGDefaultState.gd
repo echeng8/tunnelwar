@@ -13,6 +13,10 @@ func process(delta):
 	ShovelGun.look_at(ShovelGun.mousepos)
 	ShovelGun.rpc_unreliable("_update_weapon_position", ShovelGun.player_id, ShovelGun.mousepos)
 	
+	if ShovelGun.shoot_btn_p:
+		ShovelGun.shoot()
+			
 	#pull-back detection
 	if ShovelGun.stab_btn_p: 
-		 fsm.change_to("SGPulledState")
+		 exit("SGPulledState")
+	
