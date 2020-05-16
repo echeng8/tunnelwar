@@ -4,7 +4,7 @@ extends Area2D
 export(float) var speed = 1000
 export(float) var damage = 10
 
-export var projectile_lifespan = 5 #seconds
+var projectile_lifespan = 5 #seconds 
 #knockback stats
 var knockback_speed = 2000 #game units per second
 var knockback_duration = 0.1 #in seconds
@@ -39,10 +39,8 @@ func _physics_process(delta):
 			
 		position +=  velocity * delta
 		rpc_unreliable("_update_shovel_position", position)
-		
-		if(projectile_lifespan <= 0):
-			rpc("destroy")
-			
+
+
 remotesync func destroy():
 	queue_free()
 

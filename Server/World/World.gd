@@ -24,6 +24,7 @@ remotesync func spawn_player(spawn_pos, id):
 	
 	$Players.add_child(player)
 	
+	
 
 
 ######CHAT STUFF
@@ -39,7 +40,7 @@ remote func _chat_box_received_message(var message: String):
 			rpc_id(caller_id, "_chat_message", "[color=maroon][HAX][/color] prev_speed: " + str(targetPlayer.speed) + ", new_speed: " + messageSplit[1])
 			targetPlayer.speed = int(messageSplit[1])
 		if messageSplit[0] == "!kill":
-			targetPlayer.die()
+			targetPlayer.respawn()
 			
 	else:
 		var gameState = get_node("/root/gamestate")

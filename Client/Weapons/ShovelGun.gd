@@ -58,18 +58,15 @@ remotesync func _after_stabbing(player_id, currPos, newPos):
 		get_parent().get_node("VulBod/vul_face").visible = false
 
 ##SHOOTING STUFF ###############
-
+remote func reparent_shvl_to_projectiles():
+	var ShovelNode = get_node("Shovel"+player_id)
+	HelperFunctions.reparent(ShovelNode, get_node("/root/World/Projectiles"), true)
+	
 func _on_shovel_pick_up (player_id):
 	if self.player_id == player_id:
 		var shovel = Shovel.instance()
 		call_deferred("add_child", shovel)
 		shovel.call_deferred("setup")
-
-#sets parent of shovelnode to World/Projectiles
-remote func reparent_shovelnode():
-	var ShovelNode = get_node("Shovel" + player_id)
-	remove_child(ShovelNode)
-	get_node("/root/World/Projectiles").add_child(ShovelNode)
 
 remotesync func _reload():
 		var shovel = Shovel.instance()

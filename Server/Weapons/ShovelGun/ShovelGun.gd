@@ -83,20 +83,8 @@ func shoot():
 	
 	$Reload.start()
 	_disable_collision(ShovelNode, false)
-
-	var g_pos = ShovelNode.global_position
-	var g_rot = ShovelNode.global_rotation 
-	print(" PRE Shovel rotation at", ShovelNode.global_rotation)
-	remove_child(ShovelNode)
-	get_node("/root/World/Projectiles").add_child(ShovelNode)
 	
-	ShovelNode.global_position = g_pos
-	ShovelNode.global_rotation = g_rot
-	
-	
-	print(" after Shovel rotation at", ShovelNode.global_rotation)
-	rpc("reparent_shovelnode")
-	
+	HelperFunctions.rpc("reparent", ShovelNode.get_path(), "/root/World/Projectiles", true)
 	ShovelNode.start()
 
 
@@ -107,6 +95,7 @@ func _on_Reload_timeout():
 		rpc("_reload")
 	
 remotesync func _reload():
+	ShovelNode.rpc("destroy")
 	var shovel = Shovel.instance()
 	add_child(shovel)
 	ShovelNode = shovel
