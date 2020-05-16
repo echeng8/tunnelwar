@@ -32,15 +32,19 @@ remote func _chat_box_received_message(var message: String):
 	var caller_id = get_tree().get_rpc_sender_id()
 	
 	#is it a command?
-	if message.begins_with("!"):
+	if message.begins_with("/"):
 		var messageSplit:Array = message.split(" ", true, 0)
 		var targetPlayer = get_node("Players/" + str(caller_id))
 		
-		if messageSplit[0] == "!set_s" && messageSplit.size() == 2: #!set_s [speed]
-			rpc_id(caller_id, "_chat_message", "[color=maroon][HAX][/color] prev_speed: " + str(targetPlayer.speed) + ", new_speed: " + messageSplit[1])
+		if messageSplit[0] == "/movespeed": #/speed [units]
+			rpc_id(caller_id, "_chat_message", "[color=maroon][HAX][/color] speed before: " + str(targetPlayer.speed) + ", after: " + messageSplit[1])
 			targetPlayer.speed = int(messageSplit[1])
-		if messageSplit[0] == "!kill":
+		if messageSplit[0] == "/kill":
 			targetPlayer.respawn()
+		if messageSplit[0] == "/vultime":
+			var msg = "[color=maroon][HAX][/color] vultime before: " + str(targetPlayer.ShovelGun.vulnerability_time) + ", after: : " + messageSplit[1]
+			rpc_id(caller_id, "_chat_message", msg)
+			targetPlayer.ShovelGun.vulnerability_time = float(messageSplit[1])
 			
 	else:
 		var gameState = get_node("/root/gamestate")

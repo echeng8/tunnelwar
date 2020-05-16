@@ -23,12 +23,23 @@ func _update_chat_message_box(message):
 	#[color=green]youText[/color]
 	#chatTextLabelRef.append_bbcode("%s" % message)
 
-
+func _input(ev):
+	var just_pressed = ev.is_pressed() and not ev.is_echo()
+	if Input.is_key_pressed(KEY_ENTER) and just_pressed:
+		print('he')
+		if $UserInput.has_focus():
+			_on_SendButton_pressed()
+		else:
+			$UserInput.grab_focus() 
+			
 func _on_SendButton_pressed() -> void:
+	$UserInput.release_focus()
+	if  $UserInput.text == "":
+		return
 	var world = get_node("/root/World")
 #	var uniqueNID = get_tree().get_network_unique_id()
-	world.rpc_id(1, "_chat_box_received_message", $"UserInput".text)
-	#reset text
+	world.rpc_id(1, "_chat_box_received_message", $UserInput.text)
+
 	$UserInput.text = ""
 
 

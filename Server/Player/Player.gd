@@ -9,11 +9,11 @@ puppet var input_direction =  Vector2.ZERO
 
 signal struck_by(node) 
 
-var shovelgun
+var ShovelGun
 #initialization
 func setup():
-	shovelgun = $ShovelGun
-	shovelgun.setup()
+	ShovelGun = $ShovelGun
+	ShovelGun.setup()
 
 remote func on_client_node_connect():	#called when client node is ready
 	rpc("set_health", health_points)

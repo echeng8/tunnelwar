@@ -9,11 +9,11 @@ func enter():
 	player.connect("struck_by", self, "_on_struck_by")
 	
 func physics_process(delta):
-	#TODO change speed based on shovelgun 
-	var isShovelgunAttacking = not player.shovelgun.find_node("StateMachine").state.name == "SGDefaultState"
+	#TODO change speed based on ShovelGun 
+	var isShovelgunAttacking = not player.ShovelGun.find_node("StateMachine").state.name == "SGDefaultState"
 	var velocity = player.input_direction.normalized() * player.speed
 	if isShovelgunAttacking:
-		velocity = velocity * player.shovelgun.slowed_move_rate  
+		velocity = velocity * player.ShovelGun.slowed_move_rate  
 		
 	player.move_and_slide(velocity, Vector2(0,0))
 	player.rpc_unreliable("set_player_position", player.position)
