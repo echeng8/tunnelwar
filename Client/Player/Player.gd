@@ -10,10 +10,6 @@ func _ready():
 	if is_network_master():
 		_parent_camera_to_me()	
 	rpc_id(1, "on_client_node_connect")
-
-
-func setup():
-	$ShovelGun.setup()
 	
 	
 func update_GUI():

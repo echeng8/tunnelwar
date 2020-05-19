@@ -20,7 +20,6 @@ remotesync func spawn_player(spawn_pos, id):
 	player.position = spawn_pos
 	player.name = String(id) # Important
 	player.set_network_master(id) # Important
-	player.setup()
 	
 	$Players.add_child(player)
 	
@@ -42,9 +41,9 @@ remote func _chat_box_received_message(var message: String):
 		if messageSplit[0] == "/kill":
 			targetPlayer.respawn()
 		if messageSplit[0] == "/vultime":
-			var msg = "[color=maroon][HAX][/color] vultime before: " + str(targetPlayer.ShovelGun.vulnerability_time) + ", after: : " + messageSplit[1]
+			var msg = "[color=maroon][HAX][/color] vultime before: " + str(targetPlayer.get_node("ShovelGun").vulnerability_time) + ", after: : " + messageSplit[1]
 			rpc_id(caller_id, "_chat_message", msg)
-			targetPlayer.ShovelGun.vulnerability_time = float(messageSplit[1])
+			targetPlayer.get_node("ShovelGun").vulnerability_time = float(messageSplit[1])
 			
 	else:
 		var gameState = get_node("/root/gamestate")

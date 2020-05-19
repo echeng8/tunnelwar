@@ -7,16 +7,14 @@ func enter():
 	ShovelGun = get_parent().get_parent()
 	assert("ShovelGun" in ShovelGun.name) 
 
-	ShovelGun.velocity = Vector2(1, 0).rotated(ShovelGun.rotation) * ShovelGun.stabbing_dist
-	ShovelGun.newPos = ShovelGun.position + (ShovelGun.velocity * 1/60)
-	ShovelGun.rpc("_stabbing", ShovelGun.position, ShovelGun.newPos)
-	
 	duration = 0
+	
 # Optional handler functions for game loop events
 func process(delta):
 	duration += delta
 	
-	if(duration > ShovelGun.stab_dur): 
+	if(duration > ShovelGun.vulnerability_time):
 		print(duration)
-		fsm.change_to("SGVulnerableState")
+		ShovelGun.rpc("_after_stabbing", ShovelGun.position, ShovelGun.init_position)
+		fsm.change_to("SGDefaultState")
 

@@ -16,6 +16,8 @@ remotesync func reparent(node1_path, node2_path, keep_transform = true):
 		var last_char = node1.name[node1.name.length() - 1]
 		if last_char.is_valid_integer():
 			node1.name = node1.name.substr(0,  node1.name.length() - 1) + str(last_char.to_int() + 1)
+		else:
+			node1.name += "1"
 			
 	node2.add_child(node1)
 	

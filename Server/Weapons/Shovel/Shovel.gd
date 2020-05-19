@@ -1,7 +1,8 @@
 extends Area2D
 
 ############ MECHANICS 
-export(float) var speed = 1000
+
+export(float) var speed = 1000 #as projectile
 export(float) var damage = 10
 
 var projectile_lifespan = 5 #seconds 
@@ -10,25 +11,17 @@ var projectile_lifespan = 5 #seconds
 var knockback_speed = 2000 #game units per second
 var knockback_duration = 0.1 #in seconds
 
-#IMPLEMENTATION VARIABLES
-var inShovelGun = true 
 
-signal _pick_up
 
 var direction = 0
 var velocity = Vector2(0,0)
-var player_id
 
 func _ready(): 
 	show_behind_parent = true
-
-func setup():
-	player_id = get_parent().player_id
-	name = name + player_id
-	add_to_group("shovels")
+	add_to_group("Shovels")
 
 func _physics_process(delta):
-	if not inShovelGun: 
+	if not get_parent().name == "ShovelGun": 
 		projectile_lifespan -= delta
 		
 	if velocity.length() > 0:
@@ -37,31 +30,30 @@ func _physics_process(delta):
 	
 	if projectile_lifespan < 0:
 		rpc("destroy")
-
-
+		
 remotesync func destroy():
 	queue_free()
 
 func fire():
 	velocity = Vector2(1,0).rotated(rotation) * speed
-	inShovelGun = false
-
 
 #####COLLISIONS
+#TODO LET SHOVELGUN TOGGLE THESE PROPERTIES
 func _on_body_entered(body):
 	if body.is_in_group("Players") and body.has_method("get_struck_by"):
-		if inShovelGun and get_parent().get_node("StateMachine").state.name == "SGStabState":
-			body.get_struck_by(self)
+		if get_parent().name == "ShovelGun": #melee hit
+			if get_parent().get_node("StateMachine").state.name == "SGStabState": 
+				body.get_struck_by(self)
 		else: 
 			if velocity == Vector2(0,0):
-				if not body.ShovelGun.isLoaded(): # pick up 
-					body.ShovelGun.rpc("reload")	 #todo use get_node
+				if not body.get_node("ShovelGun").isLoaded(): # pick up 
+					body.get_node("ShovelGun").rpc("reload")	 
 					rpc("destroy")
-			else:
+			else: #ranged hit
 				body.get_struck_by(self)
 				velocity = Vector2(0,0)
 
 func _on_Shovel_area_entered(area): #hit an activated ShovelGun
-	if not inShovelGun: #reflected 
+	if not get_parent().name == "ShovelGun" and area.get_parent().get_node("StateMachine").state.name == "SGPulledState": #reflected
 		velocity = -velocity 
 		#TODO flip shovel sprite on client

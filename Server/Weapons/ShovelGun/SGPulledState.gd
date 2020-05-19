@@ -7,7 +7,6 @@ func enter():
 	ShovelGun = get_parent().get_parent()
 	assert("ShovelGun" in ShovelGun.name) 
 	
-	ShovelGun._disable_collision(ShovelGun.ShovelNode, false)  #todo allow people to pick up SG while pulled back for epic maneuver
 	ShovelGun.velocity = Vector2(1, 0).rotated(ShovelGun.rotation) * ShovelGun.pull_back_dist
 	ShovelGun.newPos = ShovelGun.position + (ShovelGun.velocity * 1/60) #1/60 to simulate delta
 	ShovelGun.rpc("_pre_stabbing", ShovelGun.position, ShovelGun.newPos)
@@ -21,6 +20,6 @@ func process(delta):
 		if duration > ShovelGun.stab_charge_time:
 			fsm.change_to("SGStabState")
 		else:
-			ShovelGun.rpc("_after_stabbing", ShovelGun.player_id, ShovelGun.position, ShovelGun.init_position)
+			ShovelGun.rpc("_after_stabbing", ShovelGun.position, ShovelGun.init_position)
 			fsm.change_to("SGDefaultState") 
 
