@@ -39,7 +39,7 @@ func _process(delta):
 func _physics_process(delta):
 	if state.has_method("physics_process"):
 		state.physics_process(delta)
-
+		
 func _input(event):
 	if state.has_method("input"):
 		state.input(event)

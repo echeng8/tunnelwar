@@ -6,4 +6,4 @@ func enter():
 	assert(player is KinematicBody2D) 
 	
 	#todo death screen
-	player.respawn(Vector2(gamestate.DEV_SPAWN_X, gamestate.DEV_SPAWN_Y), 40) ##placeholder
+	player.respawn() ##placeholder

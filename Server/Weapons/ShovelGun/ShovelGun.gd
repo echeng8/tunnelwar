@@ -6,7 +6,7 @@ signal shoot
 
 #gameplay values 
 export var stab_charge_time = 0.5 #seconds you need to pull back in order to stab
-export var vulnerability_time = 1 #seconds you are vulnerable after the stab TODO
+export var vulnerability_time = 0.75 #seconds you are vulnerable after the stab TODO
 export var slowed_move_rate = .5
 
 #pull back animation 
@@ -74,38 +74,32 @@ remotesync func _after_stabbing(player_id, currPos, newPos):
 func _disable_collision(obj, disable):
 	var wr = weakref(obj)
 	if (wr.get_ref()):
-		obj.get_node("CollisionShape2D").disabled = disable
+		obj.get_node("CollisionShape2D").set_deferred("disabled", disable)
 		
 ##SHOOTING STUFF #########################################################
 func shoot():
-	if not has_node("Shovel" + player_id):
+	if not isLoaded():
 		return 
 	
 	$Reload.start()
 	_disable_collision(ShovelNode, false)
 	
 	HelperFunctions.rpc("reparent", ShovelNode.get_path(), "/root/World/Projectiles", true)
-	ShovelNode.start()
+	ShovelNode.fire()
 
 
-
+func isLoaded(): 
+	return has_node("Shovel" + player_id)
+	
 func _on_Reload_timeout():
 	$Reload.stop()
-	if !has_node("Shovel" + player_id):
-		rpc("_reload")
+	if not isLoaded():
+		rpc("reload")
 	
-remotesync func _reload():
-	ShovelNode.rpc("destroy")
+remotesync func reload():
 	var shovel = Shovel.instance()
-	add_child(shovel)
+	call_deferred("add_child", shovel)
+	shovel.call_deferred("setup")
 	ShovelNode = shovel
-	ShovelNode.setup()
 	_disable_collision(ShovelNode, true) #quickfix to allow melee combat after shooting
-
-func _on_shovel_pick_up (player_id):
-	if self.player_id == player_id:
-		var shovel = Shovel.instance()
-		call_deferred("add_child", shovel)
-		shovel.call_deferred("setup")
-
 

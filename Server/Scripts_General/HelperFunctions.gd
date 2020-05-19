@@ -10,6 +10,13 @@ remotesync func reparent(node1_path, node2_path, keep_transform = true):
 	var g_scale = node1.global_scale
 	
 	node1.get_parent().remove_child(node1)
+	
+	
+	while node2.has_node(node1.name):
+		var last_char = node1.name[node1.name.length() - 1]
+		if last_char.is_valid_integer():
+			node1.name = node1.name.substr(0,  node1.name.length() - 1) + str(last_char.to_int() + 1)
+			
 	node2.add_child(node1)
 	
 	node1.global_position = g_pos

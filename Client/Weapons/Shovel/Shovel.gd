@@ -23,11 +23,5 @@ remote func _update_shovel_position(shovel_position):
 		self.position = shovel_position
 		
 
+							   
 
-#remote func _pick_up(shovel_player_id, player_id):
-#	if self.player_id == shovel_player_id:
-#		emit_signal('_pick_up', player_id)
-#		print("queue4")
-#		queue_free()                                        
-	
-#

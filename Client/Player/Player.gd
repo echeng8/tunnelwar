@@ -23,6 +23,7 @@ func update_GUI():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+	#Control.get_focus_owner()
 	if is_network_master():
 		var leftValue = -Input.get_action_strength("left")
 		var rightValue = Input.get_action_strength("right")
@@ -31,7 +32,6 @@ func _process(delta):
 		var movementValuesMerged = Vector2(leftValue + rightValue, upValue + downValue)
 		
 		rset_unreliable_id(1, 'input_direction', movementValuesMerged)
-	
 	
 	#TODO refactor
 	if is_network_master():

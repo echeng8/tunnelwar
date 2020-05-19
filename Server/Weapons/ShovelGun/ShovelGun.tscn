@@ -28,7 +28,6 @@ script = ExtResource( 6 )
 position = Vector2( 336, 0 )
 
 [node name="Shovel" parent="." instance=ExtResource( 2 )]
-position = Vector2( 335, -23 )
 
 [node name="Reload" type="Timer" parent="."]
 wait_time = 4.0
