@@ -61,8 +61,8 @@ func shoot():
 	
 	$Reload.start()
 	var ShovelNode = get_node("Shovel")
-	HelperFunctions.rpc("reparent", get_node("Shovel").get_path(), "/root/World/Projectiles", true) #TODO server > client side projectile code
-	ShovelNode.fire()
+	HelperFunctions.rpc("reparent", get_node("Shovel").get_path(), "/root/World/Items", true) #TODO server > client side projectile codeZ
+	ShovelNode.get_node("StateMachine").change_to("ShShotState")
 
 
 

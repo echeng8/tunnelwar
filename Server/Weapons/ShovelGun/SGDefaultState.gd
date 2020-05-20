@@ -6,6 +6,10 @@ func enter():
 	ShovelGun = get_parent().get_parent()
 	assert("ShovelGun" in ShovelGun.name)
 	
+	if ShovelGun.isLoaded():
+		ShovelGun.get_node("Shovel").get_node("StateMachine").call_deferred("change_to", "ShDefaultState")
+		
+		
 # Optional handler functions for game loop events
 func process(delta):
 	ShovelGun.look_at(ShovelGun.mousepos)

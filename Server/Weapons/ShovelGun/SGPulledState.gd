@@ -11,6 +11,9 @@ func enter():
 	ShovelGun.newPos = ShovelGun.position + (ShovelGun.velocity * 1/60) #1/60 to simulate delta
 	ShovelGun.rpc("_pre_stabbing", ShovelGun.position, ShovelGun.newPos)
 	
+	if ShovelGun.isLoaded():
+		ShovelGun.get_node("Shovel").get_node("StateMachine").change_to("ShChargedState")
+		 
 	duration = 0
 	
 # Optional handler functions for game loop events

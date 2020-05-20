@@ -9,6 +9,10 @@ func enter():
 
 	duration = 0
 	
+	if ShovelGun.isLoaded():
+		ShovelGun.get_node("Shovel").get_node("StateMachine").change_to("ShDefaultState")
+		
+		
 # Optional handler functions for game loop events
 func process(delta):
 	duration += delta
