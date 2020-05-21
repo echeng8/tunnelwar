@@ -76,7 +76,7 @@ func pre_start_game():
 	
 	# Load world
 	get_node("/root/Main").hide()
-	var world = load("res://World.tscn").instance()
+	var world = load("res://World/World.tscn").instance()
 	get_tree().get_root().add_child(world)
 	
 	# Tell Server we ready to roll

@@ -22,7 +22,8 @@ func _process(delta):
 
 remote func _update_weapon_position(mouse_position):
 		look_at(mouse_position)
-		
+
+###ANIMATION ##################
 remotesync func _pre_stabbing(currPos, newPos):
 	TweenNode.interpolate_property(self, "position", self.position, newPos, pull_dur, Tween.TRANS_LINEAR, Tween.EASE_OUT)
 	TweenNode.start()
@@ -44,6 +45,8 @@ remotesync func _after_stabbing(currPos, newPos):
 	get_parent().get_node("VulBod/vul_face").visible = false
 
 ##SHOOTING STUFF ###############
+remotesync func shoot():
+	$Shovel.visible = false  
 remotesync func reload():
-	var shovel = Shovel.instance()
-	call_deferred("add_child", shovel)
+	$Shovel.visible = true
+	#todo toggle shovel visible

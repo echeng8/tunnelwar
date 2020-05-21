@@ -15,8 +15,8 @@ func process(delta):
 	ShovelGun.look_at(ShovelGun.mousepos)
 	ShovelGun.rpc_unreliable("_update_weapon_position", ShovelGun.mousepos)
 	
-	if ShovelGun.shoot_btn_p:
-		ShovelGun.call_deferred("shoot")
+	if ShovelGun.shoot_btn_p and ShovelGun.isLoaded():
+		ShovelGun.rpc("shoot")
 			
 	#pull-back detection
 	if ShovelGun.stab_btn_p: 

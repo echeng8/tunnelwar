@@ -1,6 +1,6 @@
 extends Node2D
 
-onready var Player = load("res://Player/Player.tscn")
+const Player = preload("res://Player/Player.tscn")
 
 func _ready():
 	#Server.initialize_world()

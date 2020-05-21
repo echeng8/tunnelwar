@@ -34,6 +34,8 @@ func _ready():
 	rset("pull_dur", pull_dur)
 	rset("stab_dur", stab_dur)
 	rset("reset_dur", reset_dur)
+
+
 	
 var velocity = Vector2.ZERO
 var newPos = Vector2.ZERO	
@@ -55,16 +57,15 @@ remotesync func _after_stabbing(currPos, newPos):
 
 		
 ##SHOOTING STUFF #########################################################
-func shoot():
-	if not isLoaded():
-		return 
-	
+remotesync func shoot():
 	$Reload.start()
 	var ShovelNode = get_node("Shovel")
-	HelperFunctions.rpc("reparent", get_node("Shovel").get_path(), "/root/World/Items", true) #TODO server > client side projectile codeZ
-	ShovelNode.get_node("StateMachine").change_to("ShShotState")
+	get_node("/root/World/Items").add_item(ShovelNode)
+	ShovelNode.get_node("StateMachine").call_deferred("change_to", "ShShotState")
 
-
+remotesync func reload():
+	var shovel = Shovel.instance()
+	call_deferred("add_child", shovel)
 
 func isLoaded(): 
 	return has_node("Shovel")
@@ -74,7 +75,5 @@ func _on_Reload_timeout():
 	if not isLoaded():
 		rpc("reload")
 	
-remotesync func reload():
-	var shovel = Shovel.instance()
-	call_deferred("add_child", shovel)
+
 

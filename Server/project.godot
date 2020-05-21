@@ -9,12 +9,18 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Area2D",
+"class": "Shovel",
+"language": "GDScript",
+"path": "res://Weapons/Shovel/Shovel.gd"
+}, {
 "base": "Node",
 "class": "StateMachine",
 "language": "GDScript",
 "path": "res://Scripts_General/Base_Classes/FSM/StateMachine.gd"
 } ]
 _global_script_class_icons={
+"Shovel": "",
 "StateMachine": ""
 }
 

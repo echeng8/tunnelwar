@@ -23,6 +23,3 @@ remote func _chat_message(message):
 
 func get_player_info(id):
 	return get_node("/root/World/Players/" + str(id))
-
-
-
