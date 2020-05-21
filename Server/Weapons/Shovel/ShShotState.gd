@@ -10,8 +10,11 @@ func enter():
 	velocity = Vector2(1,0).rotated(ShovelNode.rotation) * ShovelNode.speed
 	duration = 0
 	
-func _process(delta):
+func process(delta):
 		duration += delta
+		
+		if(duration > ShovelNode.pickup_lifespan):
+			ShovelNode.rpc("destroy")
 		
 func physics_process(delta):
 	if velocity.length() > 0:
