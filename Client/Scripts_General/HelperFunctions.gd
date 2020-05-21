@@ -11,6 +11,7 @@ remotesync func reparent(node1_path, node2_path, keep_transform = true):
 	
 	node1.get_parent().remove_child(node1)
 	
+	
 	while node2.has_node(node1.name):
 		var last_char = node1.name[node1.name.length() - 1]
 		if last_char.is_valid_integer():

@@ -1,12 +1,7 @@
 extends Node
 
-####DEBUG VARIABLES####
-const DEV_SPAWN_X = 500
-const DEV_SPAWN_Y = 500
-####/DEBUG VARIABLES####
-
 # Default game port
-const DEFAULT_PORT = 25525
+const DEFAULT_PORT = 44444
 
 # Max number of players
 const MAX_PLAYERS = 12
@@ -17,7 +12,6 @@ var players = {}
 
 func _ready():
 	get_tree().connect("network_peer_connected", self, "_player_connected")
-	get_tree().connect("network_peer_disconnected", self,"_player_disconnected")
 	
 	create_server()
 
@@ -33,8 +27,8 @@ func _player_connected(_id):
 	print("Client ", _id, " connected")
 
 
-# Callback from SceneTree, called when client disconnects
-func _player_disconnected(id):
+# Called by client, called when client disconnects
+remote func player_disconnected(id):
 	if players.has(id):
 		_chat_box_notify_disconnected(id)
 		rpc("unregister_player", id)
@@ -42,6 +36,17 @@ func _player_disconnected(id):
 	
 	print("Client ", id, " disconnected")
 
+func _chat_box_notify_disconnected(id):
+	var world = get_node("/root/World")
+	
+	#Tell existing clients that player disconnected...
+	var dcName = str(players[id])
+	var message = "Player disconnected: " + dcName
+	if dcName == "Machineman1357":
+		message = "Our supreme [color=purple]Lead Artist[/color] [color=green]Machineman1357[/color] has departed!"
+	for p_id in players:
+		if p_id != id:
+			world.rpc_id(p_id, "_chat_message", message)
 
 # Player management functions
 remote func register_player(new_player_name):
@@ -78,37 +83,10 @@ remote func populate_world():
 	for player in world.get_node("Players").get_children():
 		world.rpc_id(caller_id, "spawn_player", player.position, player.get_network_master())
 	
-	world.get_node("Items").spawn_items_in(caller_id)
-	
-		
-	
 	# Spawn new player everywhere
-	world.rpc("spawn_player", Vector2(DEV_SPAWN_X, DEV_SPAWN_Y), caller_id)
+	world.rpc("spawn_player", Vector2(500, 500), caller_id)
 	
 	_chat_box_notify_connection(caller_id)
-
-# Return random 2D vector inside bounds 0, 0, bound_x, bound_y
-func random_vector2(bound_x, bound_y):
-	return Vector2(randf() * bound_x, randf() * bound_y)
-
-
-func get_player_info(id):
-	return get_node("/root/World/Players/" + str(id))
-
-
-##CHATBOX STUFF TODO MOVE ELSEWHERE
-func _chat_box_notify_disconnected(id):
-	var world = get_node("/root/World")
-	
-	#Tell existing clients that player disconnected...
-	var dcName = str(players[id])
-	var message = "Player disconnected: " + dcName
-	if dcName == "Machineman1357":
-		message = "Our supreme [color=purple]Lead Artist[/color] [color=green]Machineman1357[/color] has departed!"
-	for p_id in players:
-		if p_id != id:
-			world.rpc_id(p_id, "_chat_message", message)
-
 
 func _chat_box_notify_connection(caller_id):
 	var world = get_node("/root/World")
@@ -124,3 +102,12 @@ func _chat_box_notify_connection(caller_id):
 	for p_id in players:
 		if p_id != caller_id:
 			world.rpc_id(p_id, "_chat_message", message)
+
+# Return random 2D vector inside bounds 0, 0, bound_x, bound_y
+func random_vector2(bound_x, bound_y):
+	return Vector2(randf() * bound_x, randf() * bound_y)
+
+
+func get_player_info(id):
+	return get_node("/root/World/Players/" + str(id))
+

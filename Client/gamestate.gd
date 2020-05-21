@@ -87,6 +87,10 @@ func pre_start_game():
 func get_player_info(id):
 	return get_node("/root/World/Players/" + str(id))
 
+# Let Server know we're disconnecting when the game is closed
+func _notification(what):
+	if what == NOTIFICATION_PREDELETE:
+		rpc_id(1, "player_disconnected")
 
 
 

@@ -3,12 +3,10 @@ extends Node2D
 const Player = preload("res://Player/Player.tscn")
 
 func _ready():
-	#Server.initialize_world()
-	pass
+	Server.initialize_world()
 	
 func _process(delta):
-	#Server.update_chunks()
-	pass
+	Server.update_chunks()
 	
 
 remotesync func remove_player(id):
@@ -51,6 +49,16 @@ remote func _chat_box_received_message(var message: String):
 			var senderName = str(gameState.players[caller_id])
 			var combinedMsg = senderName + ": " + message
 			rpc_id(p_id, "_chat_message", combinedMsg)
+			
+# TODO: call this function when shovel collides with block with enough force
+func break_block(block_pos):
+	print(block_pos)
+	# Check if block is breakable or not
+	if Server.is_block_breakable(block_pos):
+		# Remove block from map storage and make chunk unrendered for all players in it
+		Server.remove_block(block_pos)
+		# TODO: Create block-break particles for dirt
+	# TODO: Create block-break particles for bedrock/unbreakable block
 
 
 

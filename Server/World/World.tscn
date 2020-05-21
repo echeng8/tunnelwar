@@ -1,8 +1,75 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://World/World.gd" type="Script" id=1]
-[ext_resource path="res://World/Block/Block.tscn" type="PackedScene" id=2]
+[ext_resource path="res://World/DirtTileSet.png" type="Texture" id=2]
 [ext_resource path="res://World/Items.gd" type="Script" id=3]
+[ext_resource path="res://World/Vector_dirt_tileset.png" type="Texture" id=4]
+
+[sub_resource type="ConvexPolygonShape2D" id=1]
+points = PoolVector2Array( 64, 64, 0, 64, 0, 0, 64, 0 )
+
+[sub_resource type="ConvexPolygonShape2D" id=2]
+points = PoolVector2Array( 0, 0, 64, 0, 64, 64, 0, 64 )
+
+[sub_resource type="TileSet" id=3]
+0/name = "DirtTileSet.png 0"
+0/texture = ExtResource( 2 )
+0/tex_offset = Vector2( 0, 0 )
+0/modulate = Color( 1, 1, 1, 1 )
+0/region = Rect2( 0, 0, 64, 64 )
+0/tile_mode = 0
+0/occluder_offset = Vector2( 0, 0 )
+0/navigation_offset = Vector2( 0, 0 )
+0/shape_offset = Vector2( 0, 0 )
+0/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+0/shape_one_way = false
+0/shape_one_way_margin = 0.0
+0/shapes = [  ]
+0/z_index = 0
+1/name = "Vector_dirt_tileset.png 1"
+1/texture = ExtResource( 4 )
+1/tex_offset = Vector2( 0, 0 )
+1/modulate = Color( 1, 1, 1, 1 )
+1/region = Rect2( 0, 64, 64, 64 )
+1/tile_mode = 0
+1/occluder_offset = Vector2( 0, 0 )
+1/navigation_offset = Vector2( 0, 0 )
+1/shape_offset = Vector2( 0, 0 )
+1/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+1/shape = SubResource( 1 )
+1/shape_one_way = false
+1/shape_one_way_margin = 1.0
+1/shapes = [ {
+"autotile_coord": Vector2( 0, 0 ),
+"one_way": false,
+"one_way_margin": 1.0,
+"shape": SubResource( 1 ),
+"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
+} ]
+1/z_index = 0
+2/name = "Vector_dirt_tileset.png 2"
+2/texture = ExtResource( 4 )
+2/tex_offset = Vector2( 0, 0 )
+2/modulate = Color( 1, 1, 1, 1 )
+2/region = Rect2( 64, 64, 64, 64 )
+2/tile_mode = 0
+2/occluder_offset = Vector2( 0, 0 )
+2/navigation_offset = Vector2( 0, 0 )
+2/shape_offset = Vector2( 0, 0 )
+2/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+2/shape = SubResource( 2 )
+2/shape_one_way = false
+2/shape_one_way_margin = 1.0
+2/shapes = [ {
+"autotile_coord": Vector2( 0, 0 ),
+"one_way": false,
+"one_way_margin": 1.0,
+"shape": SubResource( 2 ),
+"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
+} ]
+2/z_index = 0
+
+[sub_resource type="CircleShape2D" id=4]
 
 [node name="World" type="Node2D"]
 script = ExtResource( 1 )
@@ -16,13 +83,15 @@ __meta__ = {
 "
 }
 
-[node name="Blocks" type="Node" parent="."]
+[node name="TileCollision" type="StaticBody2D" parent="."]
+collision_layer = 5
+collision_mask = 2
 
-[node name="Block" parent="Blocks" instance=ExtResource( 2 )]
-position = Vector2( 487.815, 493.42 )
+[node name="TileMap" type="TileMap" parent="TileCollision"]
+tile_set = SubResource( 3 )
+collision_use_parent = true
+format = 1
 
-[node name="Block2" parent="Blocks" instance=ExtResource( 2 )]
-position = Vector2( 487.815, 293.553 )
-
-[node name="Block3" parent="Blocks" instance=ExtResource( 2 )]
-position = Vector2( 686.568, 293.553 )
+[node name="UselessButNecessary" type="CollisionShape2D" parent="TileCollision"]
+shape = SubResource( 4 )
+disabled = true
