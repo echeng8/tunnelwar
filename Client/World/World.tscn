@@ -1,8 +1,7 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://UI/ScreenHUD.tscn" type="PackedScene" id=1]
 [ext_resource path="res://World/World.gd" type="Script" id=3]
-[ext_resource path="res://World/Items.gd" type="Script" id=4]
 
 [sub_resource type="Image" id=3]
 data = {
@@ -23,7 +22,8 @@ script = ExtResource( 3 )
 [node name="Players" type="Node" parent="."]
 
 [node name="Items" type="Node" parent="."]
-script = ExtResource( 4 )
+
+[node name="Blocks" type="Node" parent="."]
 
 [node name="ScreenHUD" parent="." instance=ExtResource( 1 )]
 

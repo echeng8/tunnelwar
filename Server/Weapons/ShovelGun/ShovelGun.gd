@@ -60,7 +60,7 @@ remotesync func _after_stabbing(currPos, newPos):
 remotesync func shoot():
 	$Reload.start()
 	var ShovelNode = get_node("Shovel")
-	get_node("/root/World/Items").add_item(ShovelNode)
+	get_node("/root/World").add_item(ShovelNode)
 	ShovelNode.get_node("StateMachine").call_deferred("change_to", "ShShotState")
 
 remotesync func reload():

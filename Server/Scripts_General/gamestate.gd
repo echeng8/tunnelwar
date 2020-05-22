@@ -37,56 +37,28 @@ func _player_connected(_id):
 func _player_disconnected(id):
 	if players.has(id):
 		_chat_box_notify_disconnected(id)
-		rpc("unregister_player", id)
 		get_node("/root/World").rpc("remove_player", id)
+		
+		players.erase(id)
+		rset("players", players)
 	
 	print("Client ", id, " disconnected")
 
 
 # Player management functions
 remote func register_player(new_player_name):
-	# We get id this way instead of as parameter, to prevent users from pretending to be other users
 	var caller_id = get_tree().get_rpc_sender_id()
-	
-	#Server.register_player(caller_id, new_player_name)
-	
-	# Add him to our list
 	players[caller_id] = new_player_name
-	
-	# Add everyone to new player:
-	for p_id in players:
-		rpc_id(caller_id, "register_player", p_id, players[p_id]) # Send each player to new dude
-	
-	rpc("register_player", caller_id, players[caller_id]) # Send new dude to all players
-	# NOTE: this means new player's register gets called twice, but fine as same info sent both times
+	rset("players", players) 
 	
 	print("Client ", caller_id, " registered as ", new_player_name)
+	
+	get_node("/root/World").rpc("spawn_player", Vector2(DEV_SPAWN_X, DEV_SPAWN_Y), caller_id)
+	get_node("/root/World").spawn_everything_in(caller_id)
 
-
-puppetsync func unregister_player(id):
-	players.erase(id)
-	#Server.unregister_player(id)
-	
-	print("Client ", id, " was unregistered")
-
-
-remote func populate_world():
-	var caller_id = get_tree().get_rpc_sender_id()
-	var world = get_node("/root/World")
-	
-	# Spawn all current players on new client
-	for player in world.get_node("Players").get_children():
-		world.rpc_id(caller_id, "spawn_player", player.position, player.get_network_master())
-	
-	world.get_node("Items").spawn_items_in(caller_id)
-	
-		
-	
-	# Spawn new player everywhere
-	world.rpc("spawn_player", Vector2(DEV_SPAWN_X, DEV_SPAWN_Y), caller_id)
-	
 	_chat_box_notify_connection(caller_id)
 
+	
 # Return random 2D vector inside bounds 0, 0, bound_x, bound_y
 func random_vector2(bound_x, bound_y):
 	return Vector2(randf() * bound_x, randf() * bound_y)
