@@ -14,5 +14,5 @@ func on_body_entered(body):
 	try_damage_player(body)
 
 func try_damage_player(body):
-	if body.is_in_group("Players") and body.has_method("get_struck_by"):
+	if body.has_method("get_struck_by"):
 		body.get_struck_by(ShovelNode)

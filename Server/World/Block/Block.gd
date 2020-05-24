@@ -7,9 +7,5 @@ extends StaticBody2D
 
 
 func get_struck_by(body):
-	pass 
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
+	$CollisionShape2D.call_deferred("Disabled", true)
+	rpc("set_broke", true)

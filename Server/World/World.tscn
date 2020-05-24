@@ -17,10 +17,64 @@ __meta__ = {
 [node name="Blocks" type="Node" parent="."]
 
 [node name="Block" parent="Blocks" instance=ExtResource( 2 )]
-position = Vector2( 487.815, 493.42 )
+position = Vector2( 101.4, 286.643 )
+
+[node name="Block21" parent="Blocks" instance=ExtResource( 2 )]
+position = Vector2( 104.74, 660.764 )
+
+[node name="Block10" parent="Blocks" instance=ExtResource( 2 )]
+position = Vector2( 308.503, 84.5502 )
 
 [node name="Block2" parent="Blocks" instance=ExtResource( 2 )]
-position = Vector2( 487.815, 293.553 )
+position = Vector2( 112.128, 82.052 )
+
+[node name="Block12" parent="Blocks" instance=ExtResource( 2 )]
+position = Vector2( 721.039, 84.5502 )
+
+[node name="Block11" parent="Blocks" instance=ExtResource( 2 )]
+position = Vector2( 524.664, 82.052 )
+
+[node name="Block17" parent="Blocks" instance=ExtResource( 2 )]
+position = Vector2( 313.514, 1051.59 )
+
+[node name="Block16" parent="Blocks" instance=ExtResource( 2 )]
+position = Vector2( 117.138, 1049.09 )
+
+[node name="Block15" parent="Blocks" instance=ExtResource( 2 )]
+position = Vector2( 726.049, 1051.59 )
+
+[node name="Block14" parent="Blocks" instance=ExtResource( 2 )]
+position = Vector2( 529.674, 1049.09 )
 
 [node name="Block3" parent="Blocks" instance=ExtResource( 2 )]
-position = Vector2( 686.568, 293.553 )
+position = Vector2( 99.8375, 488.699 )
+
+[node name="Block20" parent="Blocks" instance=ExtResource( 2 )]
+position = Vector2( 103.178, 862.821 )
+
+[node name="Block6" parent="Blocks" instance=ExtResource( 2 )]
+position = Vector2( 936.493, 301.674 )
+
+[node name="Block5" parent="Blocks" instance=ExtResource( 2 )]
+position = Vector2( 937.2, 102.094 )
+
+[node name="Block4" parent="Blocks" instance=ExtResource( 2 )]
+position = Vector2( 934.93, 503.731 )
+
+[node name="Block9" parent="Blocks" instance=ExtResource( 2 )]
+position = Vector2( 936.493, 301.674 )
+
+[node name="Block19" parent="Blocks" instance=ExtResource( 2 )]
+position = Vector2( 939.833, 675.796 )
+
+[node name="Block8" parent="Blocks" instance=ExtResource( 2 )]
+position = Vector2( 937.2, 102.094 )
+
+[node name="Block13" parent="Blocks" instance=ExtResource( 2 )]
+position = Vector2( 942.21, 1069.13 )
+
+[node name="Block7" parent="Blocks" instance=ExtResource( 2 )]
+position = Vector2( 934.93, 503.731 )
+
+[node name="Block18" parent="Blocks" instance=ExtResource( 2 )]
+position = Vector2( 938.271, 877.852 )
