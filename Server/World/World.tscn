@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://World/World.gd" type="Script" id=1]
 [ext_resource path="res://World/Block/Block.tscn" type="PackedScene" id=2]
+[ext_resource path="res://UI/ScreenHUD.tscn" type="PackedScene" id=3]
 
 [node name="World" type="Node2D"]
 script = ExtResource( 1 )
@@ -204,3 +205,5 @@ position = Vector2( 2411.76, 454.949 )
 
 [node name="Block58" parent="Blocks" instance=ExtResource( 2 )]
 position = Vector2( 2415.1, 829.07 )
+
+[node name="ScreenHUD" parent="." instance=ExtResource( 3 )]

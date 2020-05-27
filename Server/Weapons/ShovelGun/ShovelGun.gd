@@ -4,7 +4,7 @@ const Shovel = preload("res://Weapons/Shovel/Shovel.tscn")
 
 #gameplay values 
 export var stab_charge_time = 0.5 #seconds you need to pull back in order to stab
-export var vulnerability_time = 0.5 #seconds you are vulnerable after the stab TODO
+export var vulnerability_time = 0.25 #seconds you are vulnerable after the stab TODO
 export var slowed_move_rate = .5
 
 #pull back animation 

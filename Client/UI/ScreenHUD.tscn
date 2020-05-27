@@ -2,7 +2,6 @@
 
 [ext_resource path="res://UI/ChatBox/ChatBox.tscn" type="PackedScene" id=1]
 
-
 [node name="ScreenHUD" type="CanvasLayer"]
 
 [node name="ChatBox" parent="." instance=ExtResource( 1 )]
