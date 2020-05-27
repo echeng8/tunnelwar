@@ -30,8 +30,7 @@ func spawn_everything_in(caller_id):
 func add_item(item, reparent = true):
 	if(reparent):
 		HelperFunctions.reparent(item.get_path(), $Items.get_path(), true) 
-		
-	print(item.filename.get_file())
+
 	rpc("spawn", item.filename.get_file().get_basename(), item.name, get_transform_dict(item))
 
 

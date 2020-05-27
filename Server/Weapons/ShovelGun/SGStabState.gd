@@ -21,6 +21,5 @@ func process(delta):
 	duration += delta
 	
 	if(duration > ShovelGun.stab_dur): 
-		print(duration)
 		fsm.change_to("SGVulnerableState")
 

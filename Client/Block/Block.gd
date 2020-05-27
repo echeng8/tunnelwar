@@ -1,8 +1,17 @@
 extends Node2D
 
-var broke = false
+var broken = false 
 
-remote func set_broke(is_broke):
-	broke = is_broke
-	if(broke):
-		visible = false 
+signal on_break
+
+puppet func break_block():
+	set_broken(true)
+	emit_signal("on_break")
+	
+	
+puppet func set_broken(is_broke):		
+	broken = is_broke 
+	visible = not broken
+
+func _ready():
+	rpc_id(1, "init_on_client", get_tree().get_network_unique_id()) 

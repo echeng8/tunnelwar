@@ -30,11 +30,13 @@ puppet var shoot_btn_p = false # shoot button pressed
 onready var TweenNode = get_node("Tween")
 
 func _ready():
-	#set animation durations on client
+	update_client_settings()
+
+
+func update_client_settings(): 
 	rset("pull_dur", pull_dur)
 	rset("stab_dur", stab_dur)
 	rset("reset_dur", reset_dur)
-
 
 	
 var velocity = Vector2.ZERO
@@ -43,15 +45,15 @@ var newPos = Vector2.ZERO
 ######ANIMATION FUNCTIONS to be called by states (todo put in states?)
 		
 remotesync func _pre_stabbing(currPos, newPos):
-	TweenNode.interpolate_property(self, "position", self.position, newPos, pull_dur, Tween.TRANS_LINEAR, Tween.EASE_OUT)
+	TweenNode.interpolate_property(self, "position", position, newPos, pull_dur, Tween.TRANS_LINEAR, Tween.EASE_OUT)
 	TweenNode.start()
 
 remotesync func _stabbing(currPos, newPos):
-	TweenNode.interpolate_property(self, "position", currPos, newPos, stab_dur, Tween.TRANS_LINEAR, Tween.EASE_OUT)
+	TweenNode.interpolate_property(self, "position", position, newPos, stab_dur, Tween.TRANS_LINEAR, Tween.EASE_OUT)
 	TweenNode.start()
 	
 remotesync func _after_stabbing(currPos, newPos):
-	TweenNode.interpolate_property(self, "position", currPos, newPos, reset_dur, Tween.TRANS_LINEAR, Tween.EASE_OUT) #todo fix pull-back duration not actually working
+	TweenNode.interpolate_property(self, "position", position, newPos, reset_dur, Tween.TRANS_LINEAR, Tween.EASE_OUT) #todo fix pull-back duration not actually working
 	TweenNode.start()
 
 

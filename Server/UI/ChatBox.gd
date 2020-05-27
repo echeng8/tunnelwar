@@ -7,11 +7,16 @@ remote func _chat_box_received_message(var message: String):
 	#command handling
 	if message.begins_with("/"):
 		var messageSplit:Array = message.split(" ", true, 0)
-		var targetPlayer = get_node("Players/" + str(caller_id))
+		var targetPlayer = get_node("/root/World/Players/" + str(caller_id))
+		
 		
 		if messageSplit[0] == "/movespeed": #/speed [units]
 			rpc("add_message", "[color=maroon][HAX][/color] speed before: " + str(targetPlayer.speed) + ", after: " + messageSplit[1])
-			targetPlayer.speed = int(messageSplit[1])
+			targetPlayer.speed = float(messageSplit[1])
+		if messageSplit[0] == "/stabtime": 
+			rpc("add_message", "[color=maroon][HAX][/color] speed before: " + str(targetPlayer.get_node("ShovelGun").stab_dur) + ", after: " + messageSplit[1])
+			targetPlayer.get_node("ShovelGun").stab_dur = float(messageSplit[1])
+			targetPlayer.get_node("ShovelGun").update_client_settings() 
 		if messageSplit[0] == "/kill":
 			targetPlayer.respawn()
 		if messageSplit[0] == "/vultime":

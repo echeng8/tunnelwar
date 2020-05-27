@@ -36,7 +36,6 @@ func _player_connected(_id):
 # Callback from SceneTree, called when client disconnects
 func _player_disconnected(id):
 	if players.has(id):
-		_chat_box_notify_disconnected(id)
 		get_node("/root/World").rpc("remove_player", id)
 		
 		players.erase(id)
@@ -56,8 +55,6 @@ remote func register_player(new_player_name):
 	get_node("/root/World").rpc("spawn_player", Vector2(DEV_SPAWN_X, DEV_SPAWN_Y), caller_id)
 	get_node("/root/World").spawn_everything_in(caller_id)
 
-	_chat_box_notify_connection(caller_id)
-
 	
 # Return random 2D vector inside bounds 0, 0, bound_x, bound_y
 func random_vector2(bound_x, bound_y):
@@ -66,33 +63,3 @@ func random_vector2(bound_x, bound_y):
 
 func get_player_info(id):
 	return get_node("/root/World/Players/" + str(id))
-
-
-##CHATBOX STUFF TODO MOVE ELSEWHERE
-func _chat_box_notify_disconnected(id):
-	var world = get_node("/root/World")
-	
-	#Tell existing clients that player disconnected...
-	var dcName = str(players[id])
-	var message = "Player disconnected: " + dcName
-	if dcName == "Machineman1357":
-		message = "Our supreme [color=purple]Lead Artist[/color] [color=green]Machineman1357[/color] has departed!"
-	for p_id in players:
-		if p_id != id:
-			world.rpc_id(p_id, "_chat_message", message)
-
-
-func _chat_box_notify_connection(caller_id):
-	var world = get_node("/root/World")
-	
-	#Welcome the new player...
-	world.rpc_id(caller_id, "_chat_message", "Welcome to [color=red]Shovelgun[/color], " + str(players[caller_id]))
-	
-	#Tell existing clients of new client's arrival...
-	var callerName = str(players[caller_id])
-	var message = "Player joined: " + callerName
-	if callerName == "Machineman1357":
-		message = "Our supreme [color=purple]Lead Artist[/color] " + "[color=green]Machineman1357[/color] " + "has arrived!"
-	for p_id in players:
-		if p_id != caller_id:
-			world.rpc_id(p_id, "_chat_message", message)

@@ -25,11 +25,11 @@ remote func _update_weapon_position(mouse_position):
 
 ###ANIMATION ##################
 remotesync func _pre_stabbing(currPos, newPos):
-	TweenNode.interpolate_property(self, "position", self.position, newPos, pull_dur, Tween.TRANS_LINEAR, Tween.EASE_OUT)
+	TweenNode.interpolate_property(self, "position", position, newPos, pull_dur, Tween.TRANS_LINEAR, Tween.EASE_OUT)
 	TweenNode.start()
 	
 remote func _stabbing(currPos, newPos):
-	TweenNode.interpolate_property(self, "position", self.position, newPos, stab_dur, Tween.TRANS_LINEAR, Tween.EASE_OUT)
+	TweenNode.interpolate_property(self, "position", position, newPos, stab_dur, Tween.TRANS_LINEAR, Tween.EASE_OUT)
 	TweenNode.start()
 	
 	get_parent().get_node("VulBod/exclam_mark").visible = true #TODO make conditional based on state 
@@ -37,7 +37,7 @@ remote func _stabbing(currPos, newPos):
 	get_parent().get_node("VulBod/vul_face").visible = true
 
 remotesync func _after_stabbing(currPos, newPos):
-	TweenNode.interpolate_property(self, "position", currPos, newPos, reset_dur, Tween.TRANS_LINEAR, Tween.EASE_OUT) #todo fix pull-back duration not actually working
+	TweenNode.interpolate_property(self, "position", position, newPos, reset_dur, Tween.TRANS_LINEAR, Tween.EASE_OUT) #todo fix pull-back duration not actually working
 	TweenNode.start()
 	
 	get_parent().get_node("VulBod/exclam_mark").visible = false

@@ -19,7 +19,6 @@ func physics_process(delta):
 	player.rpc_unreliable("set_player_position", player.position)
 		
 func _on_struck_by(source):
-	print(source.name)
 	if "damage" in source: 
 		player.health_points -= source.damage
 		player.rpc("set_health", player.health_points)
