@@ -3,6 +3,7 @@ extends Node
 ####DEBUG VARIABLES####
 const DEV_SPAWN_X = 500
 const DEV_SPAWN_Y = 500
+var time_passed = 0
 ####/DEBUG VARIABLES####
 
 # Default game port
@@ -63,3 +64,6 @@ func random_vector2(bound_x, bound_y):
 
 func get_player_info(id):
 	return get_node("/root/World/Players/" + str(id))
+	
+func _process(delta):
+	time_passed += delta

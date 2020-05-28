@@ -13,7 +13,7 @@ func enter():
 	
 	if ShovelGun.isLoaded():
 		ShovelGun.get_node("Shovel").get_node("StateMachine").change_to("ShDamagingState")
-		
+
 		
 	duration = 0
 # Optional handler functions for game loop events

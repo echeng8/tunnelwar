@@ -20,7 +20,7 @@ func _ready():
 func get_class():
 	return 'Shovel'
 
-	
+
 remotesync func destroy():
 	queue_free()
 	

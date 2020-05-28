@@ -37,6 +37,4 @@ position = Vector2( 336, 0 )
 wait_time = 4.0
 
 [node name="Tween" type="Tween" parent="."]
-playback_speed = 10.0
-playback/speed = 10.0
 [connection signal="timeout" from="Reload" to="." method="_on_Reload_timeout"]

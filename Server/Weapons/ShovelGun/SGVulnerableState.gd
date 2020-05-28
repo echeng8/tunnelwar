@@ -8,7 +8,6 @@ func enter():
 	assert("ShovelGun" in ShovelGun.name) 
 
 	duration = 0
-	
 	if ShovelGun.isLoaded():
 		ShovelGun.get_node("Shovel").get_node("StateMachine").change_to("ShDefaultState")
 		

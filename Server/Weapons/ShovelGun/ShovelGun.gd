@@ -4,7 +4,7 @@ const Shovel = preload("res://Weapons/Shovel/Shovel.tscn")
 
 #gameplay values 
 export var stab_charge_time = 0.5 #seconds you need to pull back in order to stab
-export var vulnerability_time = 0.25 #seconds you are vulnerable after the stab TODO
+export var vulnerability_time = 0.75 #seconds you are vulnerable after the stab TODO
 export var slowed_move_rate = .5
 
 #pull back animation 
@@ -15,9 +15,9 @@ export var stabbing_dist = 5000
 export var init_position = Vector2(-10,17)
 
 #animation duration (how long it takes for the anim to complete)
-export var pull_dur = 1.5
-export var stab_dur = 0.5
-export var reset_dur = 1
+export var pull_dur = 0.1
+export var stab_dur = 0.08
+export var reset_dur = 0.15
 
 #implementation global var
 var normal_speed_rate = 1
@@ -43,17 +43,16 @@ var velocity = Vector2.ZERO
 var newPos = Vector2.ZERO	
 
 ######ANIMATION FUNCTIONS to be called by states (todo put in states?)
-		
 remotesync func _pre_stabbing(currPos, newPos):
-	TweenNode.interpolate_property(self, "position", position, newPos, pull_dur, Tween.TRANS_LINEAR, Tween.EASE_OUT)
+	TweenNode.interpolate_property(self, "position", position, newPos, pull_dur, Tween.TRANS_LINEAR) #, Tween.EASE_OUT)
 	TweenNode.start()
 
 remotesync func _stabbing(currPos, newPos):
-	TweenNode.interpolate_property(self, "position", position, newPos, stab_dur, Tween.TRANS_LINEAR, Tween.EASE_OUT)
+	TweenNode.interpolate_property(self, "position", position, newPos, stab_dur)
 	TweenNode.start()
 	
 remotesync func _after_stabbing(currPos, newPos):
-	TweenNode.interpolate_property(self, "position", position, newPos, reset_dur, Tween.TRANS_LINEAR, Tween.EASE_OUT) #todo fix pull-back duration not actually working
+	TweenNode.interpolate_property(self, "position", position, newPos, reset_dur, Tween.TRANS_LINEAR) #, Tween.EASE_OUT) #todo fix pull-back duration not actually working
 	TweenNode.start()
 
 

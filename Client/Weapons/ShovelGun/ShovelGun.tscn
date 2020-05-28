@@ -18,5 +18,3 @@ show_behind_parent = true
 position = Vector2( 335, -23 )
 
 [node name="Tween" type="Tween" parent="."]
-playback_speed = 10.0
-playback/speed = 10.0

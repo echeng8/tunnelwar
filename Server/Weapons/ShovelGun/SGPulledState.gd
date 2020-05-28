@@ -19,9 +19,15 @@ func enter():
 # Optional handler functions for game loop events
 func process(delta):
 	duration += delta
+	
+		
 	if not ShovelGun.stab_btn_p:  #todo check timer for stab potential
 		if duration > ShovelGun.stab_charge_time:
+			if ShovelGun.shoot_btn_p and ShovelGun.isLoaded():
+				ShovelGun.rpc("shoot")
+				
 			fsm.change_to("SGStabState")
+			
 		else:
 			ShovelGun.rpc("_after_stabbing", ShovelGun.position, ShovelGun.init_position)
 			fsm.change_to("SGDefaultState") 
