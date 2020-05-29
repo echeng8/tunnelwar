@@ -9,7 +9,7 @@ puppet func break_block():
 	emit_signal("on_break")
 	
 	
-puppet func set_broken(is_broke):		
+remotesync func set_broken(is_broke):		
 	broken = is_broke 
 	visible = not broken
 

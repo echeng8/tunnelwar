@@ -20,7 +20,7 @@ run/main_scene="res://Main.tscn"
 
 [autoload]
 
-gamestate="*res://gamestate.gd"
+gamestate="*res://Scripts_General/gamestate.gd"
 HelperFunctions="*res://Scripts_General/HelperFunctions.gd"
 
 [display]

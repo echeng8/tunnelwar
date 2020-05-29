@@ -4,16 +4,20 @@ extends StaticBody2D
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
-var broken = false
+var _broken = false
 
 remote func init_on_client(client_id): 
-	rpc_id(client_id, "set_broken", broken)
+	rpc_id(client_id, "set_broken", is_broken())
 
 func set_broken(value):
-	broken = value 
-	rpc("set_broken", broken)  
+	
+	
+	_broken = value 
+	rpc("set_broken", value)
+	$CollisionShape2D.set_deferred("disabled", is_broken())
+func is_broken():
+	return _broken
 	
 func get_struck_by(body):
-	broken = true  
-	$CollisionShape2D.set_deferred("disabled", true)
+	set_broken(true) 
 	rpc("break_block") 
