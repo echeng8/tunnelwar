@@ -23,6 +23,13 @@ run/main_scene="res://Main.tscn"
 gamestate="*res://gamestate.gd"
 HelperFunctions="*res://Scripts_General/HelperFunctions.gd"
 
+[display]
+
+window/size/width=1920
+window/size/height=1080
+window/stretch/mode="viewport"
+window/stretch/aspect="keep"
+
 [input]
 
 up={
