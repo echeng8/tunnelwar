@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://World/World.gd" type="Script" id=1]
 [ext_resource path="res://World/Block/Block.tscn" type="PackedScene" id=2]
 [ext_resource path="res://UI/ScreenHUD.tscn" type="PackedScene" id=3]
+[ext_resource path="res://World/Blocks.gd" type="Script" id=4]
 
 [node name="World" type="Node2D"]
 position = Vector2( -15.978, -3.99451 )
@@ -20,6 +21,7 @@ __meta__ = {
 }
 
 [node name="Blocks" type="Node" parent="."]
+script = ExtResource( 4 )
 
 [node name="Block" parent="Blocks" instance=ExtResource( 2 )]
 position = Vector2( 200, 200 )
@@ -418,3 +420,17 @@ position = Vector2( 2000, 2400 )
 position = Vector2( 2200, 2400 )
 
 [node name="ScreenHUD" parent="." instance=ExtResource( 3 )]
+
+[node name="Spawns" type="Node" parent="."]
+
+[node name="Spawn" type="Node2D" parent="Spawns"]
+position = Vector2( 0, 1400 )
+
+[node name="Spawn2" type="Node2D" parent="Spawns"]
+position = Vector2( 2400, 1400 )
+
+[node name="Spawn3" type="Node2D" parent="Spawns"]
+position = Vector2( 1200, 0 )
+
+[node name="Spawn4" type="Node2D" parent="Spawns"]
+position = Vector2( 1200, 2600 )

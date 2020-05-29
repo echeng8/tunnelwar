@@ -26,6 +26,13 @@ remote func _chat_box_received_message(var message: String):
 			var msg = "[color=maroon][HAX][/color] vultime before: " + str(targetPlayer.get_node("ShovelGun").vulnerability_time) + ", after: : " + messageSplit[1]
 			rpc("add_message", msg)
 			targetPlayer.get_node("ShovelGun").vulnerability_time = float(messageSplit[1])
+			
+		if messageSplit[0] == "/tp": 
+			targetPlayer.global_position = get_node("/root/World/Spawns").get_child(int(messageSplit[1])).global_position
+			
+		if messageSplit[0] == "/regenblocks":
+			get_node("/root/World/Blocks").regen_all_blocks() 
+			
 	
 	#message handling
 	else:

@@ -9,7 +9,7 @@ anchor_bottom = 1.0
 margin_left = -0.281864
 margin_top = -2.19487
 margin_right = -0.28186
-margin_bottom = -2.19489
+margin_bottom = -2.19495
 rect_rotation = -0.102822
 script = ExtResource( 1 )
 __meta__ = {
@@ -31,7 +31,7 @@ __meta__ = {
 }
 
 [node name="Title" type="Label" parent="UIVBox"]
-margin_right = 1024.0
+margin_right = 1920.0
 margin_bottom = 14.0
 text = "Client"
 align = 1
@@ -41,7 +41,7 @@ valign = 1
 
 [node name="NameHBox" type="HBoxContainer" parent="UIVBox"]
 margin_top = 14.0
-margin_right = 1024.0
+margin_right = 1920.0
 margin_bottom = 38.0
 size_flags_horizontal = 3
 alignment = 1
@@ -50,26 +50,26 @@ __meta__ = {
 }
 
 [node name="NameLabel" type="Label" parent="UIVBox/NameHBox"]
-margin_left = 458.0
+margin_left = 906.0
 margin_top = 5.0
-margin_right = 504.0
+margin_right = 952.0
 margin_bottom = 19.0
 text = "Name: "
 
 [node name="NameEdit" type="LineEdit" parent="UIVBox/NameHBox"]
-margin_left = 508.0
-margin_right = 566.0
+margin_left = 956.0
+margin_right = 1014.0
 margin_bottom = 24.0
 text = "Player"
 
 [node name="DEVServerConnect" type="VBoxContainer" parent="UIVBox"]
 margin_top = 38.0
-margin_right = 1024.0
+margin_right = 1920.0
 margin_bottom = 90.0
 script = ExtResource( 2 )
 
 [node name="ServerIPHBox" type="HBoxContainer" parent="UIVBox/DEVServerConnect"]
-margin_right = 1024.0
+margin_right = 1920.0
 margin_bottom = 24.0
 size_flags_horizontal = 3
 custom_constants/separation = 0
@@ -79,51 +79,51 @@ __meta__ = {
 }
 
 [node name="ServerLabel" type="Label" parent="UIVBox/DEVServerConnect/ServerIPHBox"]
-margin_left = 433.0
+margin_left = 881.0
 margin_top = 5.0
-margin_right = 490.0
+margin_right = 938.0
 margin_bottom = 19.0
 text = "Server IP"
 
 [node name="ServerIPEdit" type="LineEdit" parent="UIVBox/DEVServerConnect/ServerIPHBox"]
-margin_left = 490.0
-margin_right = 590.0
+margin_left = 938.0
+margin_right = 1038.0
 margin_bottom = 24.0
 rect_min_size = Vector2( 100, 0 )
 text = "142.129.27.120"
 
 [node name="ServerPortHBox" type="HBoxContainer" parent="UIVBox/DEVServerConnect"]
 margin_top = 28.0
-margin_right = 1024.0
+margin_right = 1920.0
 margin_bottom = 52.0
 size_flags_horizontal = 3
 custom_constants/separation = 0
 alignment = 1
 
 [node name="ServerLabel" type="Label" parent="UIVBox/DEVServerConnect/ServerPortHBox"]
-margin_left = 427.0
+margin_left = 875.0
 margin_top = 5.0
-margin_right = 497.0
+margin_right = 945.0
 margin_bottom = 19.0
 text = "Server Port"
 
 [node name="ServerPortEdit" type="LineEdit" parent="UIVBox/DEVServerConnect/ServerPortHBox"]
-margin_left = 497.0
-margin_right = 597.0
+margin_left = 945.0
+margin_right = 1045.0
 margin_bottom = 24.0
 rect_min_size = Vector2( 100, 0 )
 text = "25525"
 
 [node name="JoinButton" type="Button" parent="UIVBox"]
-margin_left = 494.0
+margin_left = 942.0
 margin_top = 90.0
-margin_right = 529.0
+margin_right = 977.0
 margin_bottom = 110.0
 size_flags_horizontal = 4
 text = "Join"
 
 [node name="Status" type="Label" parent="UIVBox"]
 margin_top = 110.0
-margin_right = 1024.0
+margin_right = 1920.0
 margin_bottom = 124.0
 [connection signal="pressed" from="UIVBox/JoinButton" to="." method="_on_JoinButton_pressed"]
