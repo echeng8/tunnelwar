@@ -28,6 +28,7 @@ func _enter_state():
 		print("Entering state: ", state.name)
 	# Give the new state a reference to this state machine script
 	state.fsm = self
+	state.fsm_root = get_parent()
 	state.enter()
 
 # Route Game Loop function calls to

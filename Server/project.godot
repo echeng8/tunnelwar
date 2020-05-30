@@ -15,12 +15,18 @@ _global_script_classes=[ {
 "path": "res://Weapons/Shovel/Shovel.gd"
 }, {
 "base": "Node",
+"class": "State",
+"language": "GDScript",
+"path": "res://Scripts_General/Base_Classes/FSM/State.gd"
+}, {
+"base": "Node",
 "class": "StateMachine",
 "language": "GDScript",
 "path": "res://Scripts_General/Base_Classes/FSM/StateMachine.gd"
 } ]
 _global_script_class_icons={
 "Shovel": "",
+"State": "",
 "StateMachine": ""
 }
 

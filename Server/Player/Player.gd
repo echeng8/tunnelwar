@@ -1,11 +1,14 @@
 extends KinematicBody2D
 
+#STATS 
+export var gold = 0
+
+
+#MECHANICS 
 export var speed = 600
 export var base_hp = 40
 export var health_points = 40
-export var knockback_duration = 0.5 #in seconds
-export var vul_speed_rate = 0.5 #by what % is speed reduced when SG is pulled bacck and thursted out? 
-var knockback_dir
+
 
 puppet var input_direction =  Vector2.ZERO
 

@@ -5,7 +5,7 @@ var Player = preload("res://Player/Player.tscn")
 
 const resources = {
 	"Shovel": preload("res://Weapons/Shovel/Shovel.tscn"), 
-	"Block" : preload("res://Block/Block.tscn")
+	"Block" : preload("res://World/Block/Block.tscn")
 }
 
 ### PLAYER STUFF 

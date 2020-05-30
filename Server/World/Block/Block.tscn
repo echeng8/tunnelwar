@@ -1,6 +1,10 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://World/Block/Block.gd" type="Script" id=1]
+[ext_resource path="res://Scripts_General/Base_Classes/FSM/StateMachine.gd" type="Script" id=2]
+[ext_resource path="res://World/Block/BDefaultState.gd" type="Script" id=3]
+[ext_resource path="res://World/Block/BGoldState.gd" type="Script" id=4]
+[ext_resource path="res://World/Block/BBrokenState.gd" type="Script" id=5]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 100, 100 )
@@ -10,6 +14,18 @@ extents = Vector2( 100, 100 )
 ]]
 collision_mask = 7
 script = ExtResource( 1 )
+
+[node name="StateMachine" type="Node" parent="."]
+script = ExtResource( 2 )
+
+[node name="BDefaultState" type="Node" parent="StateMachine"]
+script = ExtResource( 3 )
+
+[node name="BBrokenState" type="Node" parent="StateMachine"]
+script = ExtResource( 5 )
+
+[node name="BGoldState" type="Node" parent="StateMachine"]
+script = ExtResource( 4 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 1 )

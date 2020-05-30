@@ -1,8 +1,9 @@
 extends Node
 
-#todo reg class
+class_name State
 
 var fsm: StateMachine
+var fsm_root 
 
 func enter():
 	return; 
