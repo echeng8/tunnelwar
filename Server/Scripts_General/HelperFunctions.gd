@@ -24,3 +24,12 @@ remotesync func reparent(node1_path, node2_path, keep_transform = true):
 	node1.global_position = g_pos
 	node1.global_rotation = g_rot
 	node1.global_scale = g_scale
+
+func get_ancestor_pID(node):
+	var ancestor = node
+	while(true):
+		if ancestor is Player:
+			return ancestor.name
+		if ancestor == null:
+			return null
+		ancestor = ancestor.get_parent() 

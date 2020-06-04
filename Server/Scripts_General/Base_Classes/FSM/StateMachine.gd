@@ -2,6 +2,8 @@ extends Node
 
 class_name StateMachine
 
+signal on_state_change
+
 const DEBUG = false
 
 var state: Object
@@ -17,6 +19,8 @@ func change_to(new_state):
 	history.append(state.name)
 	state = get_node(new_state)
 	_enter_state()
+	
+	emit_signal("on_state_change")
 
 func back():
 	if history.size() > 0:

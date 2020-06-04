@@ -48,6 +48,7 @@ func _player_disconnected(id):
 # Player management functions
 remote func register_player(new_player_name):
 	var caller_id = get_tree().get_rpc_sender_id()
+	
 	players[caller_id] = new_player_name
 	rset("players", players) 
 	

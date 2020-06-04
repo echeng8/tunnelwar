@@ -1,8 +1,8 @@
 extends KinematicBody2D
 
+class_name Player
 #STATS 
 export var gold = 0
-
 
 #MECHANICS 
 export var speed = 600

@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://Player/character.png" type="Texture" id=1]
+[ext_resource path="res://World/Block/GoldBlock.png" type="Texture" id=1]
 [ext_resource path="res://World/Block/Block.gd" type="Script" id=2]
 
 [sub_resource type="RectangleShape2D" id=1]
@@ -12,6 +12,8 @@ script = ExtResource( 2 )
 [node name="Sprite" type="Sprite" parent="."]
 scale = Vector2( 0.746491, 0.715026 )
 texture = ExtResource( 1 )
+region_enabled = true
+region_rect = Rect2( 0, 0, 275, 275 )
 
 [node name="SizeTool " type="CollisionShape2D" parent="."]
 visible = false
