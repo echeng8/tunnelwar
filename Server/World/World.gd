@@ -1,7 +1,7 @@
 extends Node2D
 
 const Player = preload("res://Player/Player.tscn")
-
+	
 ###PLAYERS ###############
 remotesync func remove_player(id):
 	$Players.get_node(String(id)).queue_free()
