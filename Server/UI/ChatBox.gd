@@ -36,6 +36,6 @@ remote func _chat_box_received_message(var message: String):
 	
 	#message handling
 	else:
-		var senderName = str(gamestate.players[caller_id])
+		var senderName = str(gamestate.get_player(caller_id).username)
 		var combinedMsg = senderName + ": " + message
 		rpc("add_message", combinedMsg)

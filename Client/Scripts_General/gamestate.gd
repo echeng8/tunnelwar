@@ -39,8 +39,7 @@ func pre_start_game():
 	get_node("/root/Main").hide()
 	var world = load("res://World/World.tscn").instance()
 	get_tree().get_root().add_child(world)
-	
-	
+
 	rpc_id(1, "register_player", my_name)
 
 # Callback from SceneTree, called when server disconnect
@@ -61,17 +60,3 @@ func _connected_fail():
 	
 	# Try to connect again
 	#connect_to_server()
-
-
-# Returns list of player names
-func get_player_list():
-	return players.values()
-
-
- 
-func get_player_info(id):
-	return get_node("/root/World/Players/" + str(id))
-
-
-
-

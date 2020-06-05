@@ -1,8 +1,11 @@
 extends KinematicBody2D
 var cameraReference
 
+remotesync var username
+
 #PSEUDO PUPPETS - set by server 
 var health_points
+
  
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -15,7 +18,7 @@ func _ready():
 func update_GUI():
 	#display name
 	var player_id = get_network_master()
-	$GUI/PlayerName.text = gamestate.players[player_id]
+	$GUI/PlayerName.text = gamestate.my_name
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):

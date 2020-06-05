@@ -3,5 +3,5 @@ extends State
 #MECHANICS
 
 func get_struck_by(body):
-	print(HelperFunctions.get_ancestor_pID(body))
+	HelperFunctions.get_parent_player_node(body).add_gold() 
 	exit("BBrokenState")
