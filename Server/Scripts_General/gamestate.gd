@@ -12,7 +12,13 @@ const DEFAULT_PORT = 25525
 # Max number of players
 const MAX_PLAYERS = 12
 
+# STATIC REFERENCES 
+var world_node
+
+
 func _ready():
+	world_node = get_node("/root/World")\
+	
 	get_tree().connect("network_peer_connected", self, "_player_connected")
 	get_tree().connect("network_peer_disconnected", self,"_player_disconnected")
 	
@@ -27,18 +33,16 @@ func _player_connected(_id):
 
 # Callback from SceneTree, called when client disconnects
 func _player_disconnected(id):
-		get_node("/root/World").rpc("remove_player", id)
+		world_node.rpc("remove_player", id)
 		
-
 # Player management functions
 remote func register_player(new_player_name):
 	var caller_id = get_tree().get_rpc_sender_id()
 	
 	print("Client ", caller_id, " registered as ", new_player_name)
 	
-	get_node("/root/World").rpc("spawn_player", Vector2(DEV_SPAWN_X, DEV_SPAWN_Y), caller_id)
+	get_node("/root/World").rpc("spawn_player", Vector2(DEV_SPAWN_X, DEV_SPAWN_Y), caller_id, new_player_name)
 	get_node("/root/World").spawn_everything_in(caller_id)
-	get_player(caller_id).rset("username", new_player_name)
 	
 # Return random 2D vector inside bounds 0, 0, bound_x, bound_y
 func random_vector2(bound_x, bound_y):

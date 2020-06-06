@@ -5,7 +5,7 @@ remotesync var username
 
 #PSEUDO PUPPETS - set by server 
 var health_points
-
+remote var gold 
  
 # Called when the node enters the scene tree for the first time.
 func _ready():

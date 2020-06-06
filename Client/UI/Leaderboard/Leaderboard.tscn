@@ -1,0 +1,20 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://UI/Leaderboard/Leaderboard.gd" type="Script" id=1]
+
+[node name="Leaderboard" type="Control"]
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+margin_right = 126.0
+margin_bottom = 173.0
+text = "richest shovelings
+1. emiro 4
+2. machineman 2
+3. toramane1"
+__meta__ = {
+"_edit_use_anchors_": false
+}

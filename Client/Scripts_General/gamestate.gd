@@ -11,11 +11,10 @@ signal server_disconnected()
 
 var my_name = "Client"
 
-# server-set dict stored as id:name
-remote var players = {}
-
+var world_node #set by World.tcsn when loaded
 
 func _ready():
+	
 	assert(get_tree().connect("connected_to_server", self, "_connected_ok") == 0)
 	assert(get_tree().connect("connection_failed", self, "_connected_fail") == 0)
 	assert(get_tree().connect("server_disconnected", self, "_server_disconnected") == 0)
@@ -44,7 +43,6 @@ func pre_start_game():
 
 # Callback from SceneTree, called when server disconnect
 func _server_disconnected():
-	players.clear()
 	get_node("/root/World").queue_free()
 	get_node("/root/Main").show()
 	emit_signal("server_disconnected")
@@ -60,3 +58,6 @@ func _connected_fail():
 	
 	# Try to connect again
 	#connect_to_server()
+
+func get_player(id):
+	return world_node.get_node("Players/" + str(id))

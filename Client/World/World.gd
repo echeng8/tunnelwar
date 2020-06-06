@@ -10,7 +10,11 @@ const resources = {
 }
 
 ### PLAYER STUFF 
-remotesync func spawn_player(spawn_pos, id):
+func _ready():
+	gamestate.world_node = self
+	
+	
+remotesync func spawn_player(spawn_pos, id, username):
 	if $Players.has_node(str(id)):
 		return 
 		
@@ -18,6 +22,7 @@ remotesync func spawn_player(spawn_pos, id):
 	player.position = spawn_pos
 	player.name = String(id) # Important
 	player.set_network_master(id) # Important
+	player.username = username 
 	$Players.add_child(player)
 
 remotesync func remove_player(id):
