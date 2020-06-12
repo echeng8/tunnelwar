@@ -9,10 +9,15 @@ const resources = {
 	"Block" : preload("res://World/Block/Block.tscn"),
 }
 
+signal on_load_complete
+
 ### PLAYER STUFF 
-func _ready():
+func _init():
 	gamestate.world_node = self
 	
+puppet func emit_load_complete():
+	print('emiting')
+	emit_signal("on_load_complete") 
 	
 remotesync func spawn_player(spawn_pos, id, username):
 	if $Players.has_node(str(id)):

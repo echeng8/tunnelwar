@@ -31,7 +31,7 @@ func spawn_everything_in(caller_id):
 		rpc_id(caller_id, "spawn",  item.filename.get_file().get_basename(), item.name, get_transform_dict(item))
 	for block in $Blocks.get_children():
 		rpc_id(caller_id, "spawn",  block.filename.get_file().get_basename(), block.name, get_transform_dict(block))
-
+	rpc_id(caller_id, "emit_load_complete")
 
 func add_item(item, reparent = true):
 	if(reparent):

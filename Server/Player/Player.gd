@@ -19,6 +19,7 @@ signal on_gold_change
 
 remote func on_client_node_connect():	#called when client node is ready
 	rpc("set_health", health_points)
+	rset("gold", get_gold())
 
 func get_struck_by(source):
 	emit_signal("struck_by", source)

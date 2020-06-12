@@ -12,13 +12,14 @@ func _ready():
 	update_GUI()
 	if is_network_master():
 		_parent_camera_to_me()	
+		
 	rpc_id(1, "on_client_node_connect")
 	
 	
 func update_GUI():
 	#display name
 	var player_id = get_network_master()
-	$GUI/PlayerName.text = gamestate.my_name
+	$GUI/PlayerName.text = username  
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -42,7 +43,7 @@ remote func set_health(health_points):
 	health_points = health_points 
 	$GUI/HPNumDisplay.text = str(int(health_points / 10))
 	#$GUI/HealthBar.value = health_points #TODO MAKE PUBLIC VARIABLE TO BE RSET BY SERVER
-
+	
 #The align function is a Camera2D node-specific function that:
 #	"Align(s) the camera to the tracked node"; tracked node being
 #	the parent, I guess.
