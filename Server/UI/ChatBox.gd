@@ -17,7 +17,6 @@ remote func _chat_box_received_message(var message: String):
 		if messageSplit[0] == "/stabtime": 
 			rpc("add_message", "[color=maroon][HAX][/color] speed before: " + str(targetPlayer.get_node("ShovelGun").stab_dur) + ", after: " + messageSplit[1])
 			targetPlayer.get_node("ShovelGun").stab_dur = float(messageSplit[1])
-			targetPlayer.get_node("ShovelGun").update_client_settings() 
 			
 		if messageSplit[0] == "/kill":
 			targetPlayer.respawn()

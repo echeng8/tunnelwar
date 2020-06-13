@@ -12,6 +12,7 @@ onready var TweenNode = get_node("Tween")
 
 func _ready():
 	var shovel = get_node("Shovel")
+	rpc_id(1, "initialize_rpc_sender")  
 
 func _process(delta):
 	if is_network_master():

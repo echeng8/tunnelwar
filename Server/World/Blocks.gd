@@ -7,8 +7,9 @@ func _ready():
 	
 func regen_all_blocks():
 	for block in get_children():
-		if block.is_broken():
-			block.set_broken(false)  
+		block.set_default() 
+		
+	set_gold_blocks() 
 			
 func set_gold_blocks():
 	var gold_blocks = get_child_count() * 0.25

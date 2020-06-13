@@ -29,14 +29,11 @@ puppet var shoot_btn_p = false # shoot button pressed
 
 onready var TweenNode = get_node("Tween")
 
-func _ready():
-	update_client_settings()
 
-
-func update_client_settings(): 
-	rset("pull_dur", pull_dur)
-	rset("stab_dur", stab_dur)
-	rset("reset_dur", reset_dur)
+remote func initialize_rpc_sender(): 
+	rset_id(get_tree().get_rpc_sender_id(), "pull_dur", pull_dur)
+	rset_id(get_tree().get_rpc_sender_id(), "stab_dur", stab_dur)
+	rset_id(get_tree().get_rpc_sender_id(), "reset_dur", reset_dur)
 
 	
 var velocity = Vector2.ZERO
