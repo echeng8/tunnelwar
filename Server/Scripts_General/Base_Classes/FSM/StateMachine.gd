@@ -56,11 +56,3 @@ func _unhandled_input(event):
 func _unhandled_key_input(event):
 	if state.has_method("unhandled_key_input"):
 		state.unhandled_key_input(event)
-
-func _notification(what):
-	var state_ref = null 
-	if state:
-		state_ref = weakref(state)
-		state_ref = state_ref.get_ref()
-	if state_ref && state_ref.has_method("notification"):
-		state_ref.notification(what)

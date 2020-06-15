@@ -3,6 +3,7 @@ extends "res://Scripts_General/Base_Classes/FSM/State.gd"
 var velocity = Vector2(0,0)
 var duration = 0
 var ShovelNode
+
 func enter():
 	ShovelNode = fsm.get_parent()
 	assert(ShovelNode is Shovel)
@@ -31,4 +32,6 @@ func on_body_entered(body):
 func on_Shovel_area_entered(area): #hit an activated ShovelGun
 	if area.get_node("StateMachine").state.name == "ShChargedState": #reflected
 		velocity = -velocity 
-		#TODO flip shovel sprite on client
+		#todo deflect refactor
+		fsm_root.rotation += velocity.angle()  
+		fsm.root.rpc("set_rotation", fsm_root.rotation) 

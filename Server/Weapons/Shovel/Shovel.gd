@@ -17,10 +17,6 @@ var knockback_duration = 0.1 #in seconds
 func _ready(): 
 	show_behind_parent = true
 
-func get_class():
-	return 'Shovel'
-
-
 remotesync func destroy():
 	queue_free()
 	

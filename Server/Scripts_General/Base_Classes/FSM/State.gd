@@ -27,6 +27,3 @@ func unhandled_input(event):
 
 func unhandled_key_input(event):
 	return event
-
-func notification(what, flag = false):
-	return [what, flag]

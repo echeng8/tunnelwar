@@ -11,3 +11,6 @@ remotesync func destroy():
 
 remote func _update_shovel_position(shovel_position):
 		self.position = shovel_position
+
+remote func set_rotation(r):
+	rotation = r
