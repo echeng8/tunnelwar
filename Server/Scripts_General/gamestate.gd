@@ -1,8 +1,8 @@
 extends Node
 
 ####DEBUG VARIABLES####
-const DEV_SPAWN_X = 500
-const DEV_SPAWN_Y = 500
+const DEV_SPAWN_X = 0
+const DEV_SPAWN_Y = 0
 var time_passed = 0
 ####/DEBUG VARIABLES####
 
@@ -14,6 +14,9 @@ const MAX_PLAYERS = 12
 
 # STATIC REFERENCES 
 var world_node
+
+#variables
+const block_size = 200.0
 
 
 func _ready():
@@ -48,6 +51,15 @@ remote func register_player(new_player_name):
 func random_vector2(bound_x, bound_y):
 	return Vector2(randf() * bound_x, randf() * bound_y)
 
-
 func get_player(id):
 	return get_node("/root/World/Players/" + str(id))
+
+func get_players():
+	return get_node("/root/World/Players/").get_children()
+	
+# COORDINATE SYSTEM
+func get_pos(coord_vector : Vector2):
+	return Vector2(coord_vector.x * block_size, coord_vector.y * block_size)
+	
+func get_coord(pos_vector : Vector2):
+	return Vector2(round(pos_vector.x / block_size), round(pos_vector.y / block_size))

@@ -2,7 +2,7 @@
 
 [ext_resource path="res://Weapons/ShovelGun/ShovelGun.gd" type="Script" id=1]
 [ext_resource path="res://Weapons/Shovel/Shovel.tscn" type="PackedScene" id=2]
-[ext_resource path="res://Scripts_General/Base_Classes/FSM/StateMachine.gd" type="Script" id=3]
+[ext_resource path="res://Scripts_General/Base_Classes/FSM/StateMachineUpdate.gd" type="Script" id=3]
 [ext_resource path="res://Weapons/ShovelGun/SGDefaultState.gd" type="Script" id=4]
 [ext_resource path="res://Weapons/ShovelGun/SGPulledState.gd" type="Script" id=5]
 [ext_resource path="res://Weapons/ShovelGun/SGStabState.gd" type="Script" id=6]

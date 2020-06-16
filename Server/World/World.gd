@@ -28,25 +28,16 @@ func spawn_everything_in(caller_id):
 	for player in get_node("Players").get_children():
 		rpc_id(caller_id, "spawn_player", player.position, player.get_network_master(), player.username)
 	for item in $Items.get_children():
-		rpc_id(caller_id, "spawn",  item.filename.get_file().get_basename(), item.name, get_transform_dict(item))
+		rpc_id(caller_id, "spawn",  item.filename.get_file().get_basename(), item.name, HelperFunctions.get_transform_dict(item))
 	for block in $Blocks.get_children():
-		rpc_id(caller_id, "spawn",  block.filename.get_file().get_basename(), block.name, get_transform_dict(block))
+		block.spawn_on_client(caller_id)
 	rpc_id(caller_id, "emit_load_complete")
 
 func add_item(item, reparent = true):
 	if(reparent):
 		HelperFunctions.reparent(item.get_path(), $Items.get_path(), true) 
 
-	rpc("spawn", item.filename.get_file().get_basename(), item.name, get_transform_dict(item))
-
-
-func get_transform_dict(item):
-	var transform_dict = {
-		"pos" : item.global_position,
-		"rot" : item.global_rotation,
-		"sca" : item.global_scale
-	}
-	return transform_dict
+	rpc("spawn", item.filename.get_file().get_basename(), item.name, HelperFunctions.get_transform_dict(item))
 
 
 

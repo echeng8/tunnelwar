@@ -1,8 +1,8 @@
 extends Node2D
 
 const textures = {
-	"GoldBlock" : preload("res://World/Block/GoldBlock.png"),
-	"Block" : preload("res://World/Block/Block.png")
+	"GoldOre" : preload("res://World/Block/GoldBlock.png"),
+	"Dirt" : preload("res://World/Block/Block.png")
 }
 
 var server_state = "" 

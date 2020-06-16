@@ -33,3 +33,13 @@ func get_parent_player_node(node):
 		if ancestor == null:
 			return null
 		ancestor = ancestor.get_parent() 
+		
+
+func get_transform_dict(item):
+	var transform_dict = {
+		"pos" : item.global_position,
+		"rot" : item.global_rotation,
+		"sca" : item.global_scale
+	}
+	return transform_dict
+	

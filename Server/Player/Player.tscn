@@ -3,7 +3,7 @@
 [ext_resource path="res://Weapons/ShovelGun/ShovelGun.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Player/PDefaultState.gd" type="Script" id=2]
 [ext_resource path="res://Player/Player.gd" type="Script" id=3]
-[ext_resource path="res://Scripts_General/Base_Classes/FSM/StateMachine.gd" type="Script" id=4]
+[ext_resource path="res://Scripts_General/Base_Classes/FSM/StateMachineUpdate.gd" type="Script" id=4]
 [ext_resource path="res://Player/PKnockbackedState.gd" type="Script" id=5]
 [ext_resource path="res://Player/PDeadState.gd" type="Script" id=6]
 
