@@ -8,8 +8,8 @@ const Blocks = {
 
 const chunk_length = 20
 
-
-export var gold_ratio = 0.25
+#chance a block is gold
+export var gold_chance = 5 
 
 func _ready():
 	generate_chunk(Vector2(0,0))
@@ -17,23 +17,13 @@ func _ready():
 func generate_chunk(origin_coord : Vector2):
 	var top_left = origin_coord - Vector2(chunk_length/2, chunk_length/2)
 	
-	for row in range(20):
-		for col in range(20):
-			var instance = Blocks["Dirt"].instance() 
+	for row in range(chunk_length):
+		for col in range(chunk_length):
+			var instance = null
+			if randi() % 100 <= gold_chance:
+				instance = Blocks["GoldOre"].instance()
+			else:
+				instance = Blocks["Dirt"].instance() 
+				
 			instance.position = gamestate.get_pos(top_left + Vector2(row, col))
-			add_child(instance) 
-	
-func regen_all_blocks():
-	for block in get_children():
-		block.set_default() 
-
-func set_gold_blocks():
-	var gold_blocks = get_child_count() * 0.25
-	for n in range(0,gold_blocks):
-		var random_block = get_children()[randi() % get_child_count()]
-		
-		#ensnure its not already gold
-		while (random_block.get_node("StateMachine").state.name == "BGoldState"):
-			random_block = get_children()[randi() % get_child_count()]
-		
-		random_block.get_node("StateMachine").change_to("BGoldState")
+			add_child(instance)

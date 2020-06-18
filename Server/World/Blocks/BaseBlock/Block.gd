@@ -11,11 +11,10 @@ func _ready():
 	
 func spawn_on_client(id):
 	gamestate.world_node.rpc_id(id, "spawn", "Block", name, HelperFunctions.get_transform_dict(self))
-	rpc("set_server_state", filename) 
+	rpc("set_server_state", filename.get_file().get_basename()) 
 
 remotesync func destroy(): 
 	queue_free()
-	
-	
+
 func get_struck_by(body):
 	return 
