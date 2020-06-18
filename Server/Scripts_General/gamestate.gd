@@ -59,9 +59,7 @@ func get_players():
 	
 # COORDINATE SYSTEM
 func get_pos(coord_vector : Vector2):
-	print("p", Vector2(coord_vector.x * block_size, coord_vector.y * block_size))
 	return Vector2(coord_vector.x * block_size, coord_vector.y * block_size)
 	
 func get_coord(pos_vector : Vector2):
-	print("c",Vector2(round(pos_vector.x / block_size), round(pos_vector.y / block_size)) )
 	return Vector2(round(pos_vector.x / block_size), round(pos_vector.y / block_size))

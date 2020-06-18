@@ -1,5 +1,7 @@
 extends Node
 
+var block_dict = {} # key = Vector2
+
 const Blocks = {
 	#scenes
 	"Dirt": preload("res://World/Blocks/Dirt/Dirt.tscn"), 
@@ -10,9 +12,6 @@ const chunk_length = 20
 
 #chance a block is gold
 export var gold_chance = 5 
-
-func _ready():
-	generate_chunk(Vector2(0,0))
 
 func generate_chunk(origin_coord : Vector2):
 	var top_left = origin_coord - Vector2(chunk_length/2, chunk_length/2)
@@ -27,3 +26,4 @@ func generate_chunk(origin_coord : Vector2):
 				
 			instance.position = gamestate.get_pos(top_left + Vector2(row, col))
 			add_child(instance)
+			block_dict[instance.coord] = instance
