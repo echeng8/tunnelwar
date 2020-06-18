@@ -7,8 +7,9 @@ const textures = {
 
 var server_state = "" 
 
-func _ready():
-	rpc_id(1, "init_on_client", get_tree().get_network_unique_id())
+remotesync func destroy():
+	print('client dd')
+	queue_free() 
 	
 puppet func set_server_state(state):
 	server_state = state

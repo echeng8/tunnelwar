@@ -3,6 +3,9 @@ extends StaticBody2D
 class_name Block
 
 func _ready(): 
+	var coord = gamestate.get_coord(position)
+	name = str("x", coord.x, "y", coord.y) 
+	
 	for player in gamestate.get_players():
 		spawn_on_client(player.name) 
 	

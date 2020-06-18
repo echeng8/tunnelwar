@@ -18,8 +18,7 @@ func _on_JoinButton_pressed():
 	#/DEV TOOLS - SERVER IP SET
 	
 	gamestate.connect_to_server()
-
-
+	
 func _on_connection_success():
 	$UIVBox/JoinButton.disabled = true
 

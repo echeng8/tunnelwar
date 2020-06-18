@@ -6,6 +6,8 @@ const Blocks = {
 	"GoldOre" : preload("res://World/Blocks/GoldOreBlock/GoldOreBlock.tscn"),
 }
 
+const chunk_length = 20
+
 
 export var gold_ratio = 0.25
 
@@ -13,12 +15,12 @@ func _ready():
 	generate_chunk(Vector2(0,0))
 
 func generate_chunk(origin_coord : Vector2):
-	var top_left = origin_coord - Vector2(gamestate.block_size/2, gamestate.block_size/2)
+	var top_left = origin_coord - Vector2(chunk_length/2, chunk_length/2)
 	
 	for row in range(20):
 		for col in range(20):
 			var instance = Blocks["Dirt"].instance() 
-			instance.position = top_left + Vector2(row, col)
+			instance.position = gamestate.get_pos(top_left + Vector2(row, col))
 			add_child(instance) 
 	
 func regen_all_blocks():
