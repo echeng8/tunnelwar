@@ -3,6 +3,8 @@ extends Node2D
 #RESOURCES LOAD
 var Player = preload("res://Player/Player.tscn")
 
+var load_completed = false
+
 const resources = {
 	#scenes
 	"Shovel": preload("res://Weapons/Shovel/Shovel.tscn"), 
@@ -16,7 +18,7 @@ func _init():
 	gamestate.world_node = self
 	
 puppet func emit_load_complete():
-	print('emiting')
+	load_completed = true  
 	emit_signal("on_load_complete") 
 	
 remotesync func spawn_player(spawn_pos, id, username):

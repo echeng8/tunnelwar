@@ -24,14 +24,6 @@ script = ExtResource( 2 )
 
 [node name="ScreenHUD" parent="." instance=ExtResource( 3 )]
 
-[node name="Spawns" type="Node" parent="."]
-
-[node name="Spawn" type="Node2D" parent="Spawns"]
-position = Vector2( 0, 1400 )
-
-[node name="Spawn2" type="Node2D" parent="Spawns"]
-position = Vector2( 0, 3000 )
-
 [node name="Camera2D" type="Camera2D" parent="."]
 current = true
 zoom = Vector2( 5, 5 )

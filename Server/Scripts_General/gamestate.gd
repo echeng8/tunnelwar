@@ -1,8 +1,6 @@
 extends Node
 
 ####DEBUG VARIABLES####
-const DEV_SPAWN_X = 0
-const DEV_SPAWN_Y = 0
 var time_passed = 0
 ####/DEBUG VARIABLES####
 
@@ -44,8 +42,8 @@ remote func register_player(new_player_name):
 	
 	print("Client ", caller_id, " registered as ", new_player_name)
 	
-	get_node("/root/World").rpc("spawn_player", Vector2(DEV_SPAWN_X, DEV_SPAWN_Y), caller_id, new_player_name)
-	get_node("/root/World").spawn_everything_in(caller_id)
+	world_node.spawn_player(caller_id, new_player_name)
+	world_node.spawn_everything_in(caller_id)
 	
 # Return random 2D vector inside bounds 0, 0, bound_x, bound_y
 func random_vector2(bound_x, bound_y):

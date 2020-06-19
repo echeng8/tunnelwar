@@ -4,6 +4,8 @@ class_name Block
 
 var coord
 
+signal on_destroy(coordinates)
+
 func _ready(): 
 	coord = gamestate.get_coord(position)
 	name = str("x", coord.x, "y", coord.y) 
@@ -16,6 +18,7 @@ func spawn_on_client(id):
 	rpc("set_server_state", filename.get_file().get_basename()) 
 
 remotesync func destroy(): 
+	emit_signal("on_destroy", coord)
 	queue_free() 
 
 func get_struck_by(body):

@@ -29,9 +29,11 @@ remote func _chat_box_received_message(var message: String):
 		if messageSplit[0] == "/tp": 
 			targetPlayer.global_position = get_node("/root/World/Spawns").get_child(int(messageSplit[1])).global_position
 			
-		if messageSplit[0] == "/regenblocks":
-			get_node("/root/World/Blocks").regen_all_blocks() 
-			
+		if message == "/destroy_blocks":
+			gamestate.world_node.get_node("Blocks").destroy_all_blocks()
+		
+		if message == "/regen_blocks":
+			gamestate.world_node.get_node("Blocks").gen_at_origin()
 	
 	#message handling
 	else:

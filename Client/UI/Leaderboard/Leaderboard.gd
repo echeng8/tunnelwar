@@ -11,6 +11,9 @@ func request_server_init():
 	rpc_id(1, "initialize_rpc_sender")
 
 puppet func set_rankings(rankings):
+	if not gamestate.world_node.load_completed:
+		return 
+		
 	player_rankings = rankings
 	update_display() 
 	
