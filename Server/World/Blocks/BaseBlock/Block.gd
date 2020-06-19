@@ -16,7 +16,7 @@ func spawn_on_client(id):
 	rpc("set_server_state", filename.get_file().get_basename()) 
 
 remotesync func destroy(): 
-	queue_free()
+	queue_free() 
 
 func get_struck_by(body):
 	return 

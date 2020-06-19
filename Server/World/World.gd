@@ -12,8 +12,25 @@ func _process(delta):
 			stepify(player_coord.x,  $Blocks.chunk_length),
 			stepify(player_coord.y, $Blocks.chunk_length)
 		)
+		
 		if not nearest_chunk in $Blocks.block_dict: 
 			$Blocks.generate_chunk(nearest_chunk)
+		
+		var chunk_size = Vector2($Blocks.chunk_length, $Blocks.chunk_length)  
+		
+		var surrounding_chunks = {}
+		surrounding_chunks['br'] = nearest_chunk + chunk_size
+		surrounding_chunks['b'] = nearest_chunk + chunk_size * Vector2(0,1)
+		surrounding_chunks['bl'] = nearest_chunk + chunk_size * Vector2(-1,1)
+		surrounding_chunks['l'] = nearest_chunk + chunk_size * Vector2(-1, 0)
+		surrounding_chunks['r'] = nearest_chunk + chunk_size * Vector2(1,0)
+		surrounding_chunks['tl'] = nearest_chunk + chunk_size * -1
+		surrounding_chunks['t'] = nearest_chunk + chunk_size * Vector2(0,-1)
+		surrounding_chunks['tr'] = nearest_chunk + chunk_size * Vector2(1,-1)
+		
+		for coord in surrounding_chunks.values():
+			$Blocks.generate_chunk(coord)
+		
 
 ###PLAYERS ###############
 remotesync func remove_player(id):
@@ -48,6 +65,5 @@ func add_item(item, reparent = true):
 		HelperFunctions.reparent(item.get_path(), $Items.get_path(), true) 
 
 	rpc("spawn", item.filename.get_file().get_basename(), item.name, HelperFunctions.get_transform_dict(item))
-
 
 

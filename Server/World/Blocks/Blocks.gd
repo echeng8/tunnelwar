@@ -13,7 +13,12 @@ const chunk_length = 20
 #chance a block is gold
 export var gold_chance = 5 
 
+#generates a chunk at position
+#RETURNS if a block already exists at the location
 func generate_chunk(origin_coord : Vector2):
+	if origin_coord in block_dict:
+		return 
+		
 	var top_left = origin_coord - Vector2(chunk_length/2, chunk_length/2)
 	
 	for row in range(chunk_length):
