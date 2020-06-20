@@ -5,7 +5,7 @@ const textures = {
 	"Dirt" : preload("res://World/Block/Block.png")
 }
 
-remotesync func destroy():
+puppet func destroy():
 	queue_free() 
 	
 puppet func set_server_state(filename):

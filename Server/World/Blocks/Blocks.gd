@@ -1,11 +1,16 @@
 extends Node
 
+#######GAME MECHANICS
+var reset_blocks = 3 #number of reset blocks until game resets 
+#######
+
 var block_dict = {} # key = Vector2
 
 const Blocks = {
 	#scenes
 	"Dirt": preload("res://World/Blocks/Dirt/Dirt.tscn"), 
 	"GoldOre" : preload("res://World/Blocks/GoldOreBlock/GoldOreBlock.tscn"),
+	"ResetBlock" : preload("res://World/Blocks/ResetRock/ResetBlock.tscn")
 }
 
 func _ready(): 
@@ -16,9 +21,6 @@ const chunk_length = 20
 #chance a block is gold
 export var gold_chance = 2 
 
-func destroy_all_blocks():
-	for block in get_children(): 
-		block.rpc("destroy")
 
 ##WORLD SPAWNING
 func gen_at_origin():
@@ -39,7 +41,12 @@ func gen_at_origin():
 	
 	for coord in surrounding_chunks.values():
 		generate_chunk(coord)
-		
+
+func destroy_all_blocks():
+	for block in get_children(): 
+		block.rpc("destroy")
+
+
 #RETURNS if a block already exists at the location
 func generate_chunk(origin_coord : Vector2):
 	if origin_coord in block_dict:
@@ -49,19 +56,41 @@ func generate_chunk(origin_coord : Vector2):
 	
 	for row in range(chunk_length):
 		for col in range(chunk_length):
-			var instance = null
+			var block_name = ""
 			if randi() % 100 <= gold_chance:
-				instance = Blocks["GoldOre"].instance()
+				block_name = "GoldOre"
 			else:
-				instance = Blocks["Dirt"].instance() 
-				
-			instance.position = gamestate.get_pos(top_left + Vector2(row, col))
-			instance.connect("on_destroy", self, "erase_block")
-			add_child(instance)
-			block_dict[instance.coord] = instance
+				block_name = "Dirt"
+			create_block(block_name, top_left + Vector2(row, col))
 
+#convert random block to reset
+#pre-condition: blocks exist 
+func spawn_reset_block():  
+	var random_block = get_random_block()
+	var coord = random_block.coord
+	random_block.destroy() 
+	create_block("ResetBlock", coord) 
+	
+	block_dict[coord].connect("on_destroy", self, "on_reset_block_destroyed")
+
+func on_reset_block_destroyed(): 
+	if reset_blocks > 0 and block_dict.keys.length > 0:
+		spawn_reset_block()
+		reset_blocks -= 1 
+	else: 
+		destroy_all_blocks()
+		#todo bring them back after delay
+		
 func get_random_block():
 	return get_child(randi() % get_child_count())
 
-func erase_block(coordinate : Vector2): 
+func create_block(block_name : String, coordinate: Vector2):
+	var instance = Blocks[block_name].instance()
+	instance.position = gamestate.get_pos(coordinate)
+	instance.connect("on_destroy", self, "_erase_block")
+	add_child(instance)
+	block_dict[instance.coord] = instance
+	
+#deletes block from dictionary, connected to blocks ondestroy() 
+func _erase_block(coordinate : Vector2): 
 	block_dict.erase(coordinate)

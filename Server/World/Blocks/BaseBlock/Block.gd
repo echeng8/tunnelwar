@@ -17,8 +17,9 @@ func spawn_on_client(id):
 	gamestate.world_node.rpc_id(int(id), "spawn", "Block", name, HelperFunctions.get_transform_dict(self))
 	rpc("set_server_state", filename.get_file().get_basename()) 
 
-remotesync func destroy(): 
+func destroy(): 
 	emit_signal("on_destroy", coord)
+	rpc("destroy")
 	queue_free() 
 
 func get_struck_by(body):
