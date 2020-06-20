@@ -24,6 +24,8 @@ func spawn_player(id, username):
 	player.set_network_master(id) # Important
 	
 	$Players.add_child(player)
+	
+	rpc("spawn_player", player.position, player.get_network_master(), player.username)
 	emit_signal("on_player_load", id)
 
 func spawn_everything_in(caller_id): 

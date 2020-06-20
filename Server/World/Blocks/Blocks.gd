@@ -41,7 +41,9 @@ func gen_at_origin():
 	
 	for coord in surrounding_chunks.values():
 		generate_chunk(coord)
-
+	
+	spawn_reset_block()
+	
 func destroy_all_blocks():
 	for block in get_children(): 
 		block.rpc("destroy")
@@ -79,7 +81,8 @@ func on_reset_block_destroyed():
 		reset_blocks -= 1 
 	else: 
 		destroy_all_blocks()
-		#todo bring them back after delay
+		yield(get_tree().create_timer(3.0), "timeout")
+		gen_at_origin()  
 		
 func get_random_block():
 	return get_child(randi() % get_child_count())
