@@ -49,7 +49,10 @@ func gen_at_origin():
 	
 func destroy_all_blocks():
 	for block in block_dict.values(): 
-		block.destroy()
+		if(is_instance_valid(block)):
+			block.destroy()
+			if randi() % 10 < 2:
+				yield(get_tree(),"idle_frame")
 
 
 #RETURNS if a block already exists at the location
@@ -67,7 +70,9 @@ func generate_chunk(origin_coord : Vector2):
 			else:
 				block_name = "Dirt"
 			create_block(block_name, top_left + Vector2(row, col))
-
+			if randi() % 10 < 5:
+				yield(get_tree(),"idle_frame")
+			
 #convert random block to reset
 #pre-condition: blocks exist 
 func spawn_reset_block():  
@@ -92,7 +97,9 @@ func on_reset_block_destroyed(coord):
 
 func reset():
 	destroy_all_blocks()
-	yield(get_tree().create_timer(no_block_time), "timeout")
+	while block_dict.values().size() > 0:
+		yield(get_tree(), "idle_frame")
+	#yield(get_tree().create_timer(no_block_time), "timeout")
 	gen_at_origin()  
 	
 func get_random_block():

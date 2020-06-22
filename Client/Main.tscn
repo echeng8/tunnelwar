@@ -19,7 +19,7 @@ __meta__ = {
 }
 
 [node name="Banner" type="Sprite" parent="."]
-position = Vector2( 964.328, 548.716 )
+position = Vector2( 964.334, 545.291 )
 scale = Vector2( 1.68243, 1.68243 )
 texture = ExtResource( 4 )
 
