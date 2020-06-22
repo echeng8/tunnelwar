@@ -1,6 +1,11 @@
 extends Control
 
+func _ready():
+	gamestate.chat_box = self 
 
+func say(text):
+	rpc("add_message", text)
+	
 remote func _chat_box_received_message(var message: String):
 	var caller_id = get_tree().get_rpc_sender_id()
 	
@@ -26,15 +31,24 @@ remote func _chat_box_received_message(var message: String):
 			rpc("add_message", msg)
 			targetPlayer.get_node("ShovelGun").vulnerability_time = float(messageSplit[1])
 			
-		if messageSplit[0] == "/tp": 
-			targetPlayer.global_position = get_node("/root/World/Spawns").get_child(int(messageSplit[1])).global_position
-			
+		if (messageSplit[0] == "/tp" 
+			and messageSplit.size() == 3
+			and messageSplit[1].is_valid_integer()
+			and messageSplit[2].is_valid_integer()
+			): 
+			var pos = gamestate.get_pos(Vector2(int(messageSplit[1]), int(messageSplit[2])))
+			targetPlayer.global_position = pos
+		
+		if message == "/frb": #find reset block
+			var blocks = gamestate.world_node.get_node("Blocks")
+			if is_instance_valid(blocks.reset_block):
+				rpc("add_message", blocks.reset_block.coord)
 		if message == "/destroy_blocks":
 			gamestate.world_node.get_node("Blocks").destroy_all_blocks()
 		
-		if message == "/regen_blocks":
-			gamestate.world_node.get_node("Blocks").gen_at_origin()
-	
+		if message == "/reset":
+			gamestate.world_node.get_node("Blocks").reset()
+		
 	#message handling
 	else:
 		var senderName = str(gamestate.get_player(caller_id).username)

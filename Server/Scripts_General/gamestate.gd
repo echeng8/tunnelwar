@@ -12,13 +12,14 @@ const MAX_PLAYERS = 12
 
 # STATIC REFERENCES 
 var world_node
+var chat_box  
 
 #variables
 const block_size = 200.0
 
 
 func _ready():
-	world_node = get_node("/root/World")\
+	world_node = get_node("/root/World")
 	
 	get_tree().connect("network_peer_connected", self, "_player_connected")
 	get_tree().connect("network_peer_disconnected", self,"_player_disconnected")

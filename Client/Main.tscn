@@ -103,7 +103,7 @@ margin_left = 938.0
 margin_right = 1038.0
 margin_bottom = 24.0
 rect_min_size = Vector2( 100, 0 )
-text = "142.129.27.120"
+text = "localhost"
 
 [node name="ServerPortHBox" type="HBoxContainer" parent="UIVBox/DEVServerConnect"]
 margin_top = 28.0

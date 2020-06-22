@@ -1,10 +1,13 @@
 extends Node
 
 #######GAME MECHANICS
-var reset_blocks = 3 #number of reset blocks until game resets 
+var reset_blocks = 1 #number of reset blocks until game resets 
+var rb_respawn_time = 3.0  #seconds until reset_block respawns
+var no_block_time = 6.0 #seconds there is no blocks during a reset 
 #######
 
 var block_dict = {} # key = Vector2
+var reset_block = null #ref to resetblock
 
 const Blocks = {
 	#scenes
@@ -45,8 +48,8 @@ func gen_at_origin():
 	spawn_reset_block()
 	
 func destroy_all_blocks():
-	for block in get_children(): 
-		block.rpc("destroy")
+	for block in block_dict.values(): 
+		block.destroy()
 
 
 #RETURNS if a block already exists at the location
@@ -71,19 +74,27 @@ func spawn_reset_block():
 	var random_block = get_random_block()
 	var coord = random_block.coord
 	random_block.destroy() 
+	yield(get_tree().create_timer(rb_respawn_time), "timeout")
 	create_block("ResetBlock", coord) 
 	
 	block_dict[coord].connect("on_destroy", self, "on_reset_block_destroyed")
-
-func on_reset_block_destroyed(): 
-	if reset_blocks > 0 and block_dict.keys.length > 0:
+	reset_block = block_dict[coord]
+	
+func on_reset_block_destroyed(coord): 
+	yield(get_tree().create_timer(rb_respawn_time), "timeout")
+	
+	if reset_blocks > 0 and block_dict.keys().size() > 0:
 		spawn_reset_block()
 		reset_blocks -= 1 
 	else: 
-		destroy_all_blocks()
-		yield(get_tree().create_timer(3.0), "timeout")
-		gen_at_origin()  
-		
+		reset() 
+
+
+func reset():
+	destroy_all_blocks()
+	yield(get_tree().create_timer(no_block_time), "timeout")
+	gen_at_origin()  
+	
 func get_random_block():
 	return get_child(randi() % get_child_count())
 
@@ -93,6 +104,7 @@ func create_block(block_name : String, coordinate: Vector2):
 	instance.connect("on_destroy", self, "_erase_block")
 	add_child(instance)
 	block_dict[instance.coord] = instance
+	return instance 
 	
 #deletes block from dictionary, connected to blocks ondestroy() 
 func _erase_block(coordinate : Vector2): 
