@@ -14,7 +14,8 @@ const Blocks = {
 	#scenes
 	"Dirt": preload("res://World/Blocks/Dirt/Dirt.tscn"), 
 	"GoldOre" : preload("res://World/Blocks/GoldOreBlock/GoldOreBlock.tscn"),
-	"ResetBlock" : preload("res://World/Blocks/ResetRock/ResetBlock.tscn")
+	"ResetBlock" : preload("res://World/Blocks/ResetRock/ResetBlock.tscn"), 
+	"Bedrock" : preload("res://World/Blocks/Bedrock/Bedrock.tscn")
 }
 var block_dict = {} # key = Vector2
 var reset_block = null #ref to resetblock
@@ -46,7 +47,12 @@ func gen_at_origin():
 	for coord in surrounding_chunks.values():
 		generate_chunk(coord)
 	
-	spawn_reset_block()
+	#spawn_reset_block()
+	create_walls(
+		"Bedrock", 
+		surrounding_chunks['tl'] + chunk_size/2 * -1 - Vector2(1,1),
+		surrounding_chunks['br'] + chunk_size/2
+	)
 	
 func destroy_all_blocks():
 	for block in block_dict.values(): 
@@ -103,7 +109,7 @@ func reset():
 	#yield(get_tree().create_timer(no_block_time), "timeout")
 	gen_at_origin()  
 	
-func get_random_block():
+func get_random_block(): #todo add filters
 	return get_child(randi() % get_child_count())
 
 func create_block(block_name : String, coordinate: Vector2):
@@ -123,9 +129,9 @@ func _erase_block(coordinate : Vector2):
 
 #use coords
 func create_walls(block_name : String, top_left : Vector2, bottom_right : Vector2): 
-	for i in range(top_left.x - bottom_right.x):
+	for i in range(bottom_right.x - top_left.x + 1):
 		create_block(block_name, top_left + Vector2(i,0))
 		create_block(block_name, bottom_right + Vector2(-i,0))
-	for i in range(bottom_right.y - top_left.y):
+	for i in range(bottom_right.y - top_left.y + 1):
 		create_block(block_name, top_left + Vector2(0,i))
 		create_block(block_name, bottom_right + Vector2(0,-i))
