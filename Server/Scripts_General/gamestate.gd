@@ -5,7 +5,7 @@ var time_passed = 0
 ####/DEBUG VARIABLES####
 
 # Default game port
-const DEFAULT_PORT = 25525
+const DEFAULT_PORT = 25565
 
 # Max number of players
 const MAX_PLAYERS = 12

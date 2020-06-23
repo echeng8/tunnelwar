@@ -4,25 +4,26 @@ extends Node
 var reset_blocks = 1 #number of reset blocks until game resets 
 var rb_respawn_time = 3.0  #seconds until reset_block respawns
 var no_block_time = 6.0 #seconds there is no blocks during a reset 
+
+export var gold_chance = 2 #chance a block is gold
 #######
 
-var block_dict = {} # key = Vector2
-var reset_block = null #ref to resetblock
 
+#REFERENCES
 const Blocks = {
 	#scenes
 	"Dirt": preload("res://World/Blocks/Dirt/Dirt.tscn"), 
 	"GoldOre" : preload("res://World/Blocks/GoldOreBlock/GoldOreBlock.tscn"),
 	"ResetBlock" : preload("res://World/Blocks/ResetRock/ResetBlock.tscn")
 }
+var block_dict = {} # key = Vector2
+var reset_block = null #ref to resetblock
+
 
 func _ready(): 
-	gen_at_origin()
+	gen_at_origin() #todo move this to gamestate
 	
 const chunk_length = 20
-
-#chance a block is gold
-export var gold_chance = 2 
 
 
 ##WORLD SPAWNING
@@ -60,6 +61,8 @@ func generate_chunk(origin_coord : Vector2):
 	if origin_coord in block_dict:
 		return 
 		
+# warning-ignore:integer_division
+# warning-ignore:integer_division
 	var top_left = origin_coord - Vector2(chunk_length/2, chunk_length/2)
 	
 	for row in range(chunk_length):
@@ -85,7 +88,7 @@ func spawn_reset_block():
 	block_dict[coord].connect("on_destroy", self, "on_reset_block_destroyed")
 	reset_block = block_dict[coord]
 	
-func on_reset_block_destroyed(coord): 
+func on_reset_block_destroyed(_coord): 
 	yield(get_tree().create_timer(rb_respawn_time), "timeout")
 	
 	if reset_blocks > 0 and block_dict.keys().size() > 0:
@@ -106,6 +109,9 @@ func get_random_block():
 	return get_child(randi() % get_child_count())
 
 func create_block(block_name : String, coordinate: Vector2):
+	if coordinate in block_dict: 
+		block_dict[coordinate].destroy() 
+		yield(get_tree(), "idle_frame")
 	var instance = Blocks[block_name].instance()
 	instance.position = gamestate.get_pos(coordinate)
 	instance.connect("on_destroy", self, "_erase_block")
@@ -116,3 +122,12 @@ func create_block(block_name : String, coordinate: Vector2):
 #deletes block from dictionary, connected to blocks ondestroy() 
 func _erase_block(coordinate : Vector2): 
 	block_dict.erase(coordinate)
+
+#use coords
+func create_walls(block_name : String, top_left : Vector2, bottom_right : Vector2): 
+	for i in range(top_left.x - bottom_right.x):
+		create_block(block_name, top_left + Vector2(i,0))
+		create_block(block_name, bottom_right + Vector2(-i,0))
+	for i in range(bottom_right.y - top_left.y):
+		create_block(block_name, top_left + Vector2(0,i))
+		create_block(block_name, bottom_right + Vector2(0,-i))

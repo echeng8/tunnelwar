@@ -3,7 +3,8 @@ extends Node2D
 const textures = {
 	"GoldOreBlock" : preload("res://World/Block/GoldBlock.png"),
 	"Dirt" : preload("res://World/Block/Block.png"), 
-	"ResetBlock": preload("res://World/Block/ResetBlock.png")
+	"ResetBlock": preload("res://World/Block/ResetBlock.png"),  
+	"Bedrock" : preload("res://World/Block/Bedrock.png")
 }
 
 puppet func destroy():
