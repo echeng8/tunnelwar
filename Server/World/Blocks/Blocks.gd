@@ -32,7 +32,7 @@ func gen_at_origin():
 	generate_chunk(origin)
 	
 	var chunk_size = Vector2(chunk_length, chunk_length)  
-	
+
 	var surrounding_chunks = {}
 	surrounding_chunks['br'] = origin + chunk_size
 	surrounding_chunks['b'] = origin + chunk_size * Vector2(0,1)
@@ -42,7 +42,7 @@ func gen_at_origin():
 	surrounding_chunks['tl'] = origin + chunk_size * -1
 	surrounding_chunks['t'] = origin + chunk_size * Vector2(0,-1)
 	surrounding_chunks['tr'] = origin + chunk_size * Vector2(1,-1)
-	
+
 	for coord in surrounding_chunks.values():
 		generate_chunk(coord)
 	
@@ -61,8 +61,6 @@ func generate_chunk(origin_coord : Vector2):
 	if origin_coord in block_dict:
 		return 
 		
-# warning-ignore:integer_division
-# warning-ignore:integer_division
 	var top_left = origin_coord - Vector2(chunk_length/2, chunk_length/2)
 	
 	for row in range(chunk_length):
