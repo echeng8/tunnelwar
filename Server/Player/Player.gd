@@ -26,7 +26,7 @@ func get_struck_by(source):
 
 func respawn():
 	self.health_points = base_hp 
-	rpc("set_player_position", Vector2(gamestate.DEV_SPAWN_X, gamestate.DEV_SPAWN_Y))
+	rpc("set_player_position", gamestate.world_node.get_node("Blocks").get_random_block().position) 
 	rpc("set_health", health_points)
 
 remotesync func set_player_position(pos):

@@ -9,11 +9,10 @@ func say(text):
 remote func _chat_box_received_message(var message: String):
 	var caller_id = get_tree().get_rpc_sender_id()
 	
-	#command handling
+	#universal command handling (nodes may implement their own command handling thru signals) 
 	if message.begins_with("/"):
 		var messageSplit:Array = message.split(" ", true, 0)
 		var targetPlayer = get_node("/root/World/Players/" + str(caller_id))
-		
 		
 		if messageSplit[0] == "/movespeed": #/speed [units]
 			rpc("add_message", "[color=maroon][HAX][/color] speed before: " + str(targetPlayer.speed) + ", after: " + messageSplit[1])
@@ -48,7 +47,7 @@ remote func _chat_box_received_message(var message: String):
 		
 		if message == "/reset":
 			gamestate.world_node.get_node("Blocks").reset()
-		
+			
 	#message handling
 	else:
 		var senderName = str(gamestate.get_player(caller_id).username)

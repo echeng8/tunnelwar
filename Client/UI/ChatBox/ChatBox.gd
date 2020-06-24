@@ -1,5 +1,6 @@
 extends Node
 
+signal on_message_send(message)  
 
 var firstMessage = true
 
@@ -31,7 +32,7 @@ func _on_SendButton_pressed() -> void:
 		return
 
 	rpc_id(1, "_chat_box_received_message", $UserInput.text)
-
+	emit_signal("on_message_send", $UserInput.text)
 	$UserInput.text = ""
 
 

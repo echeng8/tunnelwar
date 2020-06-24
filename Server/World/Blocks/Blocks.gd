@@ -1,7 +1,7 @@
 extends Node
 
 #######GAME MECHANICS
-var reset_blocks = 1 #number of reset blocks until game resets 
+var reset_blocks = 2 #number of reset blocks until game resets 
 var rb_respawn_time = 3.0  #seconds until reset_block respawns
 var no_block_time = 6.0 #seconds there is no blocks during a reset 
 
@@ -27,7 +27,7 @@ func _ready():
 const chunk_length = 20
 
 
-##WORLD SPAWNING
+## WORLD MANAGEMENT
 func gen_at_origin():
 	var origin = Vector2(0,0)
 	generate_chunk(origin)
@@ -47,20 +47,49 @@ func gen_at_origin():
 	for coord in surrounding_chunks.values():
 		generate_chunk(coord)
 	
-	#spawn_reset_block()
+	spawn_reset_block()
+	
 	create_walls(
 		"Bedrock", 
 		surrounding_chunks['tl'] + chunk_size/2 * -1 - Vector2(1,1),
 		surrounding_chunks['br'] + chunk_size/2
 	)
-	
-func destroy_all_blocks():
-	for block in block_dict.values(): 
-		if(is_instance_valid(block)):
-			block.destroy()
-			if randi() % 10 < 2:
-				yield(get_tree(),"idle_frame")
 
+func reset():
+	destroy_all_blocks()
+	while block_dict.values().size() > 0:
+		yield(get_tree(), "idle_frame")
+	#yield(get_tree().create_timer(no_block_time), "timeout")
+	gen_at_origin()  
+	
+	
+####### RESET BLOCKS ########### 
+
+#convert random block to reset
+#pre-condition: blocks exist 
+func spawn_reset_block():  
+	var random_block = get_random_block()
+	var coord = random_block.coord
+	random_block.destroy() 
+	yield(get_tree(), "idle_frame") #let destruction occur (maybe better solution?)
+	create_block("ResetBlock", coord) 
+	
+	block_dict[coord].connect("on_destroy", self, "on_reset_block_destroyed")
+	reset_block = block_dict[coord]
+	
+func on_reset_block_destroyed(_coord): 
+	yield(get_tree().create_timer(rb_respawn_time), "timeout")
+	
+	if reset_blocks > 0 and block_dict.keys().size() > 0:
+		spawn_reset_block()
+		reset_blocks -= 1 
+	else: 
+		reset() 
+
+
+####### UTILITY #########
+func get_random_block(): #todo add filters
+	return get_child(randi() % get_child_count())
 
 #RETURNS if a block already exists at the location
 func generate_chunk(origin_coord : Vector2):
@@ -79,38 +108,7 @@ func generate_chunk(origin_coord : Vector2):
 			create_block(block_name, top_left + Vector2(row, col))
 			if randi() % 10 < 5:
 				yield(get_tree(),"idle_frame")
-			
-#convert random block to reset
-#pre-condition: blocks exist 
-func spawn_reset_block():  
-	var random_block = get_random_block()
-	var coord = random_block.coord
-	random_block.destroy() 
-	yield(get_tree().create_timer(rb_respawn_time), "timeout")
-	create_block("ResetBlock", coord) 
-	
-	block_dict[coord].connect("on_destroy", self, "on_reset_block_destroyed")
-	reset_block = block_dict[coord]
-	
-func on_reset_block_destroyed(_coord): 
-	yield(get_tree().create_timer(rb_respawn_time), "timeout")
-	
-	if reset_blocks > 0 and block_dict.keys().size() > 0:
-		spawn_reset_block()
-		reset_blocks -= 1 
-	else: 
-		reset() 
 
-
-func reset():
-	destroy_all_blocks()
-	while block_dict.values().size() > 0:
-		yield(get_tree(), "idle_frame")
-	#yield(get_tree().create_timer(no_block_time), "timeout")
-	gen_at_origin()  
-	
-func get_random_block(): #todo add filters
-	return get_child(randi() % get_child_count())
 
 func create_block(block_name : String, coordinate: Vector2):
 	if coordinate in block_dict: 
@@ -122,7 +120,15 @@ func create_block(block_name : String, coordinate: Vector2):
 	add_child(instance)
 	block_dict[instance.coord] = instance
 	return instance 
+
 	
+func destroy_all_blocks():
+	for block in block_dict.values(): 
+		if(is_instance_valid(block)):
+			block.destroy()
+			if randi() % 10 < 2:
+				yield(get_tree(),"idle_frame")
+					
 #deletes block from dictionary, connected to blocks ondestroy() 
 func _erase_block(coordinate : Vector2): 
 	block_dict.erase(coordinate)

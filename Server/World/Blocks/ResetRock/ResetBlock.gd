@@ -1,6 +1,6 @@
 extends Block
 
-var hitpoints = 2 #how many strikes it takes to break
+var hitpoints = 3 #how many strikes it takes to break
 
 func get_struck_by(body):
 	hitpoints -=  1 

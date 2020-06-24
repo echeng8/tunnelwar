@@ -15,7 +15,6 @@ func _ready():
 		
 	rpc_id(1, "on_client_node_connect")
 	
-	
 func update_GUI():
 	#display name
 	var player_id = get_network_master()

@@ -34,4 +34,4 @@ func on_Shovel_area_entered(area): #hit an activated ShovelGun
 		velocity = -velocity 
 		#todo deflect refactor
 		fsm_root.rotation += velocity.angle()  
-		fsm.root.rpc("set_rotation", fsm_root.rotation) 
+		fsm_root.rpc("set_rotation", fsm_root.rotation) 
