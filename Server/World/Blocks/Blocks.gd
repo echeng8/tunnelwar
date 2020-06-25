@@ -13,22 +13,29 @@ export var gold_chance = 2 #chance a block is gold
 const Blocks = {
 	#scenes
 	"Dirt": preload("res://World/Blocks/Dirt/Dirt.tscn"), 
-	"GoldOre" : preload("res://World/Blocks/GoldOreBlock/GoldOreBlock.tscn"),
+	"GoldOreBlock" : preload("res://World/Blocks/GoldOreBlock/GoldOreBlock.tscn"),
 	"ResetBlock" : preload("res://World/Blocks/ResetRock/ResetBlock.tscn"), 
 	"Bedrock" : preload("res://World/Blocks/Bedrock/Bedrock.tscn")
 }
+
+#Block References - each reference same objects but use different keys 
 var block_dict = {} # key = Vector2
+var block_type = {} # key = "BlockName" - refers to arrays of blocks
+
 var reset_block = null #ref to resetblock
 
+const chunk_length = 20
 
 func _ready(): 
-	gen_at_origin() #todo move this to gamestate
+	#initialize 
+	for block_name in Blocks.keys():
+		block_type[block_name] = []
 	
-const chunk_length = 20
+	gen_at_origin(true) #todo move this to gamestate
 
 
 ## WORLD MANAGEMENT
-func gen_at_origin():
+func gen_at_origin(create_border = false):
 	var origin = Vector2(0,0)
 	generate_chunk(origin)
 	
@@ -49,14 +56,14 @@ func gen_at_origin():
 	
 	spawn_reset_block()
 	
-	create_walls(
-		"Bedrock", 
-		surrounding_chunks['tl'] + chunk_size/2 * -1 - Vector2(1,1),
-		surrounding_chunks['br'] + chunk_size/2
-	)
-
+	if create_border:
+		create_walls(
+			"Bedrock", 
+			surrounding_chunks['tl'] + chunk_size/2 * -1 - Vector2(1,1),
+			surrounding_chunks['br'] + chunk_size/2
+		)
 func reset():
-	destroy_all_blocks()
+	destroy_all_blocks(["Bedrock"])
 	while block_dict.values().size() > 0:
 		yield(get_tree(), "idle_frame")
 	#yield(get_tree().create_timer(no_block_time), "timeout")
@@ -88,8 +95,13 @@ func on_reset_block_destroyed(_coord):
 
 
 ####### UTILITY #########
-func get_random_block(): #todo add filters
-	return get_child(randi() % get_child_count())
+
+#doesn't return bedrock blocks, which aren't part of block_dict 
+func get_random_block(type = ""):
+	if type == "": 
+		return get_child(randi() % get_child_count())
+	else: 
+		return block_type[type][(randi() % block_type[type].size())] 
 
 #RETURNS if a block already exists at the location
 func generate_chunk(origin_coord : Vector2):
@@ -102,7 +114,7 @@ func generate_chunk(origin_coord : Vector2):
 		for col in range(chunk_length):
 			var block_name = ""
 			if randi() % 100 <= gold_chance:
-				block_name = "GoldOre"
+				block_name = "GoldOreBlock"
 			else:
 				block_name = "Dirt"
 			create_block(block_name, top_left + Vector2(row, col))
@@ -114,23 +126,31 @@ func create_block(block_name : String, coordinate: Vector2):
 	if coordinate in block_dict: 
 		block_dict[coordinate].destroy() 
 		yield(get_tree(), "idle_frame")
+		
 	var instance = Blocks[block_name].instance()
 	instance.position = gamestate.get_pos(coordinate)
 	instance.connect("on_destroy", self, "_erase_block")
 	add_child(instance)
+	
+	#adding references 
 	block_dict[instance.coord] = instance
+	block_type[instance.get_class()].append(self)  
+	
 	return instance 
 
 	
-func destroy_all_blocks():
+func destroy_all_blocks(excluded_blocks = []):
 	for block in block_dict.values(): 
-		if(is_instance_valid(block)):
+		if(is_instance_valid(block) and not block.get_class() in excluded_blocks):
 			block.destroy()
 			if randi() % 10 < 2:
 				yield(get_tree(),"idle_frame")
 					
-#deletes block from dictionary, connected to blocks ondestroy() 
-func _erase_block(coordinate : Vector2): 
+#deletes block from dictionaries, connected to blocks ondestroy() 
+func _erase_block(coordinate : Vector2):
+	var block_name = block_dict[coordinate].get_class()
+	
+	block_type[block_name].erase(block_dict[coordinate])
 	block_dict.erase(coordinate)
 
 #use coords

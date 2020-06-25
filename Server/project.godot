@@ -9,15 +9,35 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Block",
+"class": "Bedrock",
+"language": "GDScript",
+"path": "res://World/Blocks/Bedrock/Bedrock.gd"
+}, {
 "base": "StaticBody2D",
 "class": "Block",
 "language": "GDScript",
 "path": "res://World/Blocks/BaseBlock/Block.gd"
 }, {
+"base": "Block",
+"class": "Dirt",
+"language": "GDScript",
+"path": "res://World/Blocks/Dirt/Dirt.gd"
+}, {
+"base": "Block",
+"class": "GoldOreBlock",
+"language": "GDScript",
+"path": "res://World/Blocks/GoldOreBlock/GoldOreBlock.gd"
+}, {
 "base": "KinematicBody2D",
 "class": "Player",
 "language": "GDScript",
 "path": "res://Player/Player.gd"
+}, {
+"base": "Block",
+"class": "ResetBlock",
+"language": "GDScript",
+"path": "res://World/Blocks/ResetRock/ResetBlock.gd"
 }, {
 "base": "Area2D",
 "class": "Shovel",
@@ -40,8 +60,12 @@ _global_script_classes=[ {
 "path": "res://Scripts_General/Base_Classes/FSM/StateMachineUpdate.gd"
 } ]
 _global_script_class_icons={
+"Bedrock": "",
 "Block": "",
+"Dirt": "",
+"GoldOreBlock": "",
 "Player": "",
+"ResetBlock": "",
 "Shovel": "",
 "State": "",
 "StateMachine": "",
