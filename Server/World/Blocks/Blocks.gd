@@ -2,7 +2,7 @@ extends Node
 
 #######GAME MECHANICS
 var reset_blocks = 2 #number of reset blocks until game resets 
-var rb_respawn_time = 3.0  #seconds until reset_block respawns
+var rb_respawn_time = 3.0  #seconds until reset_block spawns 
 var no_block_time = 6.0 #seconds there is no blocks during a reset 
 
 export var gold_chance = 2 #chance a block is gold
@@ -25,6 +25,8 @@ var block_type = {} # key = "BlockName" - refers to arrays of blocks
 var reset_block = null #ref to resetblock
 
 const chunk_length = 20
+#########SIGNALS
+signal on_generation_done  #todo emit this
 
 func _ready(): 
 	#initialize 
@@ -54,14 +56,17 @@ func gen_at_origin(create_border = false):
 	for coord in surrounding_chunks.values():
 		generate_chunk(coord)
 	
-	spawn_reset_block()
-	
 	if create_border:
 		create_walls(
 			"Bedrock", 
 			surrounding_chunks['tl'] + chunk_size/2 * -1 - Vector2(1,1),
 			surrounding_chunks['br'] + chunk_size/2
 		)
+		
+	#todo refactor this 
+	yield(get_tree().create_timer(10), "timeout") #time to load blocks 
+	spawn_reset_block()
+	
 func reset():
 	destroy_all_blocks(["Bedrock"])
 	while block_dict.values().size() > 0:
@@ -75,7 +80,7 @@ func reset():
 #convert random block to reset
 #pre-condition: blocks exist 
 func spawn_reset_block():  
-	var random_block = get_random_block()
+	var random_block = get_random_block("Dirt")
 	var coord = random_block.coord
 	random_block.destroy() 
 	yield(get_tree(), "idle_frame") #let destruction occur (maybe better solution?)
@@ -97,11 +102,19 @@ func on_reset_block_destroyed(_coord):
 ####### UTILITY #########
 
 #doesn't return bedrock blocks, which aren't part of block_dict 
+#returns -1 if no blocks exist 
 func get_random_block(type = ""):
 	if type == "": 
-		return get_child(randi() % get_child_count())
+		if get_child_count() > 0:
+			return get_child(randi() % get_child_count())
+		else:
+			return -1 
 	else: 
-		return block_type[type][(randi() % block_type[type].size())] 
+		var block_array = block_type[type]
+		if block_array.size() > 0:
+			return block_array[(randi() % block_type[type].size())]
+		else:
+			return -1 
 
 #RETURNS if a block already exists at the location
 func generate_chunk(origin_coord : Vector2):
@@ -134,7 +147,7 @@ func create_block(block_name : String, coordinate: Vector2):
 	
 	#adding references 
 	block_dict[instance.coord] = instance
-	block_type[instance.get_class()].append(self)  
+	block_type[instance.get_class()].append(instance)  
 	
 	return instance 
 
