@@ -1,4 +1,5 @@
 extends Node
+class_name Blocks 
 
 #######GAME MECHANICS
 var reset_blocks = 1 #number of reset blocks until game resets 
@@ -33,6 +34,8 @@ signal on_block_edit_done  #emits when blocks destroyed or generated
 
 func _ready(): 
 	#initialize 
+	gamestate.blocks_node = self 
+	
 	for block_name in Blocks.keys():
 		block_type[block_name] = []
 	

@@ -12,6 +12,7 @@ const MAX_PLAYERS = 12
 
 # STATIC REFERENCES 
 var world_node
+var blocks_node : Blocks #child of World.tcsn, set on onready by Blocks node
 var chat_box  
 
 #variables

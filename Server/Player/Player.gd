@@ -25,10 +25,15 @@ func get_struck_by(source):
 	emit_signal("struck_by", source)
 
 func respawn():
+	#drop gold  #TODO check if valid gamestaate (e.g. not reseting)
+	gamestate.blocks_node.spawn_golds_at(gamestate.get_coord(position), get_gold())
+	set_gold(0)
+	
 	self.health_points = base_hp 
 	rpc("set_player_position", gamestate.world_node.get_node("Blocks").get_random_block().position) 
 	rpc("set_health", health_points)
-	set_gold(0)
+
+	
 
 remotesync func set_player_position(pos):
 	position = pos 

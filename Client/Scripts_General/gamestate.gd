@@ -11,7 +11,9 @@ signal server_disconnected()
 
 var my_name = "Client"
 
+#references 
 var world_node #set by World.tcsn when loaded
+
 
 func _ready():
 	assert(get_tree().connect("connected_to_server", self, "_connected_ok") == 0)
