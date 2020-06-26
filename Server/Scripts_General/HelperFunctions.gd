@@ -1,5 +1,6 @@
 extends Node
 
+const directions = [Vector2.LEFT, Vector2.UP, Vector2.RIGHT, Vector2.DOWN]
 
 remotesync func reparent(node1_path, node2_path, keep_transform = true):
 	var node1 = get_node(node1_path)

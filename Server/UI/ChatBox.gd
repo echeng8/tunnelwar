@@ -38,16 +38,21 @@ remote func _chat_box_received_message(var message: String):
 			var pos = gamestate.get_pos(Vector2(int(messageSplit[1]), int(messageSplit[2])))
 			targetPlayer.global_position = pos
 		
+		#spawns gold at player location 
+		if (messageSplit[0] == "/spawn_gold" 
+			and messageSplit.size() == 2
+			and messageSplit[1].is_valid_integer()
+			): 
+			gamestate.world_node.get_node("Blocks").spawn_golds_at(gamestate.get_coord(targetPlayer.position), int(messageSplit[1]))
+		
 		if message == "/frb": #find reset block
 			var blocks = gamestate.world_node.get_node("Blocks")
 			if is_instance_valid(blocks.reset_block):
 				rpc("add_message", blocks.reset_block.coord)
+				
 		if message == "/destroy_blocks":
 			gamestate.world_node.get_node("Blocks").destroy_all_blocks()
-		
-		if message == "/reset":
-			gamestate.world_node.get_node("Blocks").reset()
-			
+
 	#message handling
 	else:
 		var senderName = str(gamestate.get_player(caller_id).username)

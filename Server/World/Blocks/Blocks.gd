@@ -1,7 +1,7 @@
 extends Node
 
 #######GAME MECHANICS
-var reset_blocks = 2 #number of reset blocks until game resets 
+var reset_blocks = 1 #number of reset blocks until game resets 
 var rb_respawn_time = 3.0  #seconds until reset_block spawns 
 var no_block_time = 6.0 #seconds there is no blocks during a reset 
 
@@ -22,11 +22,14 @@ const Blocks = {
 var block_dict = {} # key = Vector2
 var block_type = {} # key = "BlockName" - refers to arrays of blocks
 
-var reset_block = null #ref to resetblock
+var reset_block = null #ref to the current resetblock
+
+# adjacent list of open coordiantes; key - coordinate, val - open adjacents  
+var open_adjlist = {} 
 
 const chunk_length = 20
 #########SIGNALS
-signal on_generation_done  #todo emit this
+signal on_block_edit_done  #emits when blocks destroyed or generated
 
 func _ready(): 
 	#initialize 
@@ -66,12 +69,11 @@ func gen_at_origin(create_border = false):
 	#todo refactor this 
 	yield(get_tree().create_timer(10), "timeout") #time to load blocks 
 	spawn_reset_block()
-	
+
+#prereq: all reset blocks destroyed
 func reset():
 	destroy_all_blocks(["Bedrock"])
-	while block_dict.values().size() > 0:
-		yield(get_tree(), "idle_frame")
-	#yield(get_tree().create_timer(no_block_time), "timeout")
+	yield(self, "on_block_edit_done")
 	gen_at_origin()  
 	
 	
@@ -91,13 +93,33 @@ func spawn_reset_block():
 	
 func on_reset_block_destroyed(_coord): 
 	yield(get_tree().create_timer(rb_respawn_time), "timeout")
+	reset_blocks -= 1 
 	
 	if reset_blocks > 0 and block_dict.keys().size() > 0:
 		spawn_reset_block()
-		reset_blocks -= 1 
 	else: 
 		reset() 
 
+###### GOLD ######
+func spawn_golds_at(pos : Vector2, gold_count : int): 
+	var gold_to_spawn = gold_count
+	var spawn_queue = [pos]
+	while gold_to_spawn > 0 and spawn_queue.size() > 0: 
+		var spawn_coord = spawn_queue.pop_front()
+		
+		if spawn_coord in block_dict: 
+			continue 
+		
+		#create gold
+		create_block("GoldOreBlock", spawn_coord)
+		gold_to_spawn -= 1 
+		
+		#add additional empty spots 
+		for dir in HelperFunctions.directions:
+			if not spawn_coord + dir in block_dict:
+				spawn_queue.append(spawn_coord + dir)
+		
+		yield(get_tree(), "idle_frame") 
 
 ####### UTILITY #########
 
@@ -158,14 +180,17 @@ func destroy_all_blocks(excluded_blocks = []):
 			block.destroy()
 			if randi() % 10 < 2:
 				yield(get_tree(),"idle_frame")
-					
-#deletes block from dictionaries, connected to blocks ondestroy() 
+	
+	emit_signal("on_block_edit_done")	
+	
+#deletes block from dictionaries, updates open adjlist
+#connected to blocks ondestroy() 
 func _erase_block(coordinate : Vector2):
 	var block_name = block_dict[coordinate].get_class()
 	
 	block_type[block_name].erase(block_dict[coordinate])
 	block_dict.erase(coordinate)
-
+	
 #use coords
 func create_walls(block_name : String, top_left : Vector2, bottom_right : Vector2): 
 	for i in range(bottom_right.x - top_left.x + 1):
