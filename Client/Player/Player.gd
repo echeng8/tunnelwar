@@ -1,4 +1,5 @@
 extends KinematicBody2D
+class_name Player
 var cameraReference
 
 remotesync var username

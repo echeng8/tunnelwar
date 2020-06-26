@@ -1,16 +1,22 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://UI/Leaderboard/Leaderboard.gd" type="Script" id=1]
+[ext_resource path="res://UI/Leaderboard/kisspng-arrow-computer-icons-clip-art-arrow-pointing-right-5aafd99e848870.5017295115214739505429.png" type="Texture" id=2]
+[ext_resource path="res://UI/Leaderboard/Compass.gd" type="Script" id=3]
 
 [node name="Leaderboard" type="Control"]
+anchor_right = 0.003
+margin_right = -5.76
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="RichTextLabel" type="RichTextLabel" parent="."]
-margin_right = 126.0
-margin_bottom = 173.0
+margin_left = 2.43837
+margin_top = 41.4525
+margin_right = 128.438
+margin_bottom = 226.453
 text = "richest shovelings
 1. emiro 4
 2. machineman 2
@@ -18,3 +24,10 @@ text = "richest shovelings
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Compass" type="Sprite" parent="."]
+position = Vector2( 52.3109, 18.9075 )
+scale = Vector2( 0.0498586, 0.0677978 )
+texture = ExtResource( 2 )
+flip_h = true
+script = ExtResource( 3 )

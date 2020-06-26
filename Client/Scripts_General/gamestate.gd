@@ -60,5 +60,5 @@ func _connected_fail():
 	# Try to connect again
 	#connect_to_server()
 
-func get_player(id):
+func get_player(id) -> Player:
 	return world_node.get_node("Players/" + str(id))

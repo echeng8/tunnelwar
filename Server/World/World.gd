@@ -18,7 +18,8 @@ func spawn_player(id, username):
 		return 
 		
 	var player = Player.instance()
-	player.position = $Blocks.get_random_block().position 
+	#TODO logic in case no dirt remains
+	player.position = $Blocks.get_random_block("Dirt").position 
 	player.name = String(id) # Important
 	player.username = username
 	player.set_network_master(id) # Important
