@@ -10,13 +10,19 @@ const DEFAULT_PORT = 25565
 # Max number of players
 const MAX_PLAYERS = 12
 
+enum game_phases {IN_PROGRESS, INTERIM}
 # STATIC REFERENCES 
+var game_phase = game_phases.INTERIM setget set_game_phase 
+
 var world_node
 var blocks_node : Blocks #child of World.tcsn, set on onready by Blocks node
 var chat_box  
 
 #variables
 const block_size = 200.0
+
+#signals
+signal on_phase_change(phase)
 
 
 func _ready():
@@ -28,6 +34,12 @@ func _ready():
 	var host = NetworkedMultiplayerENet.new()
 	host.create_server(DEFAULT_PORT, MAX_PLAYERS)
 	get_tree().set_network_peer(host)
+
+#### GAME PHASES
+func set_game_phase(gp : int) -> void: 
+	game_phase = gp
+	emit_signal("on_phase_change", gp)
+	print(game_phase)
 
 # Callback from SceneTree, called when client connects
 func _player_connected(_id):

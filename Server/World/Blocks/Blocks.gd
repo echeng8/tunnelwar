@@ -29,8 +29,13 @@ var reset_block = null #ref to the current resetblock
 var open_adjlist = {} 
 
 const chunk_length = 20
+
 #########SIGNALS
 signal on_block_edit_done  #emits when blocks destroyed or generated
+
+
+######### private variables
+var _chunks_generating = 0 
 
 func _ready(): 
 	#initialize 
@@ -58,6 +63,7 @@ func gen_at_origin(create_border = false):
 	surrounding_chunks['tl'] = origin + chunk_size * -1
 	surrounding_chunks['t'] = origin + chunk_size * Vector2(0,-1)
 	surrounding_chunks['tr'] = origin + chunk_size * Vector2(1,-1)
+	
 
 	for coord in surrounding_chunks.values():
 		generate_chunk(coord)
@@ -68,13 +74,16 @@ func gen_at_origin(create_border = false):
 			surrounding_chunks['tl'] + chunk_size/2 * -1 - Vector2(1,1),
 			surrounding_chunks['br'] + chunk_size/2
 		)
-		
 	#todo refactor this 
+	yield(self, "on_block_edit_done")
+	gamestate.set_game_phase(gamestate.game_phases.IN_PROGRESS)
+	
 	yield(get_tree().create_timer(10), "timeout") #time to load blocks 
 	spawn_reset_block()
 
 #prereq: all reset blocks destroyed
 func reset():
+	gamestate.set_game_phase(gamestate.game_phases.INTERIM)
 	destroy_all_blocks(["Bedrock"])
 	yield(self, "on_block_edit_done")
 	gen_at_origin()  
@@ -143,6 +152,8 @@ func get_random_block(type = ""):
 
 #RETURNS if a block already exists at the location
 func generate_chunk(origin_coord : Vector2):
+	_chunks_generating += 1 
+	
 	if origin_coord in block_dict:
 		return 
 		
@@ -156,9 +167,11 @@ func generate_chunk(origin_coord : Vector2):
 			else:
 				block_name = "Dirt"
 			create_block(block_name, top_left + Vector2(row, col))
-			if randi() % 10 < 5:
-				yield(get_tree(),"idle_frame")
-
+			yield(get_tree(),"idle_frame")
+			
+	_chunks_generating -= 1
+	if _chunks_generating == 0:
+		emit_signal("on_block_edit_done")
 
 func create_block(block_name : String, coordinate: Vector2):
 	if coordinate in block_dict: 
@@ -202,3 +215,8 @@ func create_walls(block_name : String, top_left : Vector2, bottom_right : Vector
 	for i in range(bottom_right.y - top_left.y + 1):
 		create_block(block_name, top_left + Vector2(0,i))
 		create_block(block_name, bottom_right + Vector2(0,-i))
+
+
+#### helper func 
+func is_generating() -> bool:
+	return not _chunks_generating == 0
