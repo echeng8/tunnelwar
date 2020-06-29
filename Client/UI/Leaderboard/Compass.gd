@@ -1,11 +1,25 @@
 extends Sprite
+class_name Compass 
 
-func _process(delta): 
-	if get_parent().player_rankings.size() > 0:
-		var target = gamestate.world_node.get_node("Players").get_node(get_parent().player_rankings[0])
-		var my_id =  get_tree().get_network_unique_id()
-		if not target.name == str(my_id): #if it's not you 
-			visible = true 
-			rotation = gamestate.get_player(my_id).position.angle_to_point(target.position) 
-		else: 
-			visible = false  
+var _node_a : Node2D 
+var _node_b : Node2D
+
+func point_to(node_a : Node2D, node_b : Node2D, duration = -1) -> void: 
+	visible = true 
+	
+	_node_a = node_a
+	_node_b = node_b
+	
+	if duration > 0: 
+		yield(get_tree().create_timer(duration), "timeout")
+	else: 
+		return 
+
+	visible = false
+
+func stop_pointing() -> void: 
+	visible = false  
+	
+func _process(delta) :
+	if visible: 
+		rotation = _node_a.position.angle_to_point(_node_b.position) 

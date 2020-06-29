@@ -1,0 +1,18 @@
+[gd_scene format=2]
+
+[node name="Broadcast" type="VBoxContainer"]
+margin_left = 0.707092
+margin_right = 378.707
+margin_bottom = 310.414
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+margin_right = 378.0
+margin_bottom = 310.0
+size_flags_vertical = 3
+bbcode_enabled = true
+bbcode_text = "[center]% has slain % for % gold.[/center]"
+text = "% has slain % for % gold."

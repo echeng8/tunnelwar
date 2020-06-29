@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://UI/ChatBox/ChatBox.tscn" type="PackedScene" id=1]
 [ext_resource path="res://UI/Leaderboard/Leaderboard.tscn" type="PackedScene" id=2]
+[ext_resource path="res://UI/Broadcast/Broadcast.tscn" type="PackedScene" id=3]
 
 [node name="ScreenHUD" type="CanvasLayer"]
 
@@ -21,3 +22,5 @@ margin_left = -261.824
 margin_top = 98.1841
 margin_right = -261.824
 margin_bottom = 98.1841
+
+[node name="Control" parent="." instance=ExtResource( 3 )]

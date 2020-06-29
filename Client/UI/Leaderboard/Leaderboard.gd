@@ -27,3 +27,11 @@ func update_display():
 		var entry = "%s. %s %s" % [rank, username, gold] 
 		
 		$RichTextLabel.text	 += "\n" + entry 
+
+	if player_rankings.size() > 1:
+		var target = gamestate.get_player(player_rankings[0])
+		var my_id =  get_tree().get_network_unique_id()
+		if not target.name == str(my_id): #if it's not you 
+			$Compass.point_to(gamestate.get_player(my_id), target)
+		else:
+			$Compass.stop_pointing() 

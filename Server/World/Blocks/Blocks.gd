@@ -9,7 +9,6 @@ var no_block_time = 6.0 #seconds there is no blocks during a reset
 export var gold_chance = 2 #chance a block is gold
 #######
 
-
 #REFERENCES
 const Blocks = {
 	#scenes
