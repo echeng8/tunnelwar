@@ -13,25 +13,24 @@ remotesync func remove_player(id):
 	$Players.get_node(String(id)).queue_free()
 	emit_signal("on_player_unload", id) 
 
-func spawn_player(id, username):
-	if $Players.has_node(str(id)):
+func instantiate_player(id, username):
+	if $Players.has_node(str(id)): #todo look into deleting this
 		return 
 		
 	var player = Player.instance()
-	#TODO logic in case no dirt remains
-	player.position = $Blocks.get_random_block("Dirt").position 
 	player.name = String(id) # Important
 	player.username = username
+	player.position = Vector2(0,0)
 	player.set_network_master(id) # Important
-	
 	$Players.add_child(player)
 	
-	rpc("spawn_player", player.position, player.get_network_master(), player.username)
+	rpc("instantiate_player", player.position, player.get_network_master(), player.username)
+	player.respawn()  
 	emit_signal("on_player_load", id)
 
 func spawn_everything_in(caller_id): 
 	for player in get_node("Players").get_children():
-		rpc_id(caller_id, "spawn_player", player.position, player.get_network_master(), player.username)
+		rpc_id(caller_id, "instantiate_player", player.position, player.get_network_master(), player.username)
 	for item in $Items.get_children():
 		rpc_id(caller_id, "spawn",  item.filename.get_file().get_basename(), item.name, HelperFunctions.get_transform_dict(item))
 	for block in $Blocks.get_children():

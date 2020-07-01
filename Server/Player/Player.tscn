@@ -20,14 +20,14 @@ script = ExtResource( 3 )
 [node name="StateMachine" type="Node" parent="."]
 script = ExtResource( 4 )
 
+[node name="PDeadState" type="Node" parent="StateMachine"]
+script = ExtResource( 6 )
+
 [node name="PDefaultState" type="Node" parent="StateMachine"]
 script = ExtResource( 2 )
 
 [node name="PKnockbackedState" type="Node" parent="StateMachine"]
 script = ExtResource( 5 )
-
-[node name="PDeadState" type="Node" parent="StateMachine"]
-script = ExtResource( 6 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 1 )

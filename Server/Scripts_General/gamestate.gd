@@ -47,8 +47,6 @@ func set_game_phase(gp : int) -> void:
 		emit_signal("on_match_end")
 	if game_phase == game_phases.IN_PROGRESS:
 		emit_signal("on_match_begin")
-		print('med')
-
 	
 # Callback from SceneTree, called when client connects
 func _player_connected(_id):
@@ -65,7 +63,7 @@ remote func register_player(new_player_name):
 	
 	print("Client ", caller_id, " registered as ", new_player_name)
 	
-	world_node.spawn_player(caller_id, new_player_name)
+	world_node.instantiate_player(caller_id, new_player_name)
 	world_node.spawn_everything_in(caller_id)
 
 func get_player(id):

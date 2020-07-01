@@ -1,9 +1,25 @@
-extends "res://Scripts_General/Base_Classes/FSM/State.gd"
-var player
+extends State
+#fsm_root = Player 
 
 func enter():
-	player = get_parent().get_parent()
-	assert(player is KinematicBody2D) 
+	#drop gold
+	gamestate.blocks_node.spawn_golds_at(gamestate.get_coord(fsm_root.position), fsm_root.get_gold())
+	fsm_root.set_gold(0)
 	
-	#todo death screen
-	player.respawn() ##placeholder
+	#disable nodes
+	fsm_root.visible = false 
+	
+
+func respawn() -> void:
+	#reset health 
+	fsm_root.health_points = fsm_root.base_hp 
+	fsm_root.rpc("set_health", fsm_root.health_points)
+	
+	#reset position 
+	var respawn_position = Vector2(0,0)
+	var random_block = gamestate.world_node.get_node("Blocks").get_random_block("Dirt")
+	if not random_block == null: #if no blocks exist 
+		respawn_position = random_block.position
+	fsm_root.rpc("set_player_position", respawn_position)
+	
+	exit("PDefaultState") 

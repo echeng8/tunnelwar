@@ -11,12 +11,15 @@ export var speed = 600
 export var base_hp = 40
 export var health_points = 40
 
-
+#puppet vars
 puppet var input_direction =  Vector2.ZERO
+puppet var input_aim_pos = Vector2.ZERO
+puppet var input_pull_jp = false 
 
 signal struck_by(node) 
 signal on_gold_change
 
+	
 remote func on_client_node_connect():	#called when client node is ready
 	rpc("set_health", health_points)
 	rset("gold", get_gold())
@@ -24,20 +27,13 @@ remote func on_client_node_connect():	#called when client node is ready
 func get_struck_by(source):
 	emit_signal("struck_by", source)
 
-func respawn():
-	#drop gold  #TODO check if valid gamestaate (e.g. not reseting)
-	gamestate.blocks_node.spawn_golds_at(gamestate.get_coord(position), get_gold())
-	set_gold(0)
-	
-	self.health_points = base_hp 
-	rpc("set_player_position", gamestate.world_node.get_node("Blocks").get_random_block().position) 
-	rpc("set_health", health_points)
-
-	
-
 remotesync func set_player_position(pos):
 	position = pos 
 
+func respawn() -> void:
+	if $StateMachine.state.has_method("respawn"):
+		$StateMachine.state.respawn() 
+		
 #SETTERS AND GETTERS
 func set_gold(amount):
 	_gold = amount 

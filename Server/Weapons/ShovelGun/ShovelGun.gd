@@ -22,10 +22,9 @@ export var reset_dur = 0.15
 #implementation global var
 var normal_speed_rate = 1
 
-#Client Set Variables 
-puppet var mousepos = Vector2(0,0) #todo cheater check
-puppet var stab_btn_p = false # stab button just pressed
-puppet var shoot_btn_p = false # shoot button pressed
+#Player-Node Set Variables - only on PDefaultState
+var input_aim_pos = Vector2(0,0) 
+var input_pull_jp = false # pull button just pressed
 
 onready var TweenNode = get_node("Tween")
 

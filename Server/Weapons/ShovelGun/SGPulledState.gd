@@ -21,10 +21,10 @@ func process(delta):
 	duration += delta
 	
 		
-	if not ShovelGun.stab_btn_p:  #todo check timer for stab potential
+	if not ShovelGun.input_pull_jp:  #todo check timer for stab potential
 		if duration > ShovelGun.stab_charge_time:
-			if ShovelGun.shoot_btn_p and ShovelGun.isLoaded():
-				ShovelGun.rpc("shoot")
+#			if ShovelGun.shoot_btn_p and ShovelGun.isLoaded(): TODO MAKE TIMING
+#				ShovelGun.rpc("shoot")
 				
 			fsm.change_to("SGStabState")
 			

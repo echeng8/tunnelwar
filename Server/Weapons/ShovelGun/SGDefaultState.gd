@@ -1,21 +1,22 @@
-extends "res://Scripts_General/Base_Classes/FSM/State.gd"
+extends State
 
 var ShovelGun 
 
 func enter():
-	ShovelGun = get_parent().get_parent()
+	ShovelGun = fsm_root
 	assert("ShovelGun" in ShovelGun.name)
 	
 	if ShovelGun.isLoaded():
 		ShovelGun.get_node("Shovel").get_node("StateMachine").call_deferred("change_to", "ShDefaultState")
 		
-		
 # Optional handler functions for game loop events
 func process(delta):
-	ShovelGun.look_at(ShovelGun.mousepos)
-	ShovelGun.rpc_unreliable("_update_weapon_position", ShovelGun.mousepos)
+	print(ShovelGun.input_aim_pos)
+	print(ShovelGun.input_pull_jp)
+	ShovelGun.look_at(ShovelGun.input_aim_pos)
+	ShovelGun.rpc_unreliable("_update_weapon_position", ShovelGun.input_aim_pos)
 
 	#pull-back detection
-	if ShovelGun.stab_btn_p: 
+	if ShovelGun.input_pull_jp: 
 		 exit("SGPulledState")
 	

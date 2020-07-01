@@ -18,17 +18,6 @@ func _ready():
 	
 	#signal connnections  
 	gamestate.world_node.get_node("ScreenHUD/ChatBox").connect("on_message_send", self, "check_for_command")
-	
-func _process(delta):
-	if is_network_master():
-		#set variables on server
-		rset_unreliable_id(1, "mousepos", get_global_mouse_position()) #todo check for cheating potential 
-		rset_unreliable_id(1, "shoot_btn_p", Input.is_action_pressed('shoot')) 
-		if debug_pulled:
-			rset_id(1, "stab_btn_p", true)
-		else:
-			rset_id(1, "stab_btn_p", Input.is_action_pressed('stab'))
-		
 
 remote func _update_weapon_position(mouse_position):
 		look_at(mouse_position)

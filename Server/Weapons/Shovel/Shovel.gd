@@ -24,7 +24,6 @@ remotesync func destroy():
 func _on_body_entered(body):
 	if $StateMachine.state.has_method("on_body_entered"):
 		$StateMachine.state.on_body_entered(body)  
-		
 
 func _on_Shovel_area_entered(area): #hit an activated ShovelGun
 	if $StateMachine.state.has_method("on_Shovel_area_entered"):

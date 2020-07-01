@@ -1,11 +1,11 @@
-extends "res://Scripts_General/Base_Classes/FSM/State.gd"
+extends State
 
 var velocity = Vector2(0,0)
 var duration = 0
 var ShovelNode
 
 func enter():
-	ShovelNode = fsm.get_parent()
+	ShovelNode = fsm_root
 	assert(ShovelNode is Shovel)
 	
 	velocity = Vector2(1,0).rotated(ShovelNode.rotation) * ShovelNode.speed

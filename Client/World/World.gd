@@ -21,7 +21,7 @@ puppet func emit_load_complete():
 	load_completed = true  
 	emit_signal("on_load_complete") 
 	
-remotesync func spawn_player(spawn_pos, id, username):
+remotesync func instantiate_player(spawn_pos, id, username):
 	if $Players.has_node(str(id)):
 		return 
 		

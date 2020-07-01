@@ -140,20 +140,19 @@ func spawn_golds_at(pos : Vector2, gold_count : int):
 
 ####### UTILITY #########
 
-#doesn't return bedrock blocks, which aren't part of block_dict 
 #returns -1 if no blocks exist 
 func get_random_block(type = ""):
 	if type == "": 
 		if get_child_count() > 0:
 			return get_child(randi() % get_child_count())
 		else:
-			return -1 
+			return null
 	else: 
 		var block_array = block_type[type]
 		if block_array.size() > 0:
 			return block_array[(randi() % block_type[type].size())]
 		else:
-			return -1 
+			return null
 
 #RETURNS if a block already exists at the location
 func generate_chunk(origin_coord : Vector2):

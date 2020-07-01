@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://World/World.gd" type="Script" id=1]
 [ext_resource path="res://World/Blocks/Blocks.gd" type="Script" id=2]
 [ext_resource path="res://UI/ScreenHUD.tscn" type="PackedScene" id=3]
+[ext_resource path="res://World/Players.gd" type="Script" id=4]
 
 [node name="World" type="Node2D"]
 position = Vector2( -15.978, -3.99451 )
@@ -12,6 +13,7 @@ __meta__ = {
 }
 
 [node name="Players" type="Node" parent="."]
+script = ExtResource( 4 )
 
 [node name="Items" type="Node" parent="."]
 __meta__ = {
