@@ -13,6 +13,7 @@ func _ready():
 	update_GUI()
 	if is_network_master():
 		_parent_camera_to_me()	
+		gamestate.user_player = self
 		
 	rpc_id(1, "on_client_node_connect")
 	

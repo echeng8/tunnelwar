@@ -9,11 +9,14 @@ signal connection_failed()
 signal connection_succeeded()
 signal server_disconnected()
 
+
+
+
 var my_name = "Client"
 
 #references 
 var world_node #set by World.tcsn when loaded
-
+var user_player : Player
 
 func _ready():
 	assert(get_tree().connect("connected_to_server", self, "_connected_ok") == 0)
@@ -59,6 +62,6 @@ func _connected_fail():
 	
 	# Try to connect again
 	#connect_to_server()
-
+	
 func get_player(id) -> Player:
 	return world_node.get_node("Players/" + str(id))

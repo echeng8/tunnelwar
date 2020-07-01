@@ -1,7 +1,7 @@
 extends Control
 
 func _ready():
-	gamestate.chat_box = self 
+	gamestate.chatbox_node = self 
 
 func say(text):
 	rpc("add_message", text)

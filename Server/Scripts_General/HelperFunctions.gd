@@ -26,6 +26,7 @@ remotesync func reparent(node1_path, node2_path, keep_transform = true):
 	node1.global_rotation = g_rot
 	node1.global_scale = g_scale
 
+#returns null if no parent player node
 func get_parent_player_node(node):
 	var ancestor = node
 	while(true):

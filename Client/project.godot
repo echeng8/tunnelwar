@@ -12,7 +12,7 @@ _global_script_classes=[ {
 "base": "Sprite",
 "class": "Compass",
 "language": "GDScript",
-"path": "res://UI/Leaderboard/Compass.gd"
+"path": "res://UI/Components/Compass.gd"
 }, {
 "base": "KinematicBody2D",
 "class": "Player",

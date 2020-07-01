@@ -1,6 +1,6 @@
 extends Node
 
-var player_rankings = [] 
+var player_rankings = [] #ids as strings 
 
 func _ready():
 	gamestate.world_node.connect("on_player_load", self, "connect_player_signals")
@@ -24,3 +24,6 @@ func sort_descending_gold(p1_name : String, p2_name: String):
 
 func connect_player_signals(p_id):
 	gamestate.get_player(p_id).connect("on_gold_change", self, "update_rankings") 
+
+func get_winner() -> Player: 
+	return gamestate.get_player(player_rankings[0])

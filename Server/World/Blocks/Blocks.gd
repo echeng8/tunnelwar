@@ -2,7 +2,7 @@ extends Node
 class_name Blocks 
 
 #######GAME MECHANICS
-var reset_blocks = 1 #number of reset blocks until game resets 
+var reset_blocks = 3 #number of reset blocks until game resets 
 var rb_respawn_time = 3.0  #seconds until reset_block spawns 
 var no_block_time = 6.0 #seconds there is no blocks during a reset 
 
@@ -73,8 +73,10 @@ func gen_at_origin(create_border = false):
 			surrounding_chunks['tl'] + chunk_size/2 * -1 - Vector2(1,1),
 			surrounding_chunks['br'] + chunk_size/2
 		)
+		
 	#todo refactor this 
 	yield(self, "on_block_edit_done")
+	
 	gamestate.set_game_phase(gamestate.game_phases.IN_PROGRESS)
 	
 	yield(get_tree().create_timer(10), "timeout") #time to load blocks 
@@ -93,6 +95,8 @@ func reset():
 #convert random block to reset
 #pre-condition: blocks exist 
 func spawn_reset_block():  
+	gamestate.broadcast_node.broadcast("Somewhere, a Reset Block appears. %s more until RESET." % reset_blocks, rb_respawn_time, 1)
+	
 	var random_block = get_random_block("Dirt")
 	var coord = random_block.coord
 	random_block.destroy() 
@@ -103,12 +107,14 @@ func spawn_reset_block():
 	reset_block = block_dict[coord]
 	
 func on_reset_block_destroyed(_coord): 
-	yield(get_tree().create_timer(rb_respawn_time), "timeout")
 	reset_blocks -= 1 
-	
+	gamestate.broadcast_node.broadcast("The Reset Block is destroyed. %s remain." % reset_blocks, rb_respawn_time, 1)
+	yield(get_tree().create_timer(rb_respawn_time), "timeout")
+
 	if reset_blocks > 0 and block_dict.keys().size() > 0:
 		spawn_reset_block()
 	else: 
+		gamestate.set_game_phase(gamestate.game_phases.INTERIM)
 		reset() 
 
 ###### GOLD ######

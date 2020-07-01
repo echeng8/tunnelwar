@@ -11,18 +11,22 @@ const DEFAULT_PORT = 25565
 const MAX_PLAYERS = 12
 
 enum game_phases {IN_PROGRESS, INTERIM}
+
 # STATIC REFERENCES 
 var game_phase = game_phases.INTERIM setget set_game_phase 
 
 var world_node
 var blocks_node : Blocks #child of World.tcsn, set on onready by Blocks node
-var chat_box  
+var chatbox_node
+var broadcast_node
 
 #variables
 const block_size = 200.0
 
 #signals
-signal on_phase_change(phase)
+signal on_match_begin
+signal on_match_end
+
 
 
 func _ready():
@@ -38,9 +42,14 @@ func _ready():
 #### GAME PHASES
 func set_game_phase(gp : int) -> void: 
 	game_phase = gp
-	emit_signal("on_phase_change", gp)
-	print(game_phase)
+	
+	if game_phase == game_phases.INTERIM:
+		emit_signal("on_match_end")
+	if game_phase == game_phases.IN_PROGRESS:
+		emit_signal("on_match_begin")
+		print('med')
 
+	
 # Callback from SceneTree, called when client connects
 func _player_connected(_id):
 	print("Client ", _id, " connected")
