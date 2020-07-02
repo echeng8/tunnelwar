@@ -11,8 +11,6 @@ func enter():
 		
 # Optional handler functions for game loop events
 func process(delta):
-	print(ShovelGun.input_aim_pos)
-	print(ShovelGun.input_pull_jp)
 	ShovelGun.look_at(ShovelGun.input_aim_pos)
 	ShovelGun.rpc_unreliable("_update_weapon_position", ShovelGun.input_aim_pos)
 

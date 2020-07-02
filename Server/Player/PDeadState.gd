@@ -1,6 +1,7 @@
 extends State
 #fsm_root = Player 
 
+
 func enter():
 	#drop gold
 	gamestate.blocks_node.spawn_golds_at(gamestate.get_coord(fsm_root.position), fsm_root.get_gold())
@@ -8,8 +9,8 @@ func enter():
 	
 	#disable nodes
 	fsm_root.visible = false 
-	
 
+	
 func respawn() -> void:
 	#reset health 
 	fsm_root.health_points = fsm_root.base_hp 

@@ -9,14 +9,14 @@ signal connection_failed()
 signal connection_succeeded()
 signal server_disconnected()
 
-
-
-
 var my_name = "Client"
 
 #references 
 var world_node #set by World.tcsn when loaded
-var user_player : Player
+var user_player : Player setget _on_user_player_set
+
+#signals
+signal on_user_player_set
 
 func _ready():
 	assert(get_tree().connect("connected_to_server", self, "_connected_ok") == 0)
@@ -65,3 +65,8 @@ func _connected_fail():
 	
 func get_player(id) -> Player:
 	return world_node.get_node("Players/" + str(id))
+	
+# SETTERS AND GETTERS
+func _on_user_player_set(player_ref):
+	user_player = player_ref
+	emit_signal("on_user_player_set")

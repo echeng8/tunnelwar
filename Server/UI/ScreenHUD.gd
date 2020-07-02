@@ -10,4 +10,3 @@ func broadcast_reset():
 
 func broadcast_game_start():
 	$Broadcast.broadcast("BEGIN MATCH: Whoever has the MOST gold when the FINAL Reset Block is destroyed WINS.", 5, 1)
-	print('te')

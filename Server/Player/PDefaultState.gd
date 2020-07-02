@@ -8,7 +8,7 @@ func enter():
 	
 	player.connect("struck_by", self, "_on_struck_by")
 
-func _process(delta):
+func process(delta):
 	#pass input to Shovelgun
 	fsm_root.get_node("ShovelGun").input_aim_pos = fsm_root.input_aim_pos
 	fsm_root.get_node("ShovelGun").input_pull_jp = fsm_root.input_pull_jp
@@ -30,6 +30,7 @@ func _on_struck_by(source):
 		player.rpc("set_health", player.health_points)
 		if player.health_points <= 0:
 			exit("PDeadState")
+			return 
 			
 	if "knockback_speed" in source: #todo make speed or duration agnostic?  
 		var kb_state = get_node("../PKnockbackedState")
