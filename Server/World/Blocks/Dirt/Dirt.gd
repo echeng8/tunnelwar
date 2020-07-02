@@ -5,6 +5,6 @@ func get_class():
 	return "Dirt" 
 	
 	
-func get_struck_by(body):
+func get_struck_by(_body):
 	destroy()
 

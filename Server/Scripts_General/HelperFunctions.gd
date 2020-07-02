@@ -12,7 +12,6 @@ remotesync func reparent(node1_path, node2_path, keep_transform = true):
 	
 	node1.get_parent().remove_child(node1)
 	
-	
 	while node2.has_node(node1.name):
 		var last_char = node1.name[node1.name.length() - 1]
 		if last_char.is_valid_integer():
@@ -22,9 +21,10 @@ remotesync func reparent(node1_path, node2_path, keep_transform = true):
 			
 	node2.add_child(node1)
 	
-	node1.global_position = g_pos
-	node1.global_rotation = g_rot
-	node1.global_scale = g_scale
+	if keep_transform:
+		node1.global_position = g_pos
+		node1.global_rotation = g_rot
+		node1.global_scale = g_scale
 
 #returns null if no parent player node
 func get_parent_player_node(node):

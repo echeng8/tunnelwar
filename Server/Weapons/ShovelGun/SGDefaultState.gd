@@ -10,7 +10,7 @@ func enter():
 		ShovelGun.get_node("Shovel").get_node("StateMachine").call_deferred("change_to", "ShDefaultState")
 		
 # Optional handler functions for game loop events
-func process(delta):
+func process(_delta):
 	ShovelGun.look_at(ShovelGun.input_aim_pos)
 	ShovelGun.rpc_unreliable("_update_weapon_position", ShovelGun.input_aim_pos)
 

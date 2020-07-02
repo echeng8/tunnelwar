@@ -22,5 +22,5 @@ func destroy():
 	rpc("destroy")
 	queue_free() 
 
-func get_struck_by(body):
+func get_struck_by(_body):
 	return 

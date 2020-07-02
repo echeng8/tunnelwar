@@ -11,7 +11,7 @@ func _ready():
 remote func initialize_rpc_sender():
 	rpc_id(get_tree().get_rpc_sender_id(), "set_rankings", player_rankings) 
 
-func update_rankings(id = -1): #dummy arg to get signals to work
+func update_rankings(_id = -1): #dummy arg to get signals to work
 	player_rankings = [] 
 	for child in gamestate.world_node.get_node("Players").get_children():
 		player_rankings.append(child.name)

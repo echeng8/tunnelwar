@@ -32,8 +32,8 @@ signal on_match_end
 func _ready():
 	world_node = get_node("/root/World")
 	
-	get_tree().connect("network_peer_connected", self, "_player_connected")
-	get_tree().connect("network_peer_disconnected", self,"_player_disconnected")
+	assert(get_tree().connect("network_peer_connected", self, "_player_connected") == OK)
+	assert(get_tree().connect("network_peer_disconnected", self,"_player_disconnected") == OK)
 	
 	var host = NetworkedMultiplayerENet.new()
 	host.create_server(DEFAULT_PORT, MAX_PLAYERS)

@@ -15,12 +15,13 @@ func _ready():
 	if is_network_master():
 		gamestate.user_player = self
 		
-	rpc_id(1, "on_client_node_connect")
+	rpc_id(1, "initialize_rpc_sender")
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	#set variables on server
+	#send server user input
 	if is_network_master():
+		#movement
 		var leftValue = -Input.get_action_strength("left")
 		var rightValue = Input.get_action_strength("right")
 		var upValue = -Input.get_action_strength("up")
@@ -28,11 +29,18 @@ func _process(delta):
 		var movementValuesMerged = Vector2(leftValue + rightValue, upValue + downValue)
 		rset_unreliable_id(1, 'input_direction', movementValuesMerged)
 		
-		#Shovel
+		#Combat 
 		rset_unreliable_id(1, "input_aim_pos", get_global_mouse_position()) #todo check for cheating potential 
 		rset_unreliable_id(1, "input_pull_jp", Input.is_action_pressed('pull')) 
 
-
+remote func update_client_state(server_state : String):
+	match server_state:
+		"PDefaultState":
+			visible = true
+		"PDeadState":
+			print('ded')
+			visible = false  
+			
 #### HEALTH
 remote func set_health(health_points):
 	health_points = health_points 

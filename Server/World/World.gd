@@ -5,7 +5,7 @@ const Player = preload("res://Player/Player.tscn")
 signal on_player_load(p_id)
 signal on_player_unload(p_id)
 	
-func _process(delta):
+func _process(_delta):
 	pass
 
 ###PLAYERS ###############

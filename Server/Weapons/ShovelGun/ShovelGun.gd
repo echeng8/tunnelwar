@@ -39,7 +39,7 @@ var velocity = Vector2.ZERO
 var newPos = Vector2.ZERO	
 
 ######ANIMATION FUNCTIONS to be called by states (todo put in states?)
-remotesync func _pre_stabbing(currPos, newPos):
+remotesync func _pre_stabbing(_currPos, newPos):
 	TweenNode.interpolate_property(self, "position", position, newPos, pull_dur, Tween.TRANS_LINEAR) #, Tween.EASE_OUT)
 	TweenNode.start()
 
