@@ -6,7 +6,7 @@ var current_message_priority = 0
 func _ready():
 	gamestate.broadcast_node = self
 
-master func initalize_rpc_sender():
+master func initialize_rpc_sender():
 	rpc_id(get_tree().get_rpc_sender_id(), "update_broadcast", current_message) 
 
 func broadcast(message : String, duration : int, priority : int, target_player_id = -1) -> void:  

@@ -43,7 +43,7 @@ remote func update_client_state(s_state : String):
 		"PDefaultState":
 			visible = true
 		"PDeadState":
-			visible = false  
+			visible = false
 			
 #### HEALTH
 remote func set_health(hp):

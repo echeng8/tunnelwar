@@ -27,7 +27,7 @@ _global_script_class_icons={
 [application]
 
 config/name="Client"
-run/main_scene="res://Main.tscn"
+run/main_scene="res://Main_Menu/Main.tscn"
 
 [autoload]
 

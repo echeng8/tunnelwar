@@ -24,7 +24,7 @@ func _ready():
 
 #networking 
 
-remote func initalize_rpc_sender() -> void:
+remote func initialize_rpc_sender() -> void:
 	var s_id = get_tree().get_rpc_sender_id()
 	rpc_id(s_id, "set_health", health_points)
 	rset_id(s_id,"gold", get_gold())

@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/vulnerable face.png-9c5dced5dbd472b4965e18f41c1b3cf2.stex"
+path="res://.import/character.png-6ed8d01bffb77db9628a7da3ad609320.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Player/Expressions/Vulnerable/vulnerable face.png"
-dest_files=[ "res://.import/vulnerable face.png-9c5dced5dbd472b4965e18f41c1b3cf2.stex" ]
+source_file="res://Main_Menu/character.png"
+dest_files=[ "res://.import/character.png-6ed8d01bffb77db9628a7da3ad609320.stex" ]
 
 [params]
 

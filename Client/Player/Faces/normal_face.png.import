@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/normal face.png-ec3a9e2d37bd042dcd64603f66fd1676.stex"
+path="res://.import/normal_face.png-1cb473f9b7df77f35001be5a34b562b3.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Player/Expressions/Vulnerable/normal face.png"
-dest_files=[ "res://.import/normal face.png-ec3a9e2d37bd042dcd64603f66fd1676.stex" ]
+source_file="res://Player/Faces/normal_face.png"
+dest_files=[ "res://.import/normal_face.png-1cb473f9b7df77f35001be5a34b562b3.stex" ]
 
 [params]
 

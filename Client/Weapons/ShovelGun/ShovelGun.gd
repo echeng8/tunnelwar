@@ -8,9 +8,10 @@ remote var stab_dur = 1
 remote var reset_dur = 1
 
 onready var TweenNode = get_node("Tween")
+var server_state : String
 
 #debug variables
-var debug_pulled = false 
+var debug_pulled = false
 
 func _ready():
 	var shovel = get_node("Shovel")
@@ -23,25 +24,36 @@ remote func _update_weapon_position(mouse_position):
 		look_at(mouse_position)
 
 ###ANIMATION ##################
+remote func update_client_state(s_state : String):
+	server_state = s_state
+	emit_signal("on_server_state_change", server_state)
+	match server_state:
+		"PDefaultState":
+			visible = true
+		"PDeadState":
+			visible = false  
+			
 remotesync func _pre_stabbing(currPos, newPos):
 	TweenNode.interpolate_property(self, "position", position, newPos, pull_dur, Tween.TRANS_LINEAR) #, Tween.EASE_OUT)
+	TweenNode.interpolate_callback(self, pull_dur + 0.1, "make_scared")
 	TweenNode.start()
+
+	
+	#TODO refactor this in player 
+	
+func make_scared():
+	get_parent().get_node("PlayerSprites").switch_face("scared") 
 	
 remote func _stabbing(currPos, newPos):
 	TweenNode.interpolate_property(self, "position", position, newPos, stab_dur, Tween.TRANS_LINEAR) #, Tween.EASE_OUT)
 	TweenNode.start()
-	
-	get_parent().get_node("VulBod/exclam_mark").visible = true #TODO make conditional based on state 
-	get_parent().get_node("VulBod/norm_face").visible = false
-	get_parent().get_node("VulBod/vul_face").visible = true
 
 remotesync func _after_stabbing(currPos, newPos):
 	TweenNode.interpolate_property(self, "position", position, newPos, reset_dur, Tween.TRANS_LINEAR) #, Tween.EASE_OUT) #todo fix pull-back duration not actually working
 	TweenNode.start()
-	
-	get_parent().get_node("VulBod/exclam_mark").visible = false
-	get_parent().get_node("VulBod/norm_face").visible = true
-	get_parent().get_node("VulBod/vul_face").visible = false
+
+	#TODO refactor this in player 
+	get_parent().get_node("PlayerSprites").switch_face("normal") 
 
 ##SHOOTING STUFF ###############
 remotesync func shoot():

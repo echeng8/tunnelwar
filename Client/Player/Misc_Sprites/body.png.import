@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/body.png-4d2f802988333774ba12d0d0d16a9d8b.stex"
+path="res://.import/body.png-042b789b2eca31e3f3f3aee8c51bbf44.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Player/Expressions/Vulnerable/body.png"
-dest_files=[ "res://.import/body.png-4d2f802988333774ba12d0d0d16a9d8b.stex" ]
+source_file="res://Player/Misc_Sprites/body.png"
+dest_files=[ "res://.import/body.png-042b789b2eca31e3f3f3aee8c51bbf44.stex" ]
 
 [params]
 

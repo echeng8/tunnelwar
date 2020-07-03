@@ -1,7 +1,12 @@
 extends "res://Scripts_General/Base_Classes/FSM/State.gd"
 
 var ShovelGun 
+
+#MECHANICS VARIABLES
+var shootable_time = 0.1 #if the player stabs during .5 seconds of finished pull, they shoot 
+
 var duration = 0
+
 
 func enter():
 	ShovelGun = get_parent().get_parent()
@@ -20,14 +25,15 @@ func enter():
 func process(delta):
 	duration += delta
 	
+	
 		
 	if not ShovelGun.input_pull_jp:  #todo check timer for stab potential
 		if duration > ShovelGun.stab_charge_time:
-#			if ShovelGun.shoot_btn_p and ShovelGun.isLoaded(): TODO MAKE TIMING
-#				ShovelGun.rpc("shoot")
+			if ShovelGun.isLoaded() and duration < ShovelGun.stab_charge_time + shootable_time: 
+				print('i am trying to shooot')
+				ShovelGun.rpc("shoot") 
 				
 			fsm.change_to("SGStabState")
-			
 		else:
 			ShovelGun.rpc("_after_stabbing", ShovelGun.position, ShovelGun.init_position)
 			fsm.change_to("SGDefaultState") 
