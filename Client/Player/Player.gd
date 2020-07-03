@@ -9,6 +9,9 @@ var health_points
 var server_state : String
 remote var gold 
 
+#signals
+signal on_server_state_change(state) 
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	$GUI/PlayerName.text = username  
@@ -18,7 +21,7 @@ func _ready():
 	rpc_id(1, "initialize_rpc_sender")
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	#send server user input
 	if is_network_master():
 		#movement
@@ -33,17 +36,18 @@ func _process(delta):
 		rset_unreliable_id(1, "input_aim_pos", get_global_mouse_position()) #todo check for cheating potential 
 		rset_unreliable_id(1, "input_pull_jp", Input.is_action_pressed('pull')) 
 
-remote func update_client_state(server_state : String):
+remote func update_client_state(s_state : String):
+	server_state = s_state
+	emit_signal("on_server_state_change", server_state)
 	match server_state:
 		"PDefaultState":
 			visible = true
 		"PDeadState":
-			print('ded')
 			visible = false  
 			
 #### HEALTH
-remote func set_health(health_points):
-	health_points = health_points 
+remote func set_health(hp):
+	health_points = hp 
 	$GUI/HPNumDisplay.text = str(int(health_points / 10))
 
 remotesync func set_player_position(pos):

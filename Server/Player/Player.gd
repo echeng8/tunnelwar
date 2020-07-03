@@ -40,7 +40,7 @@ remotesync func set_player_position(pos):
 func get_struck_by(source):
 	emit_signal("struck_by", source)
 
-func respawn() -> void:
+remote func respawn() -> void:
 	if $StateMachine.state.has_method("respawn"):
 		$StateMachine.state.respawn() 
 		
