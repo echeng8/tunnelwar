@@ -16,7 +16,7 @@ enum game_phases {IN_PROGRESS, INTERIM}
 var game_phase = game_phases.INTERIM setget set_game_phase 
 
 var world_node
-var blocks_node #child of World.tcsn, set on onready by Blocks node
+var blocks_node : Blocks#child of World.tcsn, set on onready by Blocks node
 var chatbox_node
 var broadcast_node
 
@@ -71,6 +71,3 @@ func get_player(id):
 
 func get_players():
 	return get_node("/root/World/Players/").get_children()
-	
-func get_coord(pos_vector : Vector2):
-	return Vector2(round(pos_vector.x / block_size), round(pos_vector.y / block_size))

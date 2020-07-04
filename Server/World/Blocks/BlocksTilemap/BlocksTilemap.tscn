@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=2]
 
-[ext_resource path="res://World/Blocks/BlocksTilemap/BlocksTilemap.gd" type="Script" id=1]
+[ext_resource path="res://World/Blocks/BlocksTilemap/Blocks.gd" type="Script" id=1]
 [ext_resource path="res://World/Blocks/BlocksTilemap/GoldBlock.png" type="Texture" id=2]
 [ext_resource path="res://World/Blocks/BlocksTilemap/Block.png" type="Texture" id=3]
 
@@ -54,7 +54,7 @@ points = PoolVector2Array( 512, 512, 0, 512, 0, 0, 512, 0 )
 } ]
 1/z_index = 0
 
-[node name="BlocksTilemap" type="TileMap"]
+[node name="Blocks" type="TileMap"]
 tile_set = SubResource( 3 )
 cell_size = Vector2( 512, 512 )
 format = 1

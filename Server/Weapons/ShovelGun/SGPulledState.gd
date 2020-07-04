@@ -25,12 +25,9 @@ func enter():
 func process(delta):
 	duration += delta
 	
-	
-		
 	if not ShovelGun.input_pull_jp:  #todo check timer for stab potential
 		if duration > ShovelGun.stab_charge_time:
 			if ShovelGun.isLoaded() and duration < ShovelGun.stab_charge_time + shootable_time: 
-				print('i am trying to shooot')
 				ShovelGun.rpc("shoot") 
 				
 			fsm.change_to("SGStabState")

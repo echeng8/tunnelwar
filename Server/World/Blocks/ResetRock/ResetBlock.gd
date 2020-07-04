@@ -16,4 +16,3 @@ func get_struck_by(body):
 		else:
 			gamestate.broadcast_node.broadcast("[p] strikes the Reset Block. %s hits remain." % hitpoints, 3, 1, int(parent_player.name))
 			hitpoints -=  1 
-

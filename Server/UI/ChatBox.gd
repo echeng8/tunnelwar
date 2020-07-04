@@ -43,7 +43,7 @@ remote func _chat_box_received_message(var message: String):
 			and messageSplit.size() == 2
 			and messageSplit[1].is_valid_integer()
 			): 
-			gamestate.world_node.get_node("Blocks").spawn_golds_at(gamestate.get_coord(targetPlayer.position), int(messageSplit[1]))
+			gamestate.world_node.get_node("Blocks").spawn_golds_at(gamestate.blocks_node.get_nearest_cell(targetPlayer.position), int(messageSplit[1]))
 		
 		if message == "/frb": #find reset block
 			var blocks = gamestate.world_node.get_node("Blocks")

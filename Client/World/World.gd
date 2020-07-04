@@ -8,7 +8,6 @@ var load_completed = false
 const resources = {
 	#scenes
 	"Shovel": preload("res://Weapons/Shovel/Shovel.tscn"), 
-	"Block" : preload("res://World/Block/Block.tscn"),
 }
 
 signal on_load_complete

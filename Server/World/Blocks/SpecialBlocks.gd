@@ -47,25 +47,6 @@ extends Node
 ##		reset() 
 #
 ####### GOLD ######
-#func spawn_golds_at(pos : Vector2, gold_count : int): 
-#	var gold_to_spawn = gold_count
-#	var spawn_queue = [pos]
-#	while gold_to_spawn > 0 and spawn_queue.size() > 0: 
-#		var spawn_coord = spawn_queue.pop_front()
-#
-#		if spawn_coord in block_dict: 
-#			continue 
-#
-#		#create gold
-#		create_block("GoldOreBlock", spawn_coord)
-#		gold_to_spawn -= 1 
-#
-#		#add additional empty spots 
-#		for dir in HelperFunctions.directions:
-#			if not spawn_coord + dir in block_dict:
-#				spawn_queue.append(spawn_coord + dir)
-#
-#		yield(get_tree(), "idle_frame") 
 #
 ######## UTILITY #########
 #
@@ -102,8 +83,4 @@ extends Node
 #	for i in range(bottom_right.y - top_left.y + 1):
 #		create_block(block_name, top_left + Vector2(0,i))
 #		create_block(block_name, bottom_right + Vector2(0,-i))
-#
-#
-##### helper func 
-#func is_generating() -> bool:
-#	return not _chunks_generating == 0
+
