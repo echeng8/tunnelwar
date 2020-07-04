@@ -19,8 +19,9 @@ export var pull_dur = 0.1
 export var stab_dur = 0.08
 export var reset_dur = 0.15
 
-#implementation global var
-var normal_speed_rate = 1
+#implementation
+var breaking_blocks : bool 
+var current_cell : Vector2
 
 #Player-Node Set Variables - only on PDefaultState
 var input_aim_pos = Vector2(0,0) 
@@ -34,7 +35,9 @@ remote func initialize_rpc_sender():
 	rset_id(get_tree().get_rpc_sender_id(), "stab_dur", stab_dur)
 	rset_id(get_tree().get_rpc_sender_id(), "reset_dur", reset_dur)
 
-	
+#func _process(_delta):
+#	if breaking_blocks: 
+#
 var velocity = Vector2.ZERO
 var newPos = Vector2.ZERO	
 

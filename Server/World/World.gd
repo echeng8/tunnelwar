@@ -25,7 +25,7 @@ func instantiate_player(id, username):
 	$Players.add_child(player)
 	
 	rpc("instantiate_player", player.position, player.get_network_master(), player.username)
-	player.respawn()  
+	player.respawn()
 	emit_signal("on_player_load", id)
 
 func spawn_everything_in(caller_id): 
@@ -33,8 +33,6 @@ func spawn_everything_in(caller_id):
 		rpc_id(caller_id, "instantiate_player", player.position, player.get_network_master(), player.username)
 	for item in $Items.get_children():
 		rpc_id(caller_id, "spawn",  item.filename.get_file().get_basename(), item.name, HelperFunctions.get_transform_dict(item))
-	for block in $Blocks.get_children():
-		block.spawn_on_client(caller_id)
 	rpc_id(caller_id, "emit_load_complete")
 
 func add_item(item, reparent = true):

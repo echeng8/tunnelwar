@@ -4,7 +4,7 @@ extends State
 
 func enter():
 	#drop gold
-	gamestate.blocks_node.spawn_golds_at(gamestate.get_coord(fsm_root.position), fsm_root.get_gold())
+#	gamestate.blocks_node.spawn_golds_at(gamestate.get_coord(fsm_root.position), fsm_root.get_gold())
 	fsm_root.set_gold(0)
 	
 	#disable nodes
@@ -18,9 +18,9 @@ func respawn() -> void:
 	
 	#reset position 
 	var respawn_position = Vector2(0,0)
-	var random_block = gamestate.world_node.get_node("Blocks").get_random_block("Dirt")
+	var random_block = gamestate.blocks_node.get_random_block()
 	if not random_block == null: #if no blocks exist 
-		respawn_position = random_block.position
+		respawn_position = gamestate.blocks_node.get_pos(random_block)
 	fsm_root.rpc("set_player_position", respawn_position)
 	
 	exit("PDefaultState") 

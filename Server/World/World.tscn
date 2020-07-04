@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://World/World.gd" type="Script" id=1]
-[ext_resource path="res://World/Blocks/Blocks.gd" type="Script" id=2]
+[ext_resource path="res://World/Blocks/SpecialBlocks.gd" type="Script" id=2]
 [ext_resource path="res://UI/ScreenHUD.tscn" type="PackedScene" id=3]
 [ext_resource path="res://World/Players.gd" type="Script" id=4]
+[ext_resource path="res://World/Blocks/BlocksTilemap/BlocksTilemap.tscn" type="PackedScene" id=5]
 
 [node name="World" type="Node2D"]
 position = Vector2( -15.978, -3.99451 )
@@ -21,11 +22,16 @@ __meta__ = {
 "
 }
 
-[node name="Blocks" type="Node" parent="."]
+[node name="Blocks" parent="." instance=ExtResource( 5 )]
+position = Vector2( 15.978, 3.99451 )
+scale = Vector2( 0.39, 0.39 )
+
+[node name="SpecialBlocks" type="Node" parent="."]
 script = ExtResource( 2 )
 
 [node name="ScreenHUD" parent="." instance=ExtResource( 3 )]
 
 [node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2( 10521.3, 10691.5 )
 current = true
 zoom = Vector2( 20, 20 )

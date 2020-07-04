@@ -37,7 +37,7 @@ remotesync func remove_player(id):
 
 ### BLOCKS AND SHOVELS 
 remote func spawn(file_name, node_name, transform_dict):
-	if node_name in $Items.get_children() or node_name in $Blocks.get_children():
+	if node_name in $Items.get_children():
 		return
 		
 	var instancedThing = resources[file_name].instance()

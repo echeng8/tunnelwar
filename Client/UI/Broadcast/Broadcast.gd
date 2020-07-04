@@ -3,7 +3,7 @@ extends Control
 func _ready():
 	rpc("initialize_rpc_sender")
 	
-puppet func update_broadcast(message: String, target_player_id : int) -> void :  
+puppet func update_broadcast(message: String, target_player_id = -1) -> void :  
 	visible = true 
 	$RichTextLabel.bbcode_text = "[center]%s[/center]" % message
 	

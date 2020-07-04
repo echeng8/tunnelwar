@@ -19,11 +19,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://World/Blocks/BaseBlock/Block.gd"
 }, {
-"base": "Node",
-"class": "Blocks",
-"language": "GDScript",
-"path": "res://World/Blocks/Blocks.gd"
-}, {
 "base": "Block",
 "class": "Dirt",
 "language": "GDScript",
@@ -67,7 +62,6 @@ _global_script_classes=[ {
 _global_script_class_icons={
 "Bedrock": "",
 "Block": "",
-"Blocks": "",
 "Dirt": "",
 "GoldOreBlock": "",
 "Player": "",

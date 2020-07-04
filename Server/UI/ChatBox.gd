@@ -35,7 +35,7 @@ remote func _chat_box_received_message(var message: String):
 			and messageSplit[1].is_valid_integer()
 			and messageSplit[2].is_valid_integer()
 			): 
-			var pos = gamestate.get_pos(Vector2(int(messageSplit[1]), int(messageSplit[2])))
+			var pos = gamestate.blocks_node.get_pos(Vector2(int(messageSplit[1]), int(messageSplit[2])))
 			targetPlayer.global_position = pos
 		
 		#spawns gold at player location 
