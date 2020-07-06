@@ -19,11 +19,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Player/Player.gd"
 }, {
-"base": "Block",
-"class": "ResetBlock",
-"language": "GDScript",
-"path": "res://World/Blocks/ResetRock/ResetBlock.gd"
-}, {
 "base": "Area2D",
 "class": "Shovel",
 "language": "GDScript",
@@ -47,7 +42,6 @@ _global_script_classes=[ {
 _global_script_class_icons={
 "Blocks": "",
 "Player": "",
-"ResetBlock": "",
 "Shovel": "",
 "State": "",
 "StateMachine": "",

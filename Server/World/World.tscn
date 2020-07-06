@@ -1,10 +1,11 @@
 [gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://World/World.gd" type="Script" id=1]
-[ext_resource path="res://World/Blocks/SpecialBlocks.gd" type="Script" id=2]
 [ext_resource path="res://UI/ScreenHUD.tscn" type="PackedScene" id=3]
 [ext_resource path="res://World/Players.gd" type="Script" id=4]
 [ext_resource path="res://World/Blocks/BlocksTilemap/BlocksTilemap.tscn" type="PackedScene" id=5]
+
+[sub_resource type="GDScript" id=1]
 
 [node name="World" type="Node2D"]
 position = Vector2( -15.978, -3.99451 )
@@ -27,7 +28,7 @@ position = Vector2( 15.978, 3.99451 )
 scale = Vector2( 0.39, 0.39 )
 
 [node name="SpecialBlocks" type="Node" parent="."]
-script = ExtResource( 2 )
+script = SubResource( 1 )
 
 [node name="ScreenHUD" parent="." instance=ExtResource( 3 )]
 
