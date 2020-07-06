@@ -1,12 +1,14 @@
 extends Node2D
 
+class_name WorldManager
+
 const Player = preload("res://Player/Player.tscn")
 
 signal on_player_load(p_id)
 signal on_player_unload(p_id)
-	
-func _process(_delta):
-	pass
+
+func _init():
+	gamestate.world_node = self
 
 ###PLAYERS ###############
 remotesync func remove_player(id):

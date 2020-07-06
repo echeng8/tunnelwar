@@ -12,7 +12,7 @@ remote func _chat_box_received_message(var message: String):
 	#universal command handling (nodes may implement their own command handling thru signals) 
 	if message.begins_with("/"):
 		var messageSplit:Array = message.split(" ", true, 0)
-		var targetPlayer = get_node("/root/World/Players/" + str(caller_id))
+		var targetPlayer =  gamestate.get_player(get_tree().get_rpc_sender_id())
 		
 		if messageSplit[0] == "/movespeed": #/speed [units]
 			rpc("add_message", "[color=maroon][HAX][/color] speed before: " + str(targetPlayer.speed) + ", after: " + messageSplit[1])
@@ -43,7 +43,7 @@ remote func _chat_box_received_message(var message: String):
 			and messageSplit.size() == 2
 			and messageSplit[1].is_valid_integer()
 			): 
-			gamestate.world_node.get_node("Blocks").spawn_golds_at(gamestate.blocks_node.get_nearest_cell(targetPlayer.position), int(messageSplit[1]))
+			gamestate.world_node.get_node("Blocks").spawn_golds_at(gamestate.blocks_node.get_overlapping_cell(targetPlayer.position), int(messageSplit[1]))
 		
 		if message == "/frb": #find reset block
 			rpc("add_message", gamestate.blocks_node.reset_block)

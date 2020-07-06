@@ -43,7 +43,11 @@ func get_struck_by(source):
 remote func respawn() -> void:
 	if $StateMachine.state.has_method("respawn"):
 		$StateMachine.state.respawn() 
-		
+
+func broadcast_death(killer_id : int):
+	var msg = "[p] has killed %s for %s gold." % [username, _gold]
+	gamestate.broadcast_node.broadcast(msg, 3, 0, killer_id)
+	
 #SETTERS AND GETTERS
 func set_gold(amount):
 	_gold = amount 

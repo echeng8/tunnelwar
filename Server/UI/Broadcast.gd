@@ -1,5 +1,7 @@
 extends Node
 
+class_name Broadcast
+
 var current_message = "" 
 var current_message_priority = 0  
 
@@ -12,6 +14,7 @@ master func initialize_rpc_sender():
 func broadcast(message : String, duration : int, priority : int, target_player_id = -1) -> void:  
 	if priority >= current_message_priority: 
 		
+		target_player_id = int(target_player_id)
 		#replacing [p] with username
 		if not target_player_id == -1:
 			current_message = message.replace("[p]", gamestate.get_player(target_player_id).username)

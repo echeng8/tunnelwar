@@ -3,7 +3,6 @@
 [ext_resource path="res://Weapons/Shovel/ShovelGun_Shovel_v2.png" type="Texture" id=1]
 [ext_resource path="res://Weapons/Shovel/Shovel.gd" type="Script" id=2]
 
-
 [node name="Shovel" type="Area2D"]
 script = ExtResource( 2 )
 

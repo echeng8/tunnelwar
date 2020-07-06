@@ -17,4 +17,3 @@ func process(_delta):
 	#pull-back detection
 	if ShovelGun.input_pull_jp: 
 		 exit("SGPulledState")
-	

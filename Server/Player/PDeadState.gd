@@ -4,7 +4,7 @@ extends State
 
 func enter():
 	#drop gold
-	gamestate.blocks_node.spawn_golds_at(gamestate.blocks_node.get_nearest_cell(fsm_root.position), fsm_root.get_gold())
+	gamestate.blocks_node.spawn_golds_at(gamestate.blocks_node.get_overlapping_cell(fsm_root.position), fsm_root.get_gold())
 	fsm_root.set_gold(0)
 	
 	#disable nodes

@@ -4,22 +4,41 @@ extends Area2D
 class_name Shovel
 
 ############ MECHANICS 
-
-export(float) var speed = 1000 #as projectile
 export(float) var damage = 10
 
-var pickup_lifespan = 5 #seconds 
+#projectile 
+export(float) var speed = 1000 
 
+const pickup_lifespan = 5 #seconds 
+
+var last_owner_id : int 
 #knockback stats
-var knockback_speed = 2000 #game units per second
-var knockback_duration = 0.1 #in seconds
+const knockback_speed = 2000 #game units per second
+const knockback_duration = 0.1 #in seconds
 
-func _ready(): 
-	show_behind_parent = true
+func _ready():
+	last_owner_id = int(HelperFunctions.get_parent_player_node(self).name)
+	
+func break_touched_block() -> void:
+	for vertex in $CollisionShape2D.polygon:
+		var check_vertex = vertex + $CollisionShape2D.global_position 
+		gamestate.blocks_node.break_block(
+			gamestate.blocks_node.get_overlapping_cell(check_vertex), 
+			int(HelperFunctions.get_parent_player_node(self).name)
+		)
 
+#returns the numbeer of points on the collider thats inside a solid cell
+func get_num_buried_points() -> int:
+	var num = 0
+	for vertex in $CollisionShape2D.polygon:
+		var v = vertex + $CollisionShape2D.global_position 
+		if not gamestate.blocks_node.get_overlapping_cell(v) == gamestate.blocks_node.block.EMPTY:
+			num += 1
+	return num
+	
 remotesync func destroy():
 	queue_free()
-	
+
 #####COLLISIONS
 func _on_body_entered(body):
 	if $StateMachine.state.has_method("on_body_entered"):

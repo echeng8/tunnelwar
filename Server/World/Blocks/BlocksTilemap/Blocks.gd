@@ -30,9 +30,10 @@ master func initialize_rpc_sender() -> void:
 func generate_world() -> void:
 	generate_dirt(length)
 	generate_gold(int(length * gold_percent))
+	gamestate.set_game_phase(gamestate.game_phases.IN_PROGRESS)
 	yield(get_tree().create_timer(1), "timeout")
 	spawn_reset_block()
-
+	
 #remove dirt and gold
 func clear_inside() -> void:
 	for dirt_cell in get_used_cells_by_id(block.DIRT):
@@ -112,7 +113,7 @@ func get_random_block(block_type = -1) -> Vector2:
 func get_pos(cell_coord : Vector2):
 	return map_to_world(cell_coord) * scale.x 
 
-func get_nearest_cell(world_pos : Vector2) -> Vector2:
+func get_overlapping_cell(world_pos : Vector2) -> Vector2:
 	return Vector2(stepify(world_pos.x - 100, 200), stepify(world_pos.y - 100, 200)) / 200
 
 #helper

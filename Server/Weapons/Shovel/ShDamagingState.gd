@@ -10,11 +10,7 @@ func enter():
 		try_damage_player(body)
 
 func physics_process(delta):
-	var body = gamestate.blocks_node
-	body.break_block(
-		body.get_nearest_cell(fsm_root.global_position), 
-		int(HelperFunctions.get_parent_player_node(fsm_root).name)
-	)
+	fsm_root.break_touched_block() 
 
 func on_body_entered(body):
 	try_damage_player(body)

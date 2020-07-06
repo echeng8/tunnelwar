@@ -23,18 +23,20 @@ func physics_process(_delta):
 	player.move_and_slide(velocity, Vector2(0,0))
 	player.rpc_unreliable("set_player_position", player.position)
 		
-func _on_struck_by(source):
+func _on_struck_by(source : Shovel):
 	#only damaged when game is in-progress
-	if "damage" in source and gamestate.game_phase == gamestate.game_phases.IN_PROGRESS: 
+	if gamestate.game_phase == gamestate.game_phases.IN_PROGRESS: 
 		player.health_points -= source.damage
 		player.rpc("set_health", player.health_points)
+		
 		if player.health_points <= 0:
+			fsm_root.broadcast_death(source.last_owner_id)
 			exit("PDeadState")
 			return 
 			
 	if "knockback_speed" in source: #todo make speed or duration agnostic?  
 		var kb_state = get_node("../PKnockbackedState")
-		kb_state.knockback_source = source
+		kb_state.knockback_source = source #todo no moore references fuck references
 		exit("PKnockbackedState")
 		
 func exit(next_state):

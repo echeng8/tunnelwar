@@ -15,10 +15,10 @@ enum game_phases {IN_PROGRESS, INTERIM}
 # STATIC REFERENCES 
 var game_phase = game_phases.INTERIM setget set_game_phase 
 
-var world_node
+var world_node : WorldManager
 var blocks_node : Blocks#child of World.tcsn, set on onready by Blocks node
-var chatbox_node
-var broadcast_node
+var chatbox_node 
+var broadcast_node : Broadcast
 
 #variables
 const block_size = 200.0
@@ -30,8 +30,6 @@ signal on_match_end
 
 
 func _ready():
-	world_node = get_node("/root/World")
-	
 	assert(get_tree().connect("network_peer_connected", self, "_player_connected") == OK)
 	assert(get_tree().connect("network_peer_disconnected", self,"_player_disconnected") == OK)
 	
@@ -67,7 +65,7 @@ remote func register_player(new_player_name):
 	world_node.spawn_everything_in(caller_id)
 
 func get_player(id):
-	return get_node("/root/World/Players/" + str(id))
+	return world_node.get_node("Players/" + str(id))
 
 func get_players():
-	return get_node("/root/World/Players/").get_children()
+	return world_node.get_children()

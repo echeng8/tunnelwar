@@ -1,13 +1,13 @@
 [gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://World/World.gd" type="Script" id=1]
+[ext_resource path="res://World/WorldManager.gd" type="Script" id=1]
 [ext_resource path="res://UI/ScreenHUD.tscn" type="PackedScene" id=3]
 [ext_resource path="res://World/Players.gd" type="Script" id=4]
 [ext_resource path="res://World/Blocks/BlocksTilemap/BlocksTilemap.tscn" type="PackedScene" id=5]
 
 [sub_resource type="GDScript" id=1]
 
-[node name="World" type="Node2D"]
+[node name="WorldManager" type="Node2D"]
 position = Vector2( -15.978, -3.99451 )
 script = ExtResource( 1 )
 __meta__ = {
