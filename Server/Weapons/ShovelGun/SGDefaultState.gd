@@ -12,6 +12,7 @@ func enter():
 # Optional handler functions for game loop events
 func process(_delta):
 	ShovelGun.look_at(ShovelGun.input_aim_pos)
+	#fsm_root.global_rotation = ShovelGun.input_aim_pos.angle() * _delta
 	ShovelGun.rpc_unreliable("_update_weapon_position", ShovelGun.input_aim_pos)
 
 	#pull-back detection

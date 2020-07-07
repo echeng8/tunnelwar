@@ -27,14 +27,14 @@ func break_touched_block() -> void:
 			int(HelperFunctions.get_parent_player_node(self).name)
 		)
 
-#returns the numbeer of points on the collider thats inside a solid cell
-func get_num_buried_points() -> int:
-	var num = 0
+#returns the % of the shovelgun's hitbox vertexes that are buried
+func get_percent_buried() -> float:
+	var num = 0.0 
 	for vertex in $CollisionShape2D.polygon:
 		var v = vertex + $CollisionShape2D.global_position 
 		if not gamestate.blocks_node.get_overlapping_cell(v) == gamestate.blocks_node.block.EMPTY:
 			num += 1
-	return num
+	return num / $CollisionShape2D.polygon.size()
 	
 remotesync func destroy():
 	queue_free()
