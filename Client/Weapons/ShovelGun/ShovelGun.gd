@@ -20,8 +20,9 @@ func _ready():
 	#signal connnections  
 	gamestate.world_node.get_node("ScreenHUD/ChatBox").connect("on_message_send", self, "check_for_command")
 
-remote func _update_weapon_position(mouse_position):
-		look_at(mouse_position)
+remote func server_set_transform(rot, pos):
+	global_rotation = rot
+	global_position = pos 
 
 ###ANIMATION ##################
 remote func update_client_state(s_state : String):
@@ -35,12 +36,9 @@ remote func update_client_state(s_state : String):
 			
 remotesync func _pre_stabbing(currPos, newPos):
 	TweenNode.interpolate_property(self, "position", position, newPos, pull_dur, Tween.TRANS_LINEAR) #, Tween.EASE_OUT)
-	TweenNode.interpolate_callback(self, pull_dur + 0.1, "make_scared")
+	TweenNode.interpolate_callback(self, pull_dur + 0.1, "make_scared") #todo refactoor
 	TweenNode.start()
-
-	
-	#TODO refactor this in player 
-	
+	#todo refactoor
 func make_scared():
 	get_parent().get_node("PlayerSprites").switch_face("scared") 
 	

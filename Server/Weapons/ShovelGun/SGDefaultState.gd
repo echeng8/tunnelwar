@@ -1,20 +1,16 @@
 extends State
 
-var ShovelGun 
-
 func enter():
-	ShovelGun = fsm_root
-	assert("ShovelGun" in ShovelGun.name)
-	
-	if ShovelGun.isLoaded():
-		ShovelGun.get_node("Shovel").get_node("StateMachine").call_deferred("change_to", "ShDefaultState")
+	if fsm_root.isLoaded():
+		fsm_root.get_node("Shovel").get_node("StateMachine").call_deferred("change_to", "ShDefaultState")
 		
 # Optional handler functions for game loop events
 func process(_delta):
-	ShovelGun.look_at(ShovelGun.input_aim_pos)
-	#fsm_root.global_rotation = ShovelGun.input_aim_pos.angle() * _delta
-	ShovelGun.rpc_unreliable("_update_weapon_position", ShovelGun.input_aim_pos)
+	var rotate_speed_percent = 1
+	if fsm_root.isLoaded():
+		rotate_speed_percent = 1 - fsm_root.get_node("Shovel").get_buried_percent()
+	fsm_root.global_rotation += fsm_root.to_local(fsm_root.input_aim_pos).angle() * rotate_speed_percent
 
 	#pull-back detection
-	if ShovelGun.input_pull_jp: 
+	if fsm_root.input_pull_jp: 
 		 exit("SGPulledState")

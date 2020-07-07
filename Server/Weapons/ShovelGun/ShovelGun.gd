@@ -27,9 +27,6 @@ var current_cell : Vector2
 var input_aim_pos = Vector2(0,0) 
 var input_pull_jp = false # pull button just pressed
 
-onready var TweenNode = get_node("Tween")
-
-
 remote func initialize_rpc_sender(): 
 	rset_id(get_tree().get_rpc_sender_id(), "pull_dur", pull_dur)
 	rset_id(get_tree().get_rpc_sender_id(), "stab_dur", stab_dur)
@@ -41,18 +38,34 @@ remote func initialize_rpc_sender():
 var velocity = Vector2.ZERO
 var newPos = Vector2.ZERO	
 
-######ANIMATION FUNCTIONS to be called by states (todo put in states?)
-remotesync func _pre_stabbing(_currPos, newPos):
-	TweenNode.interpolate_property(self, "position", position, newPos, pull_dur, Tween.TRANS_LINEAR) #, Tween.EASE_OUT)
-	TweenNode.start()
-
-remotesync func _stabbing(currPos, newPos):
-	TweenNode.interpolate_property(self, "position", position, newPos, stab_dur)
-	TweenNode.start()
+func _process(_delta):
+	rpc("server_set_transform", global_rotation, global_position)
 	
-remotesync func _after_stabbing(currPos, newPos):
-	TweenNode.interpolate_property(self, "position", position, newPos, reset_dur, Tween.TRANS_LINEAR) #, Tween.EASE_OUT) #todo fix pull-back duration not actually working
-	TweenNode.start()
+######ANIMATION FUNCTIONS to be called by states (todo put in states?)
+func _pre_stabbing(_currPos, newPos):
+	$Tween.interpolate_property(self, "position", position, newPos, pull_dur, Tween.TRANS_LINEAR) #, Tween.EASE_OUT)
+	$Tween.start()
+
+func _stabbing(currPos, newPos):
+	$Tween.interpolate_property(self, "position", position, newPos, stab_dur)
+	$Tween.start()
+	
+func _after_stabbing(currPos, newPos):
+	$Tween.interpolate_property(self, "position", position, newPos, reset_dur, Tween.TRANS_LINEAR) #, Tween.EASE_OUT) #todo fix pull-back duration not actually working
+	$Tween.start()
+
+#legacy 	
+#remotesync func _pre_stabbing(_currPos, newPos):
+#	$Tween.interpolate_property(self, "position", position, newPos, pull_dur, Tween.TRANS_LINEAR) #, Tween.EASE_OUT)
+#	$Tween.start()
+#
+#remotesync func _stabbing(currPos, newPos):
+#	$Tween.interpolate_property(self, "position", position, newPos, stab_dur)
+#	$Tween.start()
+#
+#remotesync func _after_stabbing(currPos, newPos):
+#	$Tween.interpolate_property(self, "position", position, newPos, reset_dur, Tween.TRANS_LINEAR) #, Tween.EASE_OUT) #todo fix pull-back duration not actually working
+#	$Tween.start()
 
 
 		

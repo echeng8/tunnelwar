@@ -28,11 +28,12 @@ func break_touched_block() -> void:
 		)
 
 #returns the % of the shovelgun's hitbox vertexes that are buried
-func get_percent_buried() -> float:
+func get_buried_percent() -> float:
 	var num = 0.0 
 	for vertex in $CollisionShape2D.polygon:
 		var v = vertex + $CollisionShape2D.global_position 
-		if not gamestate.blocks_node.get_overlapping_cell(v) == gamestate.blocks_node.block.EMPTY:
+		var btm = gamestate.blocks_node #block_tile_map
+		if not btm.get_cellv(btm.get_overlapping_cell(v)) == gamestate.blocks_node.block.EMPTY:
 			num += 1
 	return num / $CollisionShape2D.polygon.size()
 	
