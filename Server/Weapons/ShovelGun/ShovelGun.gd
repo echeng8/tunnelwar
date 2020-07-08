@@ -32,15 +32,19 @@ remote func initialize_rpc_sender():
 	rset_id(get_tree().get_rpc_sender_id(), "stab_dur", stab_dur)
 	rset_id(get_tree().get_rpc_sender_id(), "reset_dur", reset_dur)
 
-#func _process(_delta):
-#	if breaking_blocks: 
-#
+var player : Player
 var velocity = Vector2.ZERO
 var newPos = Vector2.ZERO	
 
+func _ready():
+	player = get_parent() 
+	
 func _process(_delta):
 	rpc("server_set_transform", global_rotation, global_position)
-	
+
+func point_to(destination: Vector2, rotate_percent = 1):
+	global_rotation += to_local(destination).angle() * rotate_percent
+
 ######ANIMATION FUNCTIONS to be called by states (todo put in states?)
 func _pre_stabbing(_currPos, newPos):
 	$Tween.interpolate_property(self, "position", position, newPos, pull_dur, Tween.TRANS_LINEAR) #, Tween.EASE_OUT)

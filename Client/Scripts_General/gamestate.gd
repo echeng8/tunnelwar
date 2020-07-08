@@ -49,12 +49,10 @@ func pre_start_game():
 func _server_disconnected():
 	world_node.queue_free()
 	get_node("/root/Main").show()
-	emit_signal("server_disconnected")
 
 # Callback from SceneTree, called when unabled to connect to server
 func _connected_fail():
 	get_tree().set_network_peer(null) # Remove peer
-	emit_signal("connection_failed")
 	
 func get_player(id) -> Player:
 	return world_node.get_node("Players/" + str(id))

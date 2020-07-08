@@ -16,11 +16,11 @@ func process(_delta):
 func physics_process(_delta):
 	#TODO change speed based on ShovelGun 
 	var isSGAtRest = player.get_node("ShovelGun").find_node("StateMachine").state.name == "SGDefaultState"
-	var velocity = player.input_direction.normalized() * player.speed
+	player.velocity = player.input_direction.normalized() * player.speed
 	if not isSGAtRest:
-		velocity = velocity * player.get_node("ShovelGun").slowed_move_rate  
-		
-	player.move_and_slide(velocity, Vector2(0,0))
+		player.velocity = player.velocity * player.get_node("ShovelGun").slowed_move_rate  
+
+	player.move_and_slide(player.velocity, Vector2(0,0))
 	player.rpc_unreliable("set_player_position", player.position)
 		
 func _on_struck_by(source : Shovel):

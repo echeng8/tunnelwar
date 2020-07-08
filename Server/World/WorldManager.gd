@@ -5,20 +5,16 @@ class_name WorldManager
 const Player = preload("res://Player/Player.tscn")
 
 signal on_player_load(p_id)
-signal on_player_unload(p_id)
 
 func _init():
 	gamestate.world_node = self
 
 ###PLAYERS ###############
-remotesync func remove_player(id):
-	$Players.get_node(String(id)).queue_free()
-	emit_signal("on_player_unload", id) 
 
 func instantiate_player(id, username):
 	if $Players.has_node(str(id)): #todo look into deleting this
 		return 
-		
+
 	var player = Player.instance()
 	player.name = String(id) # Important
 	player.username = username

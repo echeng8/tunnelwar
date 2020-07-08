@@ -1,11 +1,11 @@
-extends "res://Scripts_General/Base_Classes/FSM/State.gd"
+extends State
 
 
 #MECHANICS VARIABLES
 var shootable_time = 0.1 #if the player stabs during .5 seconds of finished pull, they shoot 
 
+#implementation variables 
 var duration = 0
-
 
 func enter():
 	fsm_root.velocity = Vector2(1, 0).rotated(fsm_root.global_rotation) * fsm_root.pull_back_dist
@@ -16,12 +16,13 @@ func enter():
 		fsm_root.get_node("Shovel").get_node("StateMachine").change_to("ShChargedState")
 		 
 	duration = 0
-	
 # Optional handler functions for game loop events
 func process(delta):
 	duration += delta
 	
-	if not fsm_root.input_pull_jp:  #todo check timer for stab potential
+	fsm_root.point_to(fsm_root.input_aim_pos, 0.01)
+	
+	if not fsm_root.input_pull_jp:
 		if duration > fsm_root.stab_charge_time:
 			if fsm_root.is_loaded() and duration < fsm_root.stab_charge_time + shootable_time: 
 				fsm_root.rpc("shoot") 
