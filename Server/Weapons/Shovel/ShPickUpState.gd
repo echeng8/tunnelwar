@@ -15,6 +15,6 @@ func process(delta):
 		ShovelNode.rpc("destroy")
 
 func on_body_entered(body):
-	if body.is_in_group("Players") and not body.get_node("ShovelGun").is_loaded() :
-		body.get_node("ShovelGun").rpc("reload")	 
+	if body.is_in_group("Players") and not body.get_node("ShovelGun/Model").is_loaded() :
+		body.get_node("ShovelGun/Model").rpc("reload")	 
 		ShovelNode.rpc("destroy")

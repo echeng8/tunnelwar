@@ -37,7 +37,7 @@ var velocity = Vector2.ZERO
 var newPos = Vector2.ZERO	
 
 func _ready():
-	player = get_parent() 
+	player = HelperFunctions.get_parent_player_node(self)
 	
 func _process(_delta):
 	rpc("server_set_transform", global_rotation, global_position)
