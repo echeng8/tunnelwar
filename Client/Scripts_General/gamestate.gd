@@ -22,9 +22,7 @@ func _ready():
 	assert(get_tree().connect("connected_to_server", self, "_connected_ok") == 0)
 	assert(get_tree().connect("connection_failed", self, "_connected_fail") == 0)
 	assert(get_tree().connect("server_disconnected", self, "_server_disconnected") == 0)
-	
-	# Try to connect right away
-	#connect_to_server()
+
 
 func connect_to_server():
 	var host = NetworkedMultiplayerENet.new()
@@ -47,21 +45,12 @@ func pre_start_game():
 
 # Callback from SceneTree, called when server disconnect
 func _server_disconnected():
-	get_node("/root/World").queue_free()
+	world_node.queue_free()
 	get_node("/root/Main").show()
-	emit_signal("server_disconnected")
-	
-	# Try to connect again
-	#connect_to_server()
-
 
 # Callback from SceneTree, called when unabled to connect to server
 func _connected_fail():
 	get_tree().set_network_peer(null) # Remove peer
-	emit_signal("connection_failed")
-	
-	# Try to connect again
-	#connect_to_server()
 	
 func get_player(id) -> Player:
 	return world_node.get_node("Players/" + str(id))
