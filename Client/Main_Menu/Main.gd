@@ -30,6 +30,7 @@ func _on_connection_failed():
 
 
 func _on_server_disconnect():
+	print('dc')
 	$UIVBox/JoinButton.disabled = false
 	
 	status.text = "Server Disconnected, trying to connect..."

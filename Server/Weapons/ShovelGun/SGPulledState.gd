@@ -12,7 +12,7 @@ func enter():
 	fsm_root.newPos = fsm_root.position + (fsm_root.velocity * 1/60) #1/60 to simulate delta
 	fsm_root._pre_stabbing(fsm_root.position, fsm_root.newPos)
 	
-	if fsm_root.isLoaded():
+	if fsm_root.is_loaded():
 		fsm_root.get_node("Shovel").get_node("StateMachine").change_to("ShChargedState")
 		 
 	duration = 0
@@ -23,7 +23,7 @@ func process(delta):
 	
 	if not fsm_root.input_pull_jp:  #todo check timer for stab potential
 		if duration > fsm_root.stab_charge_time:
-			if fsm_root.isLoaded() and duration < fsm_root.stab_charge_time + shootable_time: 
+			if fsm_root.is_loaded() and duration < fsm_root.stab_charge_time + shootable_time: 
 				fsm_root.rpc("shoot") 
 				
 			fsm.change_to("SGStabState")

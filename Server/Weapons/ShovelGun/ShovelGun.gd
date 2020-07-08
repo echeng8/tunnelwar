@@ -80,12 +80,12 @@ remotesync func reload():
 	var shovel = Shovel.instance()
 	call_deferred("add_child", shovel)
 
-func isLoaded(): 
+func is_loaded(): 
 	return has_node("Shovel")
 	
 func _on_Reload_timeout():
 	$Reload.stop()
-	if not isLoaded():
+	if not is_loaded():
 		rpc("reload")
 	
 

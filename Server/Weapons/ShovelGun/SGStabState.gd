@@ -7,7 +7,7 @@ func enter():
 	fsm_root.newPos = fsm_root.position + (fsm_root.velocity * 1/60)
 	fsm_root._stabbing(fsm_root.position, fsm_root.newPos)
 	
-	if fsm_root.isLoaded():
+	if fsm_root.is_loaded():
 		fsm_root.get_node("Shovel").get_node("StateMachine").change_to("ShDamagingState")
 
 		
