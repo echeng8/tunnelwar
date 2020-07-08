@@ -5,17 +5,20 @@ class_name WorldManager
 const Player = preload("res://Player/Player.tscn")
 
 signal on_player_load(p_id)
+signal on_player_unload(p_id)
 
 func _init():
 	gamestate.world_node = self
 
 ###PLAYERS ###############
+remotesync func remove_player(id):
+	$Players.get_node(String(id)).queue_free()
+	emit_signal("on_player_unload", id) 
 
 func instantiate_player(id, username):
 	if $Players.has_node(str(id)): #todo look into deleting this
 		return 
-
-	rpc("instantiate_player", Vector2(0,0), String(id), username)
+		
 	var player = Player.instance()
 	player.name = String(id) # Important
 	player.username = username
@@ -23,9 +26,8 @@ func instantiate_player(id, username):
 	player.set_network_master(id) # Important
 	$Players.add_child(player)
 	
-	
+	rpc("instantiate_player", player.position, player.get_network_master(), player.username)
 	player.respawn()
-	
 	emit_signal("on_player_load", id)
 
 func spawn_everything_in(caller_id): 

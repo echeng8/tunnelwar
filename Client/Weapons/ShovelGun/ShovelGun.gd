@@ -39,7 +39,6 @@ remotesync func _pre_stabbing(currPos, newPos):
 	TweenNode.interpolate_callback(self, pull_dur + 0.1, "make_scared") #todo refactoor
 	TweenNode.start()
 	#todo refactoor
-	
 func make_scared():
 	get_parent().get_node("PlayerSprites").switch_face("scared") 
 	

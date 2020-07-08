@@ -10,17 +10,17 @@ func enter():
 
 func process(_delta):
 	#pass input to Shovelgun
-	fsm_root.get_node("ShovelGun/Model").input_aim_pos = fsm_root.input_aim_pos
-	fsm_root.get_node("ShovelGun/Model").input_pull_jp = fsm_root.input_pull_jp
+	fsm_root.get_node("ShovelGun").input_aim_pos = fsm_root.input_aim_pos
+	fsm_root.get_node("ShovelGun").input_pull_jp = fsm_root.input_pull_jp
 
 func physics_process(_delta):
 	#TODO change speed based on ShovelGun 
-	var isSGAtRest = player.get_node("ShovelGun/Model").find_node("StateMachine").state.name == "SGDefaultState"
-	player.velocity = player.input_direction.normalized() * player.speed
+	var isSGAtRest = player.get_node("ShovelGun").find_node("StateMachine").state.name == "SGDefaultState"
+	var velocity = player.input_direction.normalized() * player.speed
 	if not isSGAtRest:
-		player.velocity = player.velocity * player.get_node("ShovelGun/Model").slowed_move_rate  
-
-	player.move_and_slide(player.velocity, Vector2(0,0))
+		velocity = velocity * player.get_node("ShovelGun").slowed_move_rate  
+		
+	player.move_and_slide(velocity, Vector2(0,0))
 	player.rpc_unreliable("set_player_position", player.position)
 		
 func _on_struck_by(source : Shovel):

@@ -31,6 +31,9 @@ remotesync func instantiate_player(spawn_pos, id, username):
 	player.username = username 
 	$Players.add_child(player)
 
+remotesync func remove_player(id):
+	$Players.get_node(String(id)).queue_free()
+
 ### BLOCKS AND SHOVELS 
 remote func spawn(file_name, node_name, transform_dict):
 	if node_name in $Items.get_children():

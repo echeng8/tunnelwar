@@ -8,35 +8,33 @@
 [ext_resource path="res://Weapons/ShovelGun/SGStabState.gd" type="Script" id=6]
 [ext_resource path="res://Weapons/ShovelGun/SGVulnerableState.gd" type="Script" id=7]
 
-[node name="ShovelGun" type="Node2D"]
-
-[node name="Model" type="Node2D" parent="."]
-position = Vector2( 30, 0 )
+[node name="ShovelGun" type="Sprite"]
 scale = Vector2( 0.5, 0.5 )
+offset = Vector2( 150, -20 )
 script = ExtResource( 1 )
 
-[node name="StateMachine" type="Node" parent="Model"]
+[node name="StateMachine" type="Node" parent="."]
 script = ExtResource( 3 )
 
-[node name="SGDefaultState" type="Node" parent="Model/StateMachine"]
+[node name="SGDefaultState" type="Node" parent="StateMachine"]
 script = ExtResource( 4 )
 
-[node name="SGPulledState" type="Node" parent="Model/StateMachine"]
+[node name="SGPulledState" type="Node" parent="StateMachine"]
 script = ExtResource( 5 )
 
-[node name="SGStabState" type="Node" parent="Model/StateMachine"]
+[node name="SGStabState" type="Node" parent="StateMachine"]
 script = ExtResource( 6 )
 
-[node name="SGVulnerableState" type="Node" parent="Model/StateMachine"]
+[node name="SGVulnerableState" type="Node" parent="StateMachine"]
 script = ExtResource( 7 )
 
-[node name="Muzzle" type="Position2D" parent="Model"]
+[node name="Muzzle" type="Position2D" parent="."]
 position = Vector2( 336, 0 )
 
-[node name="Shovel" parent="Model" instance=ExtResource( 2 )]
+[node name="Shovel" parent="." instance=ExtResource( 2 )]
 
-[node name="Reload" type="Timer" parent="Model"]
+[node name="Reload" type="Timer" parent="."]
 wait_time = 4.0
 
-[node name="Tween" type="Tween" parent="Model"]
-[connection signal="timeout" from="Model/Reload" to="Model" method="_on_Reload_timeout"]
+[node name="Tween" type="Tween" parent="."]
+[connection signal="timeout" from="Reload" to="." method="_on_Reload_timeout"]
