@@ -15,6 +15,7 @@ func instantiate_player(id, username):
 	if $Players.has_node(str(id)): #todo look into deleting this
 		return 
 
+	rpc("instantiate_player", Vector2(0,0), String(id), username)
 	var player = Player.instance()
 	player.name = String(id) # Important
 	player.username = username
@@ -22,8 +23,9 @@ func instantiate_player(id, username):
 	player.set_network_master(id) # Important
 	$Players.add_child(player)
 	
-	rpc("instantiate_player", player.position, player.get_network_master(), player.username)
+	
 	player.respawn()
+	
 	emit_signal("on_player_load", id)
 
 func spawn_everything_in(caller_id): 

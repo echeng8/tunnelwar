@@ -3,9 +3,8 @@ extends "res://Scripts_General/Base_Classes/FSM/State.gd"
 var duration = 0
 
 func enter():
-	fsm_root.velocity = Vector2(1, 0).rotated(fsm_root.rotation) * fsm_root.stabbing_dist
-	fsm_root.newPos = fsm_root.position + (fsm_root.velocity * 1/60)
-	fsm_root._stabbing(fsm_root.position, fsm_root.newPos)
+	var dest = fsm_root.init_position + Vector2.RIGHT * fsm_root.stabbing_dist
+	fsm_root.move_to(dest, fsm_root.stab_dur)
 	
 	if fsm_root.is_loaded():
 		fsm_root.get_node("Shovel").get_node("StateMachine").change_to("ShDamagingState")

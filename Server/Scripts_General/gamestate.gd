@@ -44,9 +44,6 @@ func set_game_phase(gp : int) -> void:
 # Player management functions
 remote func register_player(new_player_name):
 	var caller_id = get_tree().get_rpc_sender_id()
-	
-	print("Client ", caller_id, " registered as ", new_player_name)
-	
 	world_node.instantiate_player(caller_id, new_player_name)
 	world_node.spawn_everything_in(caller_id)
 

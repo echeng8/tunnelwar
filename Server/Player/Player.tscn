@@ -33,4 +33,3 @@ script = ExtResource( 5 )
 shape = SubResource( 1 )
 
 [node name="ShovelGun" parent="." instance=ExtResource( 1 )]
-position = Vector2( -10, 17 )

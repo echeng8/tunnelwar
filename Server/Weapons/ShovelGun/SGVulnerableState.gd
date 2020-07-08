@@ -13,6 +13,6 @@ func process(delta):
 	duration += delta
 	
 	if(duration > fsm_root.vulnerability_time):
-		fsm_root._after_stabbing(fsm_root.position, fsm_root.init_position)
+		fsm_root.move_to(fsm_root.init_position, fsm_root.reset_dur)  
 		fsm.change_to("SGDefaultState")
 
