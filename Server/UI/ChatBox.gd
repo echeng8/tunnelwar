@@ -19,16 +19,16 @@ remote func _chat_box_received_message(var message: String):
 			targetPlayer.speed = float(messageSplit[1])
 			
 		if messageSplit[0] == "/stabtime": 
-			rpc("add_message", "[color=maroon][HAX][/color] speed before: " + str(targetPlayer.get_node("ShovelGun").stab_dur) + ", after: " + messageSplit[1])
-			targetPlayer.get_node("ShovelGun").stab_dur = float(messageSplit[1])
+			rpc("add_message", "[color=maroon][HAX][/color] speed before: " + str(targetPlayer.get_node("ShovelGun/Model").stab_dur) + ", after: " + messageSplit[1])
+			targetPlayer.get_node("ShovelGun/Model").stab_dur = float(messageSplit[1])
 			
 		if messageSplit[0] == "/kill":
 			targetPlayer.respawn()
 			
 		if messageSplit[0] == "/vultime":
-			var msg = "[color=maroon][HAX][/color] vultime before: " + str(targetPlayer.get_node("ShovelGun").vulnerability_time) + ", after: : " + messageSplit[1]
+			var msg = "[color=maroon][HAX][/color] vultime before: " + str(targetPlayer.get_node("ShovelGun/Model").vulnerability_time) + ", after: : " + messageSplit[1]
 			rpc("add_message", msg)
-			targetPlayer.get_node("ShovelGun").vulnerability_time = float(messageSplit[1])
+			targetPlayer.get_node("ShovelGun/Model").vulnerability_time = float(messageSplit[1])
 			
 		if (messageSplit[0] == "/tp" 
 			and messageSplit.size() == 3
