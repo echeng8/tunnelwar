@@ -44,10 +44,7 @@ remote func update_client_state(s_state : String):
 			visible = true
 		"PDeadState":
 			visible = false
-
-remotesync func destroy() -> void:
-	queue_free() 
-	
+			
 #### HEALTH
 remote func set_health(hp):
 	health_points = hp 

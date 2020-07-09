@@ -5,7 +5,7 @@ var player_rankings = [] #ids as strings
 func _ready():
 	gamestate.world_node.connect("on_player_load", self, "connect_player_signals")
 	gamestate.world_node.connect("on_player_load", self, "update_rankings")
-	get_tree().connect("network_peer_disconnected", self, "update_rankings")
+	gamestate.world_node.connect("on_player_unload", self, "update_rankings")
 	update_rankings() 
 
 remote func initialize_rpc_sender():

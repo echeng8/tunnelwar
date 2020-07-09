@@ -11,9 +11,6 @@ export var speed = 600
 export var base_hp = 40
 export var health_points = 40
 
-#implementation vars 
-var velocity = Vector2.ZERO 
-
 #puppet vars
 puppet var input_direction =  Vector2.ZERO
 puppet var input_aim_pos = Vector2.ZERO
@@ -24,6 +21,7 @@ signal on_gold_change
 
 func _ready():
 	assert($StateMachine.connect("on_state_change", self, "update_client_state") == OK) 
+
 #networking 
 
 remote func initialize_rpc_sender() -> void:
@@ -46,21 +44,8 @@ remote func respawn() -> void:
 	if $StateMachine.state.has_method("respawn"):
 		$StateMachine.state.respawn() 
 
-#die then delete 
-func disconnect_die() -> void:
-	$StateMachine.change_to("PDeadState") 
-	broadcast_death() 
-	rpc("destroy")
-
-remotesync func destroy() -> void:
-	queue_free() 
-	
-func broadcast_death(killer_id = -1):
-	var msg = ""
-	if not killer_id == -1:
-		msg = "[p] has killed %s for %s gold." % [username, _gold]
-	else: 
-		msg = "%s suddenly dies, dropping %s gold." % [username, _gold]
+func broadcast_death(killer_id : int):
+	var msg = "[p] has killed %s for %s gold." % [username, _gold]
 	gamestate.broadcast_node.broadcast(msg, 3, 0, killer_id)
 	
 #SETTERS AND GETTERS
