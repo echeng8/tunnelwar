@@ -15,7 +15,7 @@ func instantiate_player(id, username):
 	if $Players.has_node(str(id)): #todo look into deleting this
 		return 
 
-	rpc("instantiate_player", Vector2(0,0), String(id), username)
+	rpc("instantiate_player", Vector2(0,0), id, username)
 	var player = Player.instance()
 	player.name = String(id) # Important
 	player.username = username

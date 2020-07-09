@@ -48,7 +48,7 @@ func point_to(destination: Vector2, rotate_percent = 1):
 
 ######ANIMATION FUNCTIONS to be called by states (todo put in states?)
 func move_to(destination : Vector2, duration : float):
-	$Tween.interpolate_property(self, "position", position, destination, duration) 
+	$Tween.interpolate_property(self, "position", null, destination, duration) 
 	$Tween.start()
 
 
