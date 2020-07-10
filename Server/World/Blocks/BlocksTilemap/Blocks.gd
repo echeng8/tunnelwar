@@ -29,7 +29,7 @@ master func initialize_rpc_sender() -> void:
 
 func generate_world() -> void:
 	generate_dirt(length)
-	generate_gold(int(length * gold_percent))
+	generate_gold(int(length * length * gold_percent))
 	gamestate.set_game_phase(gamestate.game_phases.IN_PROGRESS)
 	yield(get_tree().create_timer(1), "timeout")
 	spawn_reset_block()

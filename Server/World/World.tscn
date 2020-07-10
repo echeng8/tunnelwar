@@ -26,6 +26,7 @@ __meta__ = {
 [node name="Blocks" parent="." instance=ExtResource( 5 )]
 position = Vector2( 15.978, 3.99451 )
 scale = Vector2( 0.39, 0.39 )
+z_index = 1
 
 [node name="SpecialBlocks" type="Node" parent="."]
 script = SubResource( 1 )
