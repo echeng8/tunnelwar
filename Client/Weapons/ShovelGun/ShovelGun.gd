@@ -2,12 +2,6 @@ extends Sprite
 
 const Shovel = preload("res://Weapons/Shovel/Shovel.tscn")
 
-#server set animation durations
-remote var pull_dur = 1
-remote var stab_dur = 1
-remote var reset_dur = 1
-
-onready var TweenNode = get_node("Tween")
 var server_state : String
 
 #debug variables
@@ -29,30 +23,14 @@ remote func update_client_state(s_state : String):
 	server_state = s_state
 	emit_signal("on_server_state_change", server_state)
 	match server_state:
-		"PDefaultState":
-			visible = true
-		"PDeadState":
-			visible = false  
-			
-remotesync func _pre_stabbing(currPos, newPos):
-	TweenNode.interpolate_property(self, "position", position, newPos, pull_dur, Tween.TRANS_LINEAR) #, Tween.EASE_OUT)
-	TweenNode.interpolate_callback(self, pull_dur + 0.1, "make_scared") #todo refactoor
-	TweenNode.start()
-	#todo refactoor
-	
-func make_scared():
-	get_parent().get_node("PlayerSprites").switch_face("scared") 
-	
-remote func _stabbing(currPos, newPos):
-	TweenNode.interpolate_property(self, "position", position, newPos, stab_dur, Tween.TRANS_LINEAR) #, Tween.EASE_OUT)
-	TweenNode.start()
-
-remotesync func _after_stabbing(currPos, newPos):
-	TweenNode.interpolate_property(self, "position", position, newPos, reset_dur, Tween.TRANS_LINEAR) #, Tween.EASE_OUT) #todo fix pull-back duration not actually working
-	TweenNode.start()
-
-	#TODO refactor this in player 
-	get_parent().get_node("PlayerSprites").switch_face("normal") 
+		"SGDefaultState":
+			HelperFunctions.get_parent_player_node(self).get_node("PlayerSprites").switch_face("normal")
+		"SGPulledState":
+			HelperFunctions.get_parent_player_node(self).get_node("PlayerSprites").switch_face("scared")
+		"SGStabState":
+			pass
+		"SGVulnerableState": 
+			pass 
 
 ##SHOOTING STUFF ###############
 remotesync func shoot():

@@ -37,22 +37,30 @@ var velocity = Vector2.ZERO
 var newPos = Vector2.ZERO	
 
 func _ready():
+	assert($StateMachine.connect("on_state_change", self, "update_client_state") == OK) 
+	
 	player = HelperFunctions.get_parent_player_node(self)
 	init_position = position
 	
 func _process(_delta):
 	rpc_unreliable("server_set_transform", global_rotation, global_position)
 
-func point_to(destination: Vector2, rotate_percent = 1):
-	get_parent().global_rotation += get_parent().to_local(destination).angle() * rotate_percent
+func update_client_state() -> void:
+	rpc("update_client_state", $StateMachine.state.name)
 
 ######ANIMATION FUNCTIONS to be called by states (todo put in states?)
-func move_to(destination : Vector2, duration : float):
-	$Tween.interpolate_property(self, "position", null, destination, duration) 
+func move_to(destination : Vector2, duration : float, callback = ""):
+	$Tween.interpolate_property(self, "position", null, destination, duration)
+	if not callback == "":
+		$Tween.interpolate_callback($StateMachine.state, duration, callback) 
 	$Tween.start()
-
-
+	
+func point_to(destination: Vector2, rotate_percent = 1):
+	get_parent().global_rotation += get_parent().to_local(destination).angle() * rotate_percent
 ##SHOOTING STUFF #########################################################
+func is_loaded(): 
+	return has_node("Shovel")
+	
 remotesync func shoot():
 	$Reload.start()
 	var ShovelNode = get_node("Shovel")
@@ -63,9 +71,6 @@ remotesync func reload():
 	var shovel = Shovel.instance()
 	call_deferred("add_child", shovel)
 
-func is_loaded(): 
-	return has_node("Shovel")
-	
 func _on_Reload_timeout():
 	$Reload.stop()
 	if not is_loaded():

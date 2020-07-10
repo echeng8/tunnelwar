@@ -20,7 +20,6 @@ func process(delta):
 	duration += delta
 	
 	fsm_root.point_to(fsm_root.input_aim_pos, 0.005)
-	
 	if not fsm_root.input_pull_jp:
 		if duration > fsm_root.stab_charge_time:
 			if fsm_root.is_loaded() and duration < fsm_root.stab_charge_time + shootable_time: 
