@@ -4,13 +4,14 @@ extends Area2D
 class_name Shovel
 
 ############ MECHANICS 
+
+#gameplay
+export(float) var speed = 1200 
 export(float) var damage = 10
+const detached_lifespan = 10 #time it survives without a shovelgun 
+var detached_durability = 3 #blocks it can break before being a pickup 
 
-#projectile 
-export(float) var speed = 1000 
-
-const pickup_lifespan = 5 #seconds 
-
+#implementation  
 var last_owner_id : int 
 
 #knockback stats

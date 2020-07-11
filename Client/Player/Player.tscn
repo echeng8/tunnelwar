@@ -22,7 +22,7 @@ shape = SubResource( 1 )
 scale = Vector2( 0.75, 0.75 )
 script = ExtResource( 2 )
 
-[node name="exclam_mark" type="Sprite" parent="PlayerSprites"]
+[node name="ExclaimMark" type="Sprite" parent="PlayerSprites"]
 visible = false
 modulate = Color( 0.980392, 0.87451, 0, 1 )
 position = Vector2( 0, -193.316 )

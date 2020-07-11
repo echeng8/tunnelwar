@@ -1,20 +1,19 @@
-extends "res://Scripts_General/Base_Classes/FSM/State.gd"
+extends State
 
 var duration = 0
-var ShovelNode 
-func enter():
-	ShovelNode = fsm.get_parent()
 
+func enter():
 	duration = 0
 	
 	
-# Opttttional handler functions for game loop events
+# optional handler functions for game loop events
 func process(delta):
 	duration += delta 
-	if duration > ShovelNode.pickup_lifespan:
-		ShovelNode.rpc("destroy")
+	if duration > fsm_root.detached_lifespan:
+		fsm_root.rpc("destroy")
 
 func on_body_entered(body):
+	#player picks up shovelnode
 	if body.is_in_group("Players") and not body.get_node("ShovelGun/Model").is_loaded() :
 		body.get_node("ShovelGun/Model").rpc("reload")	 
-		ShovelNode.rpc("destroy")
+		fsm_root.rpc("destroy")
