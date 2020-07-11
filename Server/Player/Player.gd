@@ -17,7 +17,7 @@ var velocity = Vector2.ZERO
 #puppet vars
 puppet var input_direction =  Vector2.ZERO
 puppet var input_aim_pos = Vector2.ZERO
-puppet var input_pull_jp = false 
+puppet var input_pull_p = false 
 
 signal struck_by(node) 
 signal on_gold_change

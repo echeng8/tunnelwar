@@ -3,9 +3,11 @@ extends Node2D
 const Shovel = preload("res://Weapons/Shovel/Shovel.tscn")
 
 #gameplay values 
-export var stab_charge_time = 0.5 #seconds you need to pull back in order to stab
+export var stab_charge_time = 0.15 #seconds you need to pull back in order to stab
+export var shoot_charge_time = 1 #time it takes once pulled to charge up shoot 
 export var vulnerability_time = 0.75 #seconds you are vulnerable after the stab TODO
 export var slowed_move_rate = .5 #for player
+
 
 #pull back animation 
 export var pull_back_dist = -100
@@ -15,27 +17,26 @@ export var stabbing_dist = 30
 var init_position : Vector2
 
 #animation duration (how long it takes for the anim to complete)
-export var pull_dur = 0.1
 export var stab_dur = 0.08
 export var reset_dur = 0.15
 
 #implementation
 var breaking_blocks : bool 
 var current_cell : Vector2
+var player : Player
 
 #Player-Node Set Variables - only on PDefaultState
 var input_aim_pos = Vector2(0,0) 
-var input_pull_jp = false # pull button just pressed
+var input_pull_p = false # pull button just pressed
 
 remote func initialize_rpc_sender(): 
-	rset_id(get_tree().get_rpc_sender_id(), "pull_dur", pull_dur)
+	#not currently in use
 	rset_id(get_tree().get_rpc_sender_id(), "stab_dur", stab_dur)
 	rset_id(get_tree().get_rpc_sender_id(), "reset_dur", reset_dur)
-
-var player : Player
-var velocity = Vector2.ZERO
-var newPos = Vector2.ZERO	
-
+	
+	#implementation values 
+	rset_id(get_tree().get_rpc_sender_id(), "shoot_charge_up", shoot_charge_time)
+	rset_id(get_tree().get_rpc_sender_id(), "stab_charge_time", stab_charge_time)
 func _ready():
 	assert($StateMachine.connect("on_state_change", self, "update_client_state") == OK) 
 	

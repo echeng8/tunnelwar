@@ -12,6 +12,7 @@ export(float) var speed = 1000
 const pickup_lifespan = 5 #seconds 
 
 var last_owner_id : int 
+
 #knockback stats
 const knockback_speed = 2000 #game units per second
 const knockback_duration = 0.1 #in seconds

@@ -34,7 +34,7 @@ func _process(_delta):
 		
 		#Combat 
 		rset_unreliable_id(1, "input_aim_pos", get_global_mouse_position()) #todo check for cheating potential 
-		rset_unreliable_id(1, "input_pull_jp", Input.is_action_pressed('pull')) 
+		rset_unreliable_id(1, "input_pull_p", Input.is_action_pressed('pull')) 
 
 remote func update_client_state(s_state : String):
 	server_state = s_state

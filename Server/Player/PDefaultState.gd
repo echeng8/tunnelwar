@@ -11,7 +11,7 @@ func enter():
 func process(_delta):
 	#pass input to Shovelgun
 	fsm_root.get_node("ShovelGun/Model").input_aim_pos = fsm_root.input_aim_pos
-	fsm_root.get_node("ShovelGun/Model").input_pull_jp = fsm_root.input_pull_jp
+	fsm_root.get_node("ShovelGun/Model").input_pull_p = fsm_root.input_pull_p
 
 func physics_process(_delta):
 	#TODO change speed based on ShovelGun 
