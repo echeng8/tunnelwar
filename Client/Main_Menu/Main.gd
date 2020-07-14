@@ -4,9 +4,9 @@ onready var status = $UIVBox/Status
 
 
 func _ready():
-	assert(gamestate.connect("connection_failed", self, "_on_connection_failed") == 0)
-	assert(gamestate.connect("connection_succeeded", self, "_on_connection_success") == 0)
-	assert(gamestate.connect("server_disconnected", self, "_on_server_disconnect") == 0)
+	assert(get_tree().connect("connected_to_server", self, "_on_connection_success") == 0)
+	assert(get_tree().connect("connection_failed", self, "_on_connection_failed") == 0)
+	assert(get_tree().connect("server_disconnected", self, "_on_server_disconnect") == 0)
 
 func _on_JoinButton_pressed():
 	gamestate.my_name = $UIVBox/NameHBox/NameEdit.text
