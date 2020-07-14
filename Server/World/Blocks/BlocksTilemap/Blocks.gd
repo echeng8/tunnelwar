@@ -1,13 +1,10 @@
 extends TileMap
+
 class_name Blocks
 
 #####gameplay
 var length = 100
 var gold_percent = 0.25
-#reset blocks  
-var reset_blocks = 3 
-var rb_respawn_time = 10
-var reset_block : Vector2 #reference to current reset block
 
 #MAKE SURE this lines up with tilesheet
 enum block {DIRT, GOLD, BEDROCK, RESET, EMPTY}
@@ -32,7 +29,7 @@ func generate_world() -> void:
 	generate_gold(int(length * length * gold_percent))
 	gamestate.set_game_phase(gamestate.game_phases.IN_PROGRESS)
 	yield(get_tree().create_timer(1), "timeout")
-	spawn_reset_block()
+	$ResetBlockHandler.spawn_reset_block()
 	
 #remove dirt and gold
 func clear_inside() -> void:
@@ -55,21 +52,7 @@ func break_block(cell : Vector2, player_id = -1):
 			set_block(cell, block.EMPTY)
 			gamestate.get_player(player_id).add_gold(1)
 		block.RESET:
-			set_block(cell, block.EMPTY)
-			reset_blocks -= 1 
-			gamestate.broadcast_node.broadcast("The Reset Block is destroyed. %s remain." % reset_blocks, rb_respawn_time, 1)
-			yield(get_tree().create_timer(rb_respawn_time), "timeout")
-		
-			if reset_blocks > 0 and get_used_cells_by_id(block.DIRT).size() > 0:
-				spawn_reset_block()
-			else: 
-				gamestate.set_game_phase(gamestate.game_phases.INTERIM)
-				reset()
-
-func spawn_reset_block():  
-	gamestate.broadcast_node.broadcast("Somewhere, a Reset Block appears. %s more until RESET." % reset_blocks, rb_respawn_time, 1)
-	reset_block = get_random_block(block.DIRT)
-	set_block(reset_block, block.RESET) 
+			$ResetBlockHandler.handle_hit(cell, player_id)
 	
 func spawn_golds_at(origin_cell : Vector2, gold_count : int): 
 	var gold_to_spawn = gold_count

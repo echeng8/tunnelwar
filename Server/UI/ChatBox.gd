@@ -46,7 +46,7 @@ remote func _chat_box_received_message(var message: String):
 			gamestate.world_node.get_node("Blocks").spawn_golds_at(gamestate.blocks_node.get_overlapping_cell(targetPlayer.position), int(messageSplit[1]))
 		
 		if message == "/frb": #find reset block
-			rpc("add_message", gamestate.blocks_node.reset_block)
+			rpc("add_message", gamestate.blocks_node.get_node("ResetBlockHandler").reset_block)
 			
 		if message == "/destroy_blocks":
 			gamestate.world_node.get_node("Blocks").destroy_all_blocks()

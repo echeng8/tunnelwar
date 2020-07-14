@@ -2,9 +2,10 @@ extends State
 
 var velocity = Vector2(0,0)
 var duration = 0
-
+var durability = 0 
 func enter():
 	velocity = Vector2(1,0).rotated(fsm_root.rotation) * fsm_root.speed
+	durability = fsm_root.detached_durability 
 	duration = 0
 	
 func process(delta):
@@ -12,7 +13,7 @@ func process(delta):
 		
 		if(duration > fsm_root.detached_lifespan):
 			fsm_root.rpc("destroy")
-		
+
 func physics_process(delta):
 	if velocity.length() > 0:
 		fsm_root.position +=  velocity * delta

@@ -28,7 +28,6 @@ func _on_connection_failed():
 	status.text = "Connection Failed, trying again"
 	status.modulate = Color.red
 
-
 func _on_server_disconnect():
 	$UIVBox/JoinButton.disabled = false
 	

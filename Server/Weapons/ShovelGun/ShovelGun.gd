@@ -60,6 +60,7 @@ func move_to(destination : Vector2, duration : float, callback = ""):
 	
 func point_to(destination: Vector2, rotate_percent = 1):
 	get_parent().global_rotation += get_parent().to_local(destination).angle() * rotate_percent
+
 ##SHOOTING STUFF #########################################################
 func is_loaded(): 
 	return has_node("Shovel")
