@@ -22,7 +22,7 @@ func physics_process(delta):
 		fsm_root.rpc_unreliable("_update_shovel_position", fsm_root.position)
 		
 		#breaking blokcs 
-		if fsm_root.get_buried_percent() == 1: 
+		if fsm_root.is_in_block(): 
 			fsm_root.break_touched_block()
 			lifespan -= 6
 

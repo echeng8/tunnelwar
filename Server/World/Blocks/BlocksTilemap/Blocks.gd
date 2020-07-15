@@ -86,6 +86,7 @@ func create_walls(block_index : int, top_left : Vector2, bottom_right : Vector2)
 		set_block(top_left + Vector2(0,i), block_index)
 		set_block(bottom_right + Vector2(0,-i), block_index)
 
+#UNVIERSAL HELPERS 
 #returns -1 if no blocks exist 
 func get_random_block(block_type = -1) -> Vector2:
 	if block_type == -1:
@@ -95,6 +96,9 @@ func get_random_block(block_type = -1) -> Vector2:
 
 func get_pos(cell_coord : Vector2):
 	return map_to_world(cell_coord) * scale.x 
+
+func get_overlapping_block_type(world_pos : Vector2) -> int:
+	return get_cellv(get_overlapping_cell(world_pos))
 
 func get_overlapping_cell(world_pos : Vector2) -> Vector2:
 	return Vector2(stepify(world_pos.x - 100, 200), stepify(world_pos.y - 100, 200)) / 200

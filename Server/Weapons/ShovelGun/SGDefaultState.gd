@@ -14,10 +14,10 @@ func process(_delta):
 	#shovelgun stuck in dirt logic 
 	var point = fsm_root.input_aim_pos
 	if fsm_root.is_loaded():
-		if stuck_position == Vector2.INF and fsm_root.get_node("Shovel").get_buried_percent() == 1:
+		if stuck_position == Vector2.INF and fsm_root.get_node("Shovel").is_in_block():
 			stuck_position = fsm_root.get_node("Shovel").global_position 
 			
-		if fsm_root.get_node("Shovel").get_buried_percent() == 0:
+		if not fsm_root.get_node("Shovel").is_in_block():
 			stuck_position = Vector2.INF 
 	
 		if not stuck_position == Vector2.INF:

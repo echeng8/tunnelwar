@@ -21,22 +21,16 @@ func _ready():
 	last_owner_id = int(HelperFunctions.get_parent_player_node(self).name)
 	
 func break_touched_block() -> void:
-	for vertex in $CollisionShape2D.polygon:
-		var check_vertex = vertex + $CollisionShape2D.global_position 
+	if is_in_block(): 
 		gamestate.blocks_node.break_block(
-			gamestate.blocks_node.get_overlapping_cell(check_vertex), 
+			gamestate.blocks_node.get_overlapping_cell($CollisionShape2D.global_position), 
 			last_owner_id 
 		)
 
-#returns the % of the shovelgun's hitbox vertexes that are buried
-func get_buried_percent() -> float:
-	var num = 0.0 
-	for vertex in $CollisionShape2D.polygon:
-		var v = vertex + $CollisionShape2D.global_position 
-		var btm = gamestate.blocks_node #block_tile_map
-		if not btm.get_cellv(btm.get_overlapping_cell(v)) == gamestate.blocks_node.block.EMPTY:
-			num += 1
-	return num / $CollisionShape2D.polygon.size()
+func is_in_block() -> bool:
+	var v = $CollisionShape2D.global_position
+	var btm = gamestate.blocks_node #block_tile_map
+	return not btm.get_overlapping_block_type(v) == gamestate.blocks_node.block.EMPTY
 	
 remotesync func destroy():
 	queue_free()
