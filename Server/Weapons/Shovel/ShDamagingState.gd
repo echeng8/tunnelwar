@@ -10,7 +10,8 @@ func enter():
 		try_damage_player(body)
 
 func physics_process(delta):
-	fsm_root.break_touched_block() 
+	if fsm_root.get_buried_percent() == 1: 
+		fsm_root.break_touched_block()
 
 func on_body_entered(body):
 	try_damage_player(body)

@@ -37,5 +37,10 @@ script = SubResource( 1 )
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2( 10521.3, 10691.5 )
-current = true
 zoom = Vector2( 20, 20 )
+
+[node name="Camera2D2" type="Camera2D" parent="."]
+position = Vector2( -26.782, -48.3652 )
+rotation = -0.35025
+current = true
+zoom = Vector2( 3, 3 )

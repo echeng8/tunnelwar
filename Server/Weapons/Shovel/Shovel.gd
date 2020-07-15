@@ -9,7 +9,6 @@ class_name Shovel
 export(float) var speed = 1200 
 export(float) var damage = 10
 const detached_lifespan = 10 #time it survives without a shovelgun 
-var detached_durability = 3 #blocks it can break before being a pickup 
 
 #implementation  
 var last_owner_id : int 
@@ -26,7 +25,7 @@ func break_touched_block() -> void:
 		var check_vertex = vertex + $CollisionShape2D.global_position 
 		gamestate.blocks_node.break_block(
 			gamestate.blocks_node.get_overlapping_cell(check_vertex), 
-			int(HelperFunctions.get_parent_player_node(self).name)
+			last_owner_id 
 		)
 
 #returns the % of the shovelgun's hitbox vertexes that are buried
