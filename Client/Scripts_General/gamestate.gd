@@ -17,17 +17,31 @@ var user_player : Player setget _on_user_player_set
 
 #signals
 signal on_user_player_set
+var client = null
 
 func _ready():
 	assert(get_tree().connect("connected_to_server", self, "_connected_ok") == 0)
 	assert(get_tree().connect("connection_failed", self, "_connected_fail") == 0)
 	assert(get_tree().connect("server_disconnected", self, "_server_disconnected") == 0)
 
+func _process(delta):
+	if client == null:
+		return 
+		
+	if (client.get_connection_status() == NetworkedMultiplayerPeer.CONNECTION_CONNECTED ||
+		client.get_connection_status() == NetworkedMultiplayerPeer.CONNECTION_CONNECTING):
+		client.poll();
 
 func connect_to_server():
-	var host = NetworkedMultiplayerENet.new()
-	host.create_client(ip, port)
-	get_tree().set_network_peer(host)
+	#websocket multiplayer 
+	client = WebSocketClient.new();
+	var url = "ws://172.88.99.190:" + str(port) 
+	var error = client.connect_to_url(url, PoolStringArray(), true);
+	get_tree().set_network_peer(client);
+	
+#	var host = NetworkedMultiplayerENet.new()
+#	host.create_client(ip, port)
+#	get_tree().set_network_peer(host)
 
 
 # Callback from SceneTree, called when connect to server

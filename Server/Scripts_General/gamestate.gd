@@ -27,10 +27,21 @@ const block_size = 200.0
 signal on_match_begin
 signal on_match_end
 
+var server 
 func _ready():
-	var host = NetworkedMultiplayerENet.new()
-	host.create_server(DEFAULT_PORT, MAX_PLAYERS)
-	get_tree().set_network_peer(host)
+	#enet multiplayer
+#	var host = NetworkedMultiplayerENet.new()
+#	host.create_server(DEFAULT_PORT, MAX_PLAYERS)
+#	get_tree().set_network_peer(host)
+	
+	#webgl multiplayer
+	server = WebSocketServer.new();
+	server.listen(DEFAULT_PORT, PoolStringArray(), true);
+	get_tree().set_network_peer(server)
+
+func _process(delta):
+	if server.is_listening(): # is_listening is true when the server is active and listening
+		server.poll();
 
 #### GAME PHASES
 func set_game_phase(gp : int) -> void: 
