@@ -18,12 +18,12 @@ func _ready():
 	generate_world() 
 	
 master func initialize_rpc_sender() -> void:
-	var block_array = []
 	for i in range(block_num):
-		block_array.append(get_used_cells_by_id(i))
+		for cell in get_used_cells_by_id(i): 
+			rpc("set_block", cell, i)
 	
-	rpc_id(get_tree().get_rpc_sender_id(), "load_world", block_array)
-
+	#rpc_id(get_tree().get_rpc_sender_id(), "load_world", block_array) #doesn't work on webgl
+	rset_id(get_tree().get_rpc_sender_id(), "initialized", true)
 func generate_world() -> void:
 	generate_dirt(length)
 	generate_gold(int(length * length * gold_percent))

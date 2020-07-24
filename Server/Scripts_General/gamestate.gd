@@ -1,11 +1,12 @@
 extends Node
 
 ####DEBUG VARIABLES####
-var time_passed = 0
+var browser = true
+ 
 ####/DEBUG VARIABLES####
 
 # Default game port
-const DEFAULT_PORT = 25565
+const PORT = 25565
 
 # Max number of players
 const MAX_PLAYERS = 12
@@ -28,19 +29,23 @@ signal on_match_begin
 signal on_match_end
 
 var server 
+
 func _ready():
+	if browser:
+		#webgl multiplayer
+		server = WebSocketServer.new();
+		server.listen(PORT, PoolStringArray(), true);
+		get_tree().set_network_peer(server)
+	else: 
 	#enet multiplayer
-#	var host = NetworkedMultiplayerENet.new()
-#	host.create_server(DEFAULT_PORT, MAX_PLAYERS)
-#	get_tree().set_network_peer(host)
+		var host = NetworkedMultiplayerENet.new()
+		host.create_server(PORT, MAX_PLAYERS)
+		get_tree().set_network_peer(host)
 	
-	#webgl multiplayer
-	server = WebSocketServer.new();
-	server.listen(DEFAULT_PORT, PoolStringArray(), true);
-	get_tree().set_network_peer(server)
+
 
 func _process(delta):
-	if server.is_listening(): # is_listening is true when the server is active and listening
+	if browser and server.is_listening(): # is_listening is true when the server is active and listening
 		server.poll();
 
 #### GAME PHASES

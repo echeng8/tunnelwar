@@ -2,13 +2,15 @@ extends TileMap
 
 #MAKE SURE this lines up with tilesheet
 enum block {DIRT, GOLD, BEDROCK, RESET, EMPTY}
-
-
+puppet var initialized = false  
 var length = 100
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	rpc("initialize_rpc_sender") 
+	rpc("initialize_rpc_sender")
+#	while not initialized:
+#		rpc("initialize_rpc_sender") 
+#		yield(get_tree().create_timer(1), "timeout")
 	#z index settings
 	tile_set.tile_set_z_index(block.EMPTY,z_index * -1)
 

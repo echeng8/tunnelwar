@@ -1,7 +1,9 @@
 extends Node
+#debug
+var browser = true 
 
  #localhost - 127.0.0.1
-var ip = "" #Local Host
+var ip = "" 
 var port = 0
 
 # Signal to let GUI know whats up
@@ -25,23 +27,30 @@ func _ready():
 	assert(get_tree().connect("server_disconnected", self, "_server_disconnected") == 0)
 
 func _process(delta):
-	if client == null:
-		return 
-		
-	if (client.get_connection_status() == NetworkedMultiplayerPeer.CONNECTION_CONNECTED ||
-		client.get_connection_status() == NetworkedMultiplayerPeer.CONNECTION_CONNECTING):
-		client.poll();
+	if browser:
+		if client == null:
+			return 
+			
+		if (client.get_connection_status() == NetworkedMultiplayerPeer.CONNECTION_CONNECTED ||
+			client.get_connection_status() == NetworkedMultiplayerPeer.CONNECTION_CONNECTING):
+			client.poll();
+	else:
+		pass
 
 func connect_to_server():
-	#websocket multiplayer 
-	client = WebSocketClient.new();
-	var url = "ws://172.88.99.190:" + str(port) 
-	var error = client.connect_to_url(url, PoolStringArray(), true);
-	get_tree().set_network_peer(client);
+	if browser:
+		#websocket multiplayer 
+		client = WebSocketClient.new();
+		var url = "ws://172.88.99.190:" + str(port) 
+		var error = client.connect_to_url(url, PoolStringArray(), true);
+		get_tree().set_network_peer(client);
+	else:
+		var host = NetworkedMultiplayerENet.new()
+		host.create_client(ip, port)
+		get_tree().set_network_peer(host)
+
 	
-#	var host = NetworkedMultiplayerENet.new()
-#	host.create_client(ip, port)
-#	get_tree().set_network_peer(host)
+
 
 
 # Callback from SceneTree, called when connect to server
