@@ -1,0 +1,62 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://src/Player/Player.gd" type="Script" id=1]
+[ext_resource path="res://assets/Player/Faces/normal_face.png" type="Texture" id=2]
+[ext_resource path="res://src/UI/GUI.tscn" type="PackedScene" id=3]
+[ext_resource path="res://src/Weapons/Shovelgun/ShovelGun.tscn" type="PackedScene" id=4]
+[ext_resource path="res://src/Player/PlayerSprites.gd" type="Script" id=5]
+[ext_resource path="res://assets/Player/Misc_Sprites/exclamation mark.png" type="Texture" id=6]
+[ext_resource path="res://assets/Player/Misc_Sprites/body.png" type="Texture" id=7]
+
+
+
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 50, 50 )
+
+[node name="Player" type="KinematicBody2D"]
+z_index = 1
+script = ExtResource( 1 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 1 )
+
+[node name="PlayerSprites" type="Node2D" parent="."]
+scale = Vector2( 0.75, 0.75 )
+script = ExtResource( 5 )
+
+[node name="ExclaimMark" type="Sprite" parent="PlayerSprites"]
+visible = false
+modulate = Color( 0.980392, 0.87451, 0, 1 )
+position = Vector2( 0, -193.316 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 6 )
+
+[node name="body" type="Sprite" parent="PlayerSprites"]
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 7 )
+
+[node name="face" type="Sprite" parent="PlayerSprites"]
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 2 )
+
+[node name="ShovelGun" parent="." instance=ExtResource( 4 )]
+position = Vector2( -10, 17 )
+
+[node name="GUI" parent="." instance=ExtResource( 3 )]
+margin_left = -47.0
+margin_top = -91.0
+margin_right = 71.0
+margin_bottom = 50.0
+
+[node name="PlayerName" parent="GUI" index="2"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -53.2684
+margin_top = 1.92212
+margin_right = 27.7316
+margin_bottom = 15.9221
+
+[editable path="GUI"]

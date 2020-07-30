@@ -1,0 +1,30 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://src/UI/Leaderboard/Leaderboard.gd" type="Script" id=1]
+[ext_resource path="res://src/UI/Compass/Compass.tscn" type="PackedScene" id=2]
+
+
+
+
+[node name="Leaderboard" type="Control"]
+anchor_right = 0.003
+margin_right = -5.76
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+margin_left = 2.43837
+margin_top = 41.4525
+margin_right = 128.438
+margin_bottom = 226.453
+text = "richest shovelings
+1. emiro 4
+2. machineman 2
+3. toramane1"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Compass" parent="." instance=ExtResource( 2 )]
