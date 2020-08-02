@@ -7,7 +7,7 @@ var length = 100
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	rpc("initialize_rpc_sender")
+	#rpc("initialize_rpc_sender") TODO REMOVE FOR NAKAMA STUFF
 #	while not initialized:
 #		rpc("initialize_rpc_sender") 
 #		yield(get_tree().create_timer(1), "timeout")

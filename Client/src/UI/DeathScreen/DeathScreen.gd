@@ -20,5 +20,5 @@ extends Control
 #	gamestate.user_player.rpc("respawn")
 
 
-func _on_Button_pressed():
-	try_respawn() 
+#func _on_Button_pressed():
+#	try_respawn() 

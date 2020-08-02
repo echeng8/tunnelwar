@@ -6,9 +6,7 @@
 [ext_resource path="res://assets/World/BlocksTilemap/Bedrock.png" type="Texture" id=4]
 [ext_resource path="res://assets/World/BlocksTilemap/ResetBlock.png" type="Texture" id=5]
 
-
-
-[sub_resource type="TileSet" id=4]
+[sub_resource type="TileSet" id=1]
 resource_local_to_scene = true
 0/name = "Block.png 0"
 0/texture = ExtResource( 3 )
@@ -68,7 +66,7 @@ resource_local_to_scene = true
 3/z_index = 0
 
 [node name="BlocksTilemap" type="TileMap"]
-tile_set = SubResource( 4 )
+tile_set = SubResource( 1 )
 cell_size = Vector2( 512, 512 )
 format = 1
 script = ExtResource( 1 )

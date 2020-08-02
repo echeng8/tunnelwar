@@ -84,29 +84,11 @@ func _enter_tree() -> void:
 	get_tree().root.get_node("/root/Nakama").pause_mode = Node.PAUSE_MODE_PROCESS
 
 
-
-#TODO MAKE IMMEDIATE
-# Asynchronous coroutine. Authenticates a new session via email and password, and
-# creates a new account when it did not previously exist, then initializes _session.
-# Returns OK or a nakama error code. Stores error messages in `ServerConnection.error_message`
-func register_async(name : String) -> int:
-	var result: int = yield(_authenticator.register_async(name), "completed")
+func register_async() -> int:
+	var result: int = yield(_authenticator.register_async(), "completed")
 	if result == OK:
 		_storage_worker = StorageWorker.new(_authenticator.session, _client, _exception_handler)
 	return result
-
-
-# Asynchronous coroutine. Authenticates a new session via email and password, but will
-# not try to create a new account when it did not previously exist, then
-# initializes _session. If a session previously existed in `AUTH`, will try to
-# recover it without needing the authentication server. 
-# Returns OK or a nakama error code. Stores error messages in `ServerConnection.error_message`
-func login_async(email: String, password: String) -> int:
-	var result: int = yield(_authenticator.login_async(email, password), "completed")
-	if result == OK:
-		_storage_worker = StorageWorker.new(_authenticator.session, _client, _exception_handler)
-	return result
-
 
 # Asynchronous coroutine. Creates a new socket and connects it to the live server.
 # Returns OK or a nakama error number. Error messages are stored in `ServerConnection.error_message`

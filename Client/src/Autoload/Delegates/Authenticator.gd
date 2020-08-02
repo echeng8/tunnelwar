@@ -16,10 +16,10 @@ func _init(client: NakamaClient, exception_handler: ExceptionHandler) -> void:
 # Asynchronous coroutine. Authenticates a new session via email and password, and
 # creates a new account when it did not previously exist, then initializes session.
 # Returns OK or a nakama error code. Stores error messages in `ServerConnection.error_message`
-func register_async(name : String) -> int:
-	var id = name + String(OS.get_unix_time())
+func register_async() -> int:
+	var id = uuid.v4() 
 	var new_session: NakamaSession = yield(
-		_client.authenticate_device_async(id, name), "completed"
+		_client.authenticate_device_async(id), "completed"
 	)
 
 	var parsed_result := _exception_handler.parse_exception(new_session)

@@ -19,9 +19,9 @@ var _node_b : Node2D
 #
 #	visible = false
 
-func stop_pointing() -> void: 
-	visible = false  
-	
-func _process(delta) :
-	if visible and is_instance_valid(gamestate.user_player) and is_instance_valid(_node_b):
-		rotation = gamestate.user_player.position.angle_to_point(_node_b.position) 
+#func stop_pointing() -> void: 
+#	visible = false  
+#
+#func _process(delta) :
+#	if visible and is_instance_valid(gamestate.user_player) and is_instance_valid(_node_b):
+#		rotation = gamestate.user_player.position.angle_to_point(_node_b.position) 
