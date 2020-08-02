@@ -1,6 +1,6 @@
 extends Node
 
-signal on_message_send(message)  
+signal text_send(text)  
 
 var firstMessage = true
 
@@ -30,9 +30,8 @@ func _on_SendButton_pressed() -> void:
 	$UserInput.release_focus()
 	if  $UserInput.text == "":
 		return
-
-	rpc_id(1, "_chat_box_received_message", $UserInput.text)
-	emit_signal("on_message_send", $UserInput.text)
+		
+	emit_signal("text_send", $UserInput.text)
 	$UserInput.text = ""
 
 

@@ -11,8 +11,9 @@ const resources = {
 }
 
 signal on_load_complete
-
 ### PLAYER STUFF 
+
+
 	
 puppet func emit_load_complete():
 	load_completed = true  
@@ -45,3 +46,7 @@ remote func spawn(file_name, node_name, transform_dict):
 	instancedThing.global_position = transform_dict["pos"]
 	instancedThing.global_rotation = transform_dict["rot"]
 	instancedThing.global_scale = transform_dict["sca"]
+
+
+func _on_ScreenHUD_text_sent(text) -> void:
+	ServerConnection.send_text_async(text)
