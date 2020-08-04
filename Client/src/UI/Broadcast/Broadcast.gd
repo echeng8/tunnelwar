@@ -1,7 +1,8 @@
 extends Control
 
 func _ready():
-	rpc("initialize_rpc_sender")
+	pass
+#	rpc("initialize_rpc_sender")
 	
 puppet func update_broadcast(message: String, target_player_id = -1) -> void :  
 	visible = true 

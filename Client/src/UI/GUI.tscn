@@ -4,7 +4,6 @@
 [ext_resource path="res://assets/UI/ChatBox/bar-background.png" type="Texture" id=2]
 [ext_resource path="res://assets/UI/bar-fill.png" type="Texture" id=3]
 
-
 [node name="GUI" type="Control"]
 margin_left = -78.0
 margin_top = -121.138

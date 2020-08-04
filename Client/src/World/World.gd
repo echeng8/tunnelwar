@@ -1,18 +1,41 @@
 extends Node2D
 
+var characters := {}
+
+onready var screen_hud := $ScreenHUD
+
 #RESOURCES LOAD
 var Player #= preload("res://Player/Player.tscn")
+#todo player
+#onready var player: Node = $Player
 
+#old shit
 var load_completed = false
-
 const resources = {
 	#scenes
 	#"Shovel": preload("res://Weapons/Shovel/Shovel.tscn"), 
 }
-
 signal on_load_complete
+
+func _ready():
+	#warning-ignore: return_value_discarded
+	ServerConnection.connect(
+		"chat_message_received", self, "_on_ServerConnection_chat_message_received"
+	)
+	
 ### PLAYER STUFF 
 
+func _on_ServerConnection_chat_message_received(sender_id: String, message: String) -> void:
+	var sender_name := "User"
+
+	if sender_id in characters:
+		sender_name = characters[sender_id].username
+	elif sender_id == ServerConnection.get_user_id():
+		sender_name = "myself"
+
+	screen_hud.add_chat_reply(message, sender_name)
+	
+#old shit below 
 
 	
 puppet func emit_load_complete():
@@ -30,6 +53,8 @@ remotesync func instantiate_player(spawn_pos, id, username):
 	player.username = username 
 	$Players.add_child(player)
 
+
+
 ### BLOCKS AND SHOVELS 
 remote func spawn(file_name, node_name, transform_dict):
 	if node_name in $Items.get_children():
@@ -46,7 +71,6 @@ remote func spawn(file_name, node_name, transform_dict):
 	instancedThing.global_position = transform_dict["pos"]
 	instancedThing.global_rotation = transform_dict["rot"]
 	instancedThing.global_scale = transform_dict["sca"]
-
 
 func _on_ScreenHUD_text_sent(text) -> void:
 	ServerConnection.send_text_async(text)

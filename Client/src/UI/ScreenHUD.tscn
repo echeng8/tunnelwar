@@ -10,13 +10,6 @@
 script = ExtResource( 5 )
 
 [node name="ChatBox" parent="." instance=ExtResource( 1 )]
-anchor_top = 1.0
-anchor_right = 0.093
-anchor_bottom = 1.01
-margin_left = 139.211
-margin_top = -104.339
-margin_right = 1940.21
-margin_bottom = -19.339
 
 [node name="Leaderboard" parent="." instance=ExtResource( 2 )]
 anchor_left = 1.0
@@ -35,4 +28,6 @@ anchor_bottom = 1.0
 
 [node name="DeathScreen" parent="." instance=ExtResource( 4 )]
 visible = false
-[connection signal="text_send" from="ChatBox" to="." method="_on_ChatBox_text_send"]
+[connection signal="edit_ended" from="ChatBox" to="." method="_on_ChatBox_edit_ended"]
+[connection signal="edit_started" from="ChatBox" to="." method="_on_ChatBox_edit_started"]
+[connection signal="text_sent" from="ChatBox" to="." method="_on_ChatBox_text_sent"]

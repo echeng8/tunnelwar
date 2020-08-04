@@ -1,38 +1,63 @@
-extends Node
+# Panel that displays and enables sending of chat messages
+extends Control
 
-signal text_send(text)  
+signal text_sent(text)
+signal edit_started
+signal edit_ended
 
-var firstMessage = true
+# Number of replies stored in the chat history
+const HISTORY_LENGTH := 20
 
-remote func add_message(message):
-	#If it's the first message EVER, then DON'T new line it.
-	#NOTE: this could be done better possibly, but this is how I solved this.
-	if firstMessage:
-		$ChatText.bbcode_text += str(message)
-		firstMessage = false
+# Count of replies currently stored in the chat history
+var reply_count := 0
+
+onready var chat_log: RichTextLabel = $ScrollContainer/ChatLog
+onready var line_edit: LineEdit = $HBoxContainer/LineEdit
+
+
+func _init() -> void:
+	visible = true
+
+
+func _ready() -> void:
+	chat_log.bbcode_text = ""
+
+
+# Add a new reply to the chat box, taking `HISTORY_LENGTH` into account.
+func add_reply(text: String, sender_name: String) -> void:
+	if reply_count == HISTORY_LENGTH:
+		chat_log.bbcode_text = chat_log.bbcode_text.substr(chat_log.bbcode_text.find("\n"))
 	else:
-		$ChatText.bbcode_text += "\n" + str(message)
-	
-	#How to color text:
-	#[color=green]youText[/color]
-	#chatTextLabelRef.append_bbcode("%s" % message)
+		reply_count += 1
+	chat_log.bbcode_text += (
+		"\n%s: %s"
+		% [sender_name, text]
+	)
 
-func _input(ev):
-	var just_pressed = ev.is_pressed() and not ev.is_echo()
-	if Input.is_key_pressed(KEY_ENTER) and just_pressed:
-		if $UserInput.has_focus():
-			_on_SendButton_pressed()
-		else:
-			$UserInput.grab_focus() 
+
+func send_chat_message() -> void:
+	if line_edit.text.length() == 0:
+		return
+	var text: String = line_edit.text.replace("[", "{").replace("]", "}")
+	emit_signal("text_sent", text)
+	line_edit.text = ""
 
 
 func _on_SendButton_pressed() -> void:
-	$UserInput.release_focus()
-	if  $UserInput.text == "":
-		return
-		
-	emit_signal("text_send", $UserInput.text)
-	$UserInput.text = ""
+	send_chat_message()
 
 
+func _on_LineEdit_text_entered(_new_text: String) -> void:
+	send_chat_message()
 
+
+func _on_LineEdit_focus_entered() -> void:
+	emit_signal("edit_started")
+
+
+func _on_LineEdit_focus_exited() -> void:
+	emit_signal("edit_ended")
+
+#todo
+func _on_ToggleChatButton_toggled(button_pressed: bool) -> void:
+	visible = button_pressed
