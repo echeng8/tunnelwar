@@ -132,6 +132,11 @@ func disconnect_from_server_async() -> int:
 
 	return parsed_result
 
+func set_user_display_name_async(display_name : String) -> int: 
+	var result : NakamaAsyncResult = yield(_client.update_account_async(_authenticator.session, null, display_name), "completed")
+	var parsed_result = _exception_handler.parse_exception(result)
+	return parsed_result 
+		
 func get_user_id() -> String:
 	if _authenticator.session:
 		return _authenticator.session.user_id
@@ -179,16 +184,6 @@ func join_world_async() -> int:
 		_channel_id = chat_join_result.id
 
 	return parsed_result
-
-
-
-#TODO CHANGE TO NAME
-# Sends a message to the server stating a change in color for the client.
-func send_player_color_update(color: Color) -> void:
-	if _socket:
-		var payload := {id = get_user_id(), color = color}
-		_socket.send_match_state_async(_world_id, OpCodes.UPDATE_COLOR, JSON.print(payload))
-
 
 # Sends a message to the server stating a change in position for the client.
 func send_position_update(position: Vector2) -> void:

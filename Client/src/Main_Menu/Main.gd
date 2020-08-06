@@ -4,16 +4,10 @@ onready var status = $UIVBox/Status
 onready var name_edit := $UIVBox/NameHBox/NameEdit
 
 func _ready():
-	var result = yield(ServerConnection.register_async(), "completed")
-	if result == OK:
-		print('connected')
-	else:
-		print("Error code %s: %s" % [result, ServerConnection.error_message])
-		
-
+	_register() 
 
 func _on_JoinButton_pressed():
-	
+	_set_display_name()
 	
 	var result: int = yield(ServerConnection.connect_to_server_async(), "completed")
 	if result == OK:
@@ -24,10 +18,14 @@ func _on_JoinButton_pressed():
 		
 	return result
 
-#old stuff 
-
-func _on_server_disconnect():
-	$UIVBox/JoinButton.disabled = false
-	
-	status.text = "Server Disconnected, trying to connect..."
-	status.modulate = Color.red
+func _register():
+	var result = yield(ServerConnection.register_async(), "completed")
+	if result == OK:
+		print('connected')
+	else:
+		print("Error code %s: %s" % [result, ServerConnection.error_message])
+		
+func _set_display_name() -> void:
+	var result = yield(ServerConnection.set_user_display_name_async(name_edit.text), "completed")
+	if not result == OK: 
+		print(ServerConnection.error_message)
