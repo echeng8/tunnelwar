@@ -45,19 +45,10 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Title" type="Label" parent="UIVBox"]
-margin_right = 1919.0
-margin_bottom = 14.0
-text = "Client"
-align = 1
-valign = 1
-
-[node name="DEVServerTools" type="CanvasLayer" parent="UIVBox"]
-
 [node name="NameHBox" type="HBoxContainer" parent="UIVBox"]
-margin_top = 14.0
+margin_top = 33.0
 margin_right = 1919.0
-margin_bottom = 38.0
+margin_bottom = 57.0
 size_flags_horizontal = 3
 alignment = 1
 __meta__ = {
@@ -77,69 +68,20 @@ margin_right = 1013.0
 margin_bottom = 24.0
 text = "Player"
 
-[node name="DEVServerConnect" type="VBoxContainer" parent="UIVBox"]
-margin_top = 38.0
-margin_right = 1919.0
-margin_bottom = 90.0
-
-[node name="ServerIPHBox" type="HBoxContainer" parent="UIVBox/DEVServerConnect"]
-margin_right = 1919.0
-margin_bottom = 24.0
-size_flags_horizontal = 3
-custom_constants/separation = 0
-alignment = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="ServerLabel" type="Label" parent="UIVBox/DEVServerConnect/ServerIPHBox"]
-margin_left = 881.0
-margin_top = 5.0
-margin_right = 938.0
-margin_bottom = 19.0
-text = "Server IP"
-
-[node name="ServerIPEdit" type="LineEdit" parent="UIVBox/DEVServerConnect/ServerIPHBox"]
-margin_left = 938.0
-margin_right = 1038.0
-margin_bottom = 24.0
-rect_min_size = Vector2( 100, 0 )
-text = "172.88.99.190"
-
-[node name="ServerPortHBox" type="HBoxContainer" parent="UIVBox/DEVServerConnect"]
-margin_top = 28.0
-margin_right = 1919.0
-margin_bottom = 52.0
-size_flags_horizontal = 3
-custom_constants/separation = 0
-alignment = 1
-
-[node name="ServerLabel" type="Label" parent="UIVBox/DEVServerConnect/ServerPortHBox"]
-margin_left = 874.0
-margin_top = 5.0
-margin_right = 944.0
-margin_bottom = 19.0
-text = "Server Port"
-
-[node name="ServerPortEdit" type="LineEdit" parent="UIVBox/DEVServerConnect/ServerPortHBox"]
-margin_left = 944.0
-margin_right = 1044.0
-margin_bottom = 24.0
-rect_min_size = Vector2( 100, 0 )
-text = "25565"
-
 [node name="JoinButton" type="Button" parent="UIVBox"]
 margin_left = 942.0
-margin_top = 90.0
+margin_top = 57.0
 margin_right = 977.0
-margin_bottom = 110.0
+margin_bottom = 77.0
 size_flags_horizontal = 4
 text = "Join"
 
 [node name="Status" type="Label" parent="UIVBox"]
-margin_top = 110.0
+margin_top = 77.0
 margin_right = 1919.0
-margin_bottom = 124.0
+margin_bottom = 91.0
+text = "*placeholder connection status* "
+align = 1
 
 [node name="character" type="Sprite" parent="."]
 position = Vector2( 132.683, 1031.38 )

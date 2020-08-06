@@ -1,6 +1,7 @@
 extends Control
 
 onready var status = $UIVBox/Status
+onready var name_edit := $UIVBox/NameHBox/NameEdit
 
 func _ready():
 	var result = yield(ServerConnection.register_async(), "completed")
@@ -12,6 +13,8 @@ func _ready():
 
 
 func _on_JoinButton_pressed():
+	
+	
 	var result: int = yield(ServerConnection.connect_to_server_async(), "completed")
 	if result == OK:
 		result = yield(ServerConnection.join_world_async(), "completed")
@@ -20,15 +23,8 @@ func _on_JoinButton_pressed():
 		get_tree().change_scene_to(load("res://src/World/World.tscn"))
 		
 	return result
-	
-func _on_connection_success():
-	$UIVBox/JoinButton.disabled = true
 
-func _on_connection_failed():
-	$UIVBox/JoinButton.disabled = false
-	
-	status.text = "Connection Failed, trying again"
-	status.modulate = Color.red
+#old stuff 
 
 func _on_server_disconnect():
 	$UIVBox/JoinButton.disabled = false
