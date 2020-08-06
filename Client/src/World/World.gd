@@ -1,13 +1,13 @@
 extends Node2D
 
+export var PlayerScene: PackedScene
+export var CharacterScene: PackedScene
+
 var characters := {}
 
 onready var screen_hud := $ScreenHUD
 
 #RESOURCES LOAD
-var Player #= preload("res://Player/Player.tscn")
-#todo player
-#onready var player: Node = $Player
 
 #old shit
 var load_completed = false
