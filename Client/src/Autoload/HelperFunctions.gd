@@ -26,10 +26,11 @@ remotesync func reparent(node1_path, node2_path, _keep_transform = true):
 
 #returns null if no parent player node
 func get_parent_player_node(node):
-	var ancestor = node
-	while(true):
-		if ancestor is Player:
-			return ancestor
-		if ancestor == null:
-			return null
-		ancestor = ancestor.get_parent() 
+	pass
+#	var ancestor = node
+#	while(true):
+#		if ancestor is Player:
+#			return ancestor
+#		if ancestor == null:
+#			return null
+#		ancestor = ancestor.get_parent() 

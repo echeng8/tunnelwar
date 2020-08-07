@@ -1,4 +1,4 @@
-#extends Sprite
+extends Sprite
 #
 ##const Shovel #= preload("res://Weapons/Shovel/Shovel.tscn")
 #

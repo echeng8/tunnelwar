@@ -12,7 +12,7 @@ export var base_hp = 40
 var velocity = Vector2.ZERO 
 var hp = 40
 var _gold = 0 setget set_gold, get_gold 
-
+var username : String
 #input
 var input_direction =  Vector2.ZERO
 var input_aim_pos = Vector2.ZERO
@@ -23,12 +23,6 @@ signal on_gold_change
 
 #dependencies
 onready var state_machine : StateMachineUpdate = $StateMachine
-
-
-func setup(hp : int, gold : int, state : String):
-	hp = hp 
-	_gold = gold 
-	state_machine.change_to(state)
 
 #gameplay
 func get_struck_by(source):

@@ -29,3 +29,5 @@ func _set_display_name() -> void:
 	var result = yield(ServerConnection.set_user_display_name_async(name_edit.text), "completed")
 	if not result == OK: 
 		print(ServerConnection.error_message)
+		
+	ServerConnection.send_spawn(name_edit.text)

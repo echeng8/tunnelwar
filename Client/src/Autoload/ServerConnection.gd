@@ -48,7 +48,7 @@ signal state_updated(positions, inputs)
 signal chat_message_received(sender_id, message)
 
 # Emitted when the server has received the game state dump for all connected characters
-signal initial_state_received(positions, inputs, colors, names)
+signal initial_state_received(names)
 
 # Emitted when the server has been informed of a new character having been selected and is ready to
 # spawn.
@@ -207,9 +207,9 @@ func send_jump() -> void:
 
 
 # Sends a message to the server stating the client is spawning in after character selection.
-func send_spawn(color: Color, name: String) -> void:
+func send_spawn(name: String) -> void:
 	if _socket:
-		var payload := {id = get_user_id(), col = JSON.print(color), nm = name}
+		var payload := {id = get_user_id(), nm = name}
 		_socket.send_match_state_async(_world_id, OpCodes.DO_SPAWN, JSON.print(payload))
 
 
@@ -291,12 +291,12 @@ func _on_NakamaSocket_received_match_state(match_state: NakamaRTAPI.MatchData) -
 
 		OpCodes.INITIAL_STATE:
 			var decoded: Dictionary = JSON.parse(raw).result
-
-			var positions: Dictionary = decoded.pos
-			var inputs: Dictionary = decoded.inp
+#
+#			var positions: Dictionary = decoded.pos
+#			var inputs: Dictionary = decoded.inp
 			var names: Dictionary = decoded.nms
 
-			emit_signal("initial_state_received", positions, inputs, names)
+			emit_signal("initial_state_received", names)
 
 		OpCodes.DO_SPAWN:
 			var decoded: Dictionary = JSON.parse(raw).result

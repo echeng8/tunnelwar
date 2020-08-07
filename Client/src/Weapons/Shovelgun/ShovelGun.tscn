@@ -4,8 +4,6 @@
 [ext_resource path="res://src/Weapons/Shovelgun/ShovelGun.gd" type="Script" id=2]
 [ext_resource path="res://assets/Weapons/ShovelGun/ShovelGun_RifleStock_v1.png" type="Texture" id=3]
 
-
-
 [node name="ShovelGun" type="Node2D"]
 
 [node name="Model" type="Sprite" parent="."]
