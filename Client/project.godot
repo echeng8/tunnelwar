@@ -157,16 +157,13 @@ run/main_scene="res://src/Main_Menu/Main.tscn"
 
 [autoload]
 
-Nakama="*res://addons/com.heroiclabs.nakama/Nakama.gd"
-ServerConnection="*res://src/Autoload/ServerConnection.gd"
-HelperFunctions="*res://src/Autoload/HelperFunctions.gd"
+gamestate="*res://Scripts_General/gamestate.gd"
+HelperFunctions="*res://Scripts_General/HelperFunctions.gd"
 
 [display]
 
 window/size/width=1920
 window/size/height=1080
-window/size/test_width=1024
-window/size/test_height=576
 window/stretch/mode="2d"
 window/stretch/aspect="keep"
 
@@ -206,4 +203,3 @@ pull={
 
 quality/driver/driver_name="GLES2"
 environment/default_clear_color=Color( 0.117647, 0.0509804, 0.027451, 1 )
-environment/default_environment="res://src/Weapons/Shovelgun/default_env.tres"
