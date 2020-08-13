@@ -45,10 +45,6 @@ __meta__ = {
 }
 
 [node name="JoinButton" type="Button" parent="HBoxContainer"]
-anchor_left = -2.76566e-06
-anchor_top = 0.107143
-anchor_right = -2.76566e-06
-anchor_bottom = 0.107143
 margin_left = 933.0
 margin_right = 987.0
 margin_bottom = 28.0

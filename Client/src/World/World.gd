@@ -32,6 +32,7 @@ func _ready():
 func _on_ServerConnection_initial_state_received(
 	names: Dictionary
 ) -> void:
+	print('called')
 	#warning-ignore: return_value_discarded
 	ServerConnection.disconnect(
 		"initial_state_received", self, "_on_ServerConnection_initial_state_received"

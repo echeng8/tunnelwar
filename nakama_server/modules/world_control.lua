@@ -86,7 +86,7 @@ end
 function world_control.match_loop(_, dispatcher, _, state, messages)
     for _, message in ipairs(messages) do
         local op_code = message.op_code
-
+        print(message.op_code)
         local decoded = nk.json_decode(message.data)
 
         -- Run boiler plate commands (state updates.)
@@ -99,7 +99,7 @@ function world_control.match_loop(_, dispatcher, _, state, messages)
         -- send them initial state, and broadcast their spawning to existing clients.
         if op_code == OpCodes.do_spawn then
             state.names[message.sender.user_id] = decoded.nm
-
+            print("DO SPAWN RECEIVED")
             local data = {
                 ["nms"] = state.names
             }
