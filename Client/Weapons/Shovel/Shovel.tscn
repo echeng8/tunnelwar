@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Weapons/Shovel/ShovelGun_Shovel_v2.png" type="Texture" id=1]
+[ext_resource path="res://Weapons/Shovel/Shovel.gd" type="Script" id=2]
+
+[node name="Shovel" type="Area2D"]
+script = ExtResource( 2 )
+
+[node name="CollisionShape2D" type="CollisionPolygon2D" parent="."]
+position = Vector2( 22, -4 )
+polygon = PoolVector2Array( -17.2042, -41.1398, 43.8215, -38.8039, 71.2684, -21.5766, 81.4881, -11.6489, 82.948, -2.01331, 80.3201, 5.5784, 71.2684, 15.214, 46.1574, 33.9013, -17.7881, 34.4853 )
+
+[node name="Sprite" type="Sprite" parent="."]
+texture = ExtResource( 1 )
