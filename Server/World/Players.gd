@@ -9,4 +9,6 @@ func clear_player_golds() -> void:
 		player.set_gold(0)
 
 func remove_player(id : int):
-	get_node(str(id)).disconnect_die()  
+	var p = get_node_or_null(str(id))
+	if not p == null:
+		p.disconnect_die() 

@@ -1,6 +1,6 @@
 extends Node
 #debug
-var browser = true 
+var browser = true
 
  #localhost - 127.0.0.1
 var ip = "" 
@@ -11,6 +11,7 @@ signal connection_failed()
 signal connection_succeeded()
 signal server_disconnected()
 
+#implementation  
 var my_name = "Client"
 
 #references 
@@ -49,8 +50,6 @@ func connect_to_server():
 		host.create_client(ip, port)
 		get_tree().set_network_peer(host)
 
-	
-
 
 
 # Callback from SceneTree, called when connect to server
@@ -63,8 +62,6 @@ func pre_start_game():
 	get_node("/root/Main").hide()
 	var world = load("res://World/World.tscn").instance()
 	get_tree().get_root().add_child(world)
-
-	rpc_id(1, "register_player", my_name)
 
 # Callback from SceneTree, called when server disconnect
 func _server_disconnected():

@@ -16,6 +16,10 @@ signal on_load_complete
 func _init():
 	gamestate.world_node = self
 	
+func _ready():
+	rpc_id(1, "initialize_rpc_sender", gamestate.my_name)
+
+
 puppet func emit_load_complete():
 	load_completed = true  
 	emit_signal("on_load_complete") 

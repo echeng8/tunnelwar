@@ -56,12 +56,6 @@ func set_game_phase(gp : int) -> void:
 		emit_signal("on_match_end")
 	if game_phase == game_phases.IN_PROGRESS:
 		emit_signal("on_match_begin")
-	
-# Player management functions
-remote func register_player(new_player_name):
-	var caller_id = get_tree().get_rpc_sender_id()
-	world_node.instantiate_player(caller_id, new_player_name)
-	world_node.spawn_everything_in(caller_id)
 
 func get_player(id):
 	return world_node.get_node("Players/" + str(id))
