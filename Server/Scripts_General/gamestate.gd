@@ -24,6 +24,9 @@ var broadcast_node : Broadcast
 #variables
 const block_size = 200.0
 
+#implementation
+var loaded_players = [] 
+
 #signals
 signal on_match_begin
 signal on_match_end
@@ -42,12 +45,15 @@ func _ready():
 		host.create_server(PORT, MAX_PLAYERS)
 		get_tree().set_network_peer(host)
 	
-
-
 func _process(delta):
 	if browser and server.is_listening(): # is_listening is true when the server is active and listening
 		server.poll();
 
+remote func register_player(name : String) -> void: 
+	var caller_id = get_tree().get_rpc_sender_id() 
+	rpc_id(caller_id, "instance_nodes", world_node.get_instance_nodes()) 
+	world_node.instantiate_player(caller_id, name) 
+	
 #### GAME PHASES
 func set_game_phase(gp : int) -> void: 
 	game_phase = gp

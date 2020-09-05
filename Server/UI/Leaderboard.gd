@@ -18,12 +18,13 @@ func update_rankings(_id = -1): #dummy arg to get signals to work
 	player_rankings.sort_custom(self, "sort_descending_gold")
 	
 	rpc("set_rankings", player_rankings) 
-
+	
 func sort_descending_gold(p1_name : String, p2_name: String): 
 	return gamestate.get_player(p1_name).get_gold() > gamestate.get_player(p2_name).get_gold()
 
 func connect_player_signals(p_id):
 	gamestate.get_player(p_id).connect("on_gold_change", self, "update_rankings") 
+	
 
 func get_winner() -> Player: 
 	return gamestate.get_player(player_rankings[0])

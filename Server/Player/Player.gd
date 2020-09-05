@@ -3,6 +3,7 @@ extends KinematicBody2D
 class_name Player
 
 remotesync var username 
+
 #STATS 
 var _gold = 0 setget set_gold, get_gold 
 
@@ -28,8 +29,12 @@ func _ready():
 
 remote func initialize_rpc_sender() -> void:
 	var s_id = get_tree().get_rpc_sender_id()
+	
 	rpc_id(s_id, "set_health", health_points)
+	rpc_id(s_id, "set_username", username) 
 	rset_id(s_id,"gold", get_gold())
+	rpc_id(s_id, "set_player_position", position)
+	
 	update_client_state() 
 	
 func update_client_state() -> void:

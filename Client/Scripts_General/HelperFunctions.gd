@@ -18,7 +18,7 @@ remotesync func reparent(node1_path, node2_path, keep_transform = true):
 		else:
 			node1.name += "1"
 			
-	node2.add_child(node1)
+	node2.call_deferred("add_child", node1) 
 	
 	node1.global_position = g_pos
 	node1.global_rotation = g_rot

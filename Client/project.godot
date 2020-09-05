@@ -18,10 +18,16 @@ _global_script_classes=[ {
 "class": "Player",
 "language": "GDScript",
 "path": "res://Player/Player.gd"
+}, {
+"base": "Node2D",
+"class": "WorldManager",
+"language": "GDScript",
+"path": "res://World/WorldManager.gd"
 } ]
 _global_script_class_icons={
 "Compass": "",
-"Player": ""
+"Player": "",
+"WorldManager": ""
 }
 
 [application]
