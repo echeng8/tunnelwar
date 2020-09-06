@@ -17,7 +17,7 @@ func handle_player_state(state : String) -> void:
 			visible = false
   
 func try_respawn():
-	gamestate.user_player.rpc("respawn")
+	gamestate.user_player.rpc_id(1, "respawn")
 
 
 func _on_Button_pressed():

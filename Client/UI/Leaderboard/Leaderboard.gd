@@ -14,7 +14,7 @@ puppet func set_rankings(rankings):
 		return 
 		
 	player_rankings = rankings
-	update_display() 
+	#todo decouple from gamestate getplayer update_display() 
 	
 func update_display():
 	#todo queue until load complete? 

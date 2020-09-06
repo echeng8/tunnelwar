@@ -6,16 +6,12 @@ var browser = true
 var ip = "" 
 var port = 0
 
-# Signal to let GUI know whats up
-signal connection_failed()
-signal connection_succeeded()
-signal server_disconnected()
-
 #implementation  
 var my_name = "Client"
+const world = preload("res://World/World.tscn")
 
 #references 
-var world_node #set by World.tcsn when loaded
+var world_node  #set by World.tcsn when loaded
 var user_player : Player setget _on_user_player_set
 
 #signals
@@ -54,14 +50,15 @@ func connect_to_server():
 
 # Callback from SceneTree, called when connect to server
 func _connected_ok():
-	emit_signal("connection_succeeded")
-	pre_start_game()
-	
-func pre_start_game():	
-	# Load world
 	get_node("/root/Main").hide()
-	var world = load("res://World/World.tscn").instance()
-	get_tree().get_root().add_child(world)
+	get_tree().get_root().add_child(world.instance())
+	rpc_id(1, "register_player", my_name)
+	
+remote func instance_nodes(node_names : Dictionary):
+	for player_name in node_names["Players"]:
+		world_node.instantiate_player(player_name) 
+	for item in node_names["Items"]:
+		pass #todo 
 
 # Callback from SceneTree, called when server disconnect
 func _server_disconnected():
