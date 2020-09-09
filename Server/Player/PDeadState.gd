@@ -3,9 +3,10 @@ extends State
 
 
 func enter():
-	#drop gold
-	gamestate.blocks_node.spawn_golds_at(gamestate.blocks_node.get_overlapping_cell(fsm_root.position), fsm_root.get_gold())
-	fsm_root.set_gold(0)
+	if not fsm.history.size() == 0: #first spawned
+		#drop gold
+		gamestate.blocks_node.spawn_golds_at(gamestate.blocks_node.get_overlapping_cell(fsm_root.position), fsm_root.get_gold())
+		fsm_root.set_gold(0)
 
 func respawn() -> void:
 	#reset health 

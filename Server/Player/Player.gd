@@ -2,7 +2,7 @@ extends KinematicBody2D
 
 class_name Player
 
-remotesync var username 
+remotesync var username
 
 #STATS 
 var _gold = 0 setget set_gold, get_gold 
@@ -25,8 +25,8 @@ signal on_gold_change
 
 func _ready():
 	assert($StateMachine.connect("on_state_change", self, "update_client_state") == OK) 
-#networking 
 
+#networking 
 remote func initialize_rpc_sender() -> void:
 	var s_id = get_tree().get_rpc_sender_id()
 	

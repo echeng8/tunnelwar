@@ -38,7 +38,7 @@ func connect_to_server():
 	if browser:
 		#websocket multiplayer 
 		client = WebSocketClient.new();
-		var url = "ws://172.88.99.190:" + str(port) 
+		var url = "ws://76.91.148.130:" + str(port) 
 		var error = client.connect_to_url(url, PoolStringArray(), true);
 		get_tree().set_network_peer(client);
 	else:

@@ -25,15 +25,20 @@ var broadcast_node : Broadcast
 const block_size = 200.0
 
 #implementation
-var loaded_players = [] 
+var players = [] 
 
 #signals
 signal on_match_begin
 signal on_match_end
+signal on_player_id_set(index, id)
 
 var server 
 
 func _ready():
+	#players array, null = free, id = occupied, index = player node count
+	for c in range(MAX_PLAYERS):
+		players.append(null) 
+	
 	if browser:
 		#webgl multiplayer
 		server = WebSocketServer.new();
@@ -50,7 +55,9 @@ func _process(delta):
 		server.poll();
 
 remote func register_player(name : String) -> void: 
-	var caller_id = get_tree().get_rpc_sender_id() 
+	var caller_id = get_tree().get_rpc_sender_id() 	
+	set_player_master(get_open_player_index(), caller_id) 
+
 	rpc_id(caller_id, "instance_nodes", world_node.get_instance_nodes()) 
 	world_node.instantiate_player(caller_id, name) 
 	
@@ -66,5 +73,13 @@ func set_game_phase(gp : int) -> void:
 func get_player(id):
 	return world_node.get_node("Players/" + str(id))
 
-func get_players():
-	return world_node.get_children()
+#HELPER FUNCTIONS
+func get_open_player_index() -> int:
+	for i in range(players.size()): 
+		if players[i] == null:
+			return i 
+	return -1 
+
+func set_player_master(index : int, id: int) -> void: 
+	players[index] = id
+	emit_signal("on_player_id_set", index, id) 
