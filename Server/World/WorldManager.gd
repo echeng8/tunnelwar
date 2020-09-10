@@ -21,10 +21,8 @@ func _init():
 #	instantiate_player(caller_id, caller_username)
 #	rpc_id(caller_id, "emit_load_complete")
 
-func get_instance_nodes() -> Dictionary : 
-	var node_names = {"Players" : [], "Items": []}
-	for child in $Players.get_children():
-		node_names["Players"].append(child.name) 
+func get_instance_nodes() -> Dictionary: 
+	var node_names = {"Items": []}
 	for item in $Items.get_children():
 		node_names["Items"].append(item.name)
 	return node_names  
@@ -43,8 +41,6 @@ func instantiate_player(id, username):
 	$Players.add_child(player)
 
 	player.respawn()
-	
-	
 
 	emit_signal("on_player_load", id)
 

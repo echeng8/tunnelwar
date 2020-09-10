@@ -10,18 +10,14 @@ var server_state : String
 remote var gold 
 var username
 
+remotesync var owner_id  = -1
+
 #signals
 signal on_server_state_change(state) 
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-
-	if is_network_master():
-		gamestate.user_player = self
-		
 	rpc_id(1, "initialize_rpc_sender")
-	
-
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
@@ -42,6 +38,7 @@ func _process(_delta):
 remote func update_client_state(s_state : String):
 	server_state = s_state
 	emit_signal("on_server_state_change", server_state)
+	
 	match server_state:
 		"PDefaultState":
 			visible = true
@@ -50,6 +47,13 @@ remote func update_client_state(s_state : String):
 
 remotesync func destroy() -> void:
 	queue_free() 
+
+remotesync func set_network_owner(id : int):
+	owner_id = id
+	set_network_master(id) 
+	
+	if id == get_tree().get_network_unique_id():
+		gamestate.user_player = self 
 	
 remote func set_username(username : String) :
 	username = username 

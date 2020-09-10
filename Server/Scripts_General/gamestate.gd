@@ -57,9 +57,7 @@ func _process(delta):
 remote func register_player(name : String) -> void: 
 	var caller_id = get_tree().get_rpc_sender_id() 	
 	set_player_master(get_open_player_index(), caller_id) 
-
 	rpc_id(caller_id, "instance_nodes", world_node.get_instance_nodes()) 
-	world_node.instantiate_player(caller_id, name) 
 	
 #### GAME PHASES
 func set_game_phase(gp : int) -> void: 

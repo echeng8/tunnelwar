@@ -55,8 +55,6 @@ func _connected_ok():
 	rpc_id(1, "register_player", my_name)
 	
 remote func instance_nodes(node_names : Dictionary):
-	for player_name in node_names["Players"]:
-		world_node.instantiate_player(player_name) 
 	for item in node_names["Items"]:
 		pass #todo 
 

@@ -14,6 +14,7 @@ export var health_points = 40
 
 #implementation vars 
 var velocity = Vector2.ZERO 
+remotesync var owner_id = -1 #-1 for no owner
 
 #puppet vars
 puppet var input_direction =  Vector2.ZERO
@@ -26,13 +27,13 @@ signal on_gold_change
 func _ready():
 	assert($StateMachine.connect("on_state_change", self, "update_client_state") == OK) 
 
-#networking 
 remote func initialize_rpc_sender() -> void:
 	var s_id = get_tree().get_rpc_sender_id()
 	
 	rpc_id(s_id, "set_health", health_points)
-	rpc_id(s_id, "set_username", username) 
+	#rpc_id(s_id, "set_username", username) 
 	rset_id(s_id,"gold", get_gold())
+	rset_id(s_id, "owner_id", owner_id) 
 	rpc_id(s_id, "set_player_position", position)
 	
 	update_client_state() 
@@ -40,6 +41,11 @@ remote func initialize_rpc_sender() -> void:
 func update_client_state() -> void:
 	rpc("update_client_state", $StateMachine.state.name)
 
+remotesync func set_network_owner(id : int):
+	rset("owner_id", id) 
+	set_network_master(id)
+	
+#todo optimize 
 remotesync func set_player_position(pos):
 	position = pos 
 
@@ -68,7 +74,7 @@ func broadcast_death(killer_id = -1):
 		msg = "%s suddenly dies, dropping %s gold." % [username, _gold]
 	gamestate.broadcast_node.broadcast(msg, 3, 0, killer_id)
 	
-#SETTERS AND GETTERS
+############SETTERS AND GETTERS
 func set_gold(amount):
 	_gold = amount 
 	rset("gold", _gold)
