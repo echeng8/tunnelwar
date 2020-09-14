@@ -2,7 +2,9 @@ extends Node
 
 func _ready():
 	assert(get_tree().connect("network_peer_disconnected", self, "remove_player") == OK)
+# warning-ignore:return_value_discarded
 	gamestate.connect("on_match_begin", self, "clear_player_golds")
+# warning-ignore:return_value_discarded
 	gamestate.connect("on_player_id_set", self ,"update_player_owner") 
 	
 func clear_player_golds() -> void: 

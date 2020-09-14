@@ -1,7 +1,9 @@
 extends CanvasLayer
 
 func _ready():
+# warning-ignore:return_value_discarded
 	gamestate.connect("on_match_begin", self, "broadcast_game_start")
+# warning-ignore:return_value_discarded
 	gamestate.connect("on_match_end", self, "broadcast_reset") 
 	
 func broadcast_reset(): 

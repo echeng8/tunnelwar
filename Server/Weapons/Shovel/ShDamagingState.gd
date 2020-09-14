@@ -9,7 +9,7 @@ func enter():
 	for body in ShovelNode.get_overlapping_bodies():
 		try_damage_player(body)
 
-func physics_process(delta):
+func physics_process(_delta):
 	fsm_root.break_touched_block()
 
 func on_body_entered(body):

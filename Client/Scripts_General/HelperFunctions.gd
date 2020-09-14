@@ -1,7 +1,8 @@
 extends Node
 
 
-remotesync func reparent(node1_path, node2_path, keep_transform = true):
+#todo keeptrasnsform 
+remotesync func reparent(node1_path, node2_path, _keep_transform = true):
 	var node1 = get_node(node1_path)
 	var node2 = get_node(node2_path)
 	

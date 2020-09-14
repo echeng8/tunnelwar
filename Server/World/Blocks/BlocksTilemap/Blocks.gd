@@ -111,6 +111,6 @@ func generate_dirt(square_length : int) -> void:
 			set_block(coords, block.DIRT)
 
 func generate_gold(num: int):
-	for i in range(num):
+	for _i in range(num):
 		var coords = Vector2(randi() % length, randi() % length)
 		set_block(coords, block.GOLD)

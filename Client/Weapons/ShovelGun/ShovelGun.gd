@@ -16,7 +16,6 @@ remote var shoot_charge_time : float
 var debug_pulled = false
 signal on_server_state_change
 func _ready():
-	var shovel = get_node("Shovel")
 	rpc_id(1, "initialize_rpc_sender")  
 	
 	sg_player = HelperFunctions.get_parent_player_node(self) 

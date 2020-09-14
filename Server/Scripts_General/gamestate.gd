@@ -36,7 +36,7 @@ var server
 
 func _ready():
 	#players array, null = free, id = occupied, index = player node count
-	for c in range(MAX_PLAYERS):
+	for _c in range(MAX_PLAYERS):
 		players.append(null) 
 	
 	if browser:
@@ -50,11 +50,11 @@ func _ready():
 		host.create_server(PORT, MAX_PLAYERS)
 		get_tree().set_network_peer(host)
 	
-func _process(delta):
+func _process(_delta):
 	if browser and server.is_listening(): # is_listening is true when the server is active and listening
 		server.poll();
 
-remote func register_player(name : String) -> void: 
+remote func register_player(_name : String) -> void: 
 	var caller_id = get_tree().get_rpc_sender_id() 	
 	set_player_master(get_open_player_index(), caller_id) 
 	rpc_id(caller_id, "instance_nodes", world_node.get_instance_nodes()) 

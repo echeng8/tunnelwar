@@ -3,8 +3,11 @@ extends Node
 var player_rankings = [] #ids as strings 
 
 func _ready():
+# warning-ignore:return_value_discarded
 	gamestate.world_node.connect("on_player_load", self, "connect_player_signals")
+# warning-ignore:return_value_discarded
 	gamestate.world_node.connect("on_player_load", self, "update_rankings")
+# warning-ignore:return_value_discarded
 	get_tree().connect("network_peer_disconnected", self, "update_rankings")
 	update_rankings() 
 

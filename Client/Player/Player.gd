@@ -55,8 +55,8 @@ remotesync func set_network_owner(id : int):
 	if id == get_tree().get_network_unique_id():
 		gamestate.user_player = self 
 	
-remote func set_username(username : String) :
-	username = username 
+remote func set_username(user_name: String) :
+	username = user_name
 	$GUI/PlayerName.text = username  
 	
 #### HEALTH

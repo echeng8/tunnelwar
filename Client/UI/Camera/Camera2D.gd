@@ -10,5 +10,5 @@ func align_with_player() -> void:
 	get_parent().remove_child(self) 
 	gamestate.user_player.add_child(self) 
 
-func _process(delta):
+func _process(_delta):
 	align() 

@@ -23,7 +23,7 @@ func _ready():
 	assert(get_tree().connect("connection_failed", self, "_connected_fail") == 0)
 	assert(get_tree().connect("server_disconnected", self, "_server_disconnected") == 0)
 
-func _process(delta):
+func _process(_delta):
 	if browser:
 		if client == null:
 			return 
@@ -39,7 +39,7 @@ func connect_to_server():
 		#websocket multiplayer 
 		client = WebSocketClient.new();
 		var url = "ws://76.91.148.130:" + str(port) 
-		var error = client.connect_to_url(url, PoolStringArray(), true);
+		var _error = client.connect_to_url(url, PoolStringArray(), true);
 		get_tree().set_network_peer(client);
 	else:
 		var host = NetworkedMultiplayerENet.new()
