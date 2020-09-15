@@ -20,6 +20,18 @@ script = ExtResource( 4 )
 
 [node name="Player0" parent="Players" instance=ExtResource( 2 )]
 
+[node name="Player1" parent="Players" instance=ExtResource( 2 )]
+
+[node name="Player2" parent="Players" instance=ExtResource( 2 )]
+
+[node name="Player3" parent="Players" instance=ExtResource( 2 )]
+
+[node name="Player4" parent="Players" instance=ExtResource( 2 )]
+
+[node name="Player5" parent="Players" instance=ExtResource( 2 )]
+
+[node name="Player6" parent="Players" instance=ExtResource( 2 )]
+
 [node name="Items" type="Node" parent="."]
 __meta__ = {
 "_editor_description_": "Player-spawned items 
