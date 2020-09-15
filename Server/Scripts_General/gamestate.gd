@@ -32,10 +32,13 @@ var player_names = {}
 signal on_match_begin
 signal on_match_end
 signal on_player_id_set(index, id)
+signal on_player_remove(id) 
 
 var server 
 
 func _ready():
+	assert(get_tree().connect("network_peer_disconnected", self, "remove_player") == OK)
+	
 	#players array, null = free, id = occupied, index = player node count
 	for _c in range(MAX_PLAYERS):
 		players.append(null) 
@@ -63,7 +66,12 @@ remote func register_player(name : String) -> void:
 	
 	set_player_master(get_open_player_index(), caller_id) 
 	rpc_id(caller_id, "instance_nodes", world_node.get_instance_nodes()) 
-	
+
+func remove_player(id : int) -> void: 
+	var index = get_player_index(id)
+	players[index] = null  
+	emit_signal("on_player_remove", index) 
+
 #### GAME PHASES
 func set_game_phase(gp : int) -> void: 
 	game_phase = gp

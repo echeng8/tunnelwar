@@ -56,7 +56,8 @@ func owner_id_set(id : int):
 	if id == get_tree().get_network_unique_id():
 		gamestate.user_player = self 
 		set_network_master(get_tree().get_network_unique_id())
-		
+	else:
+		set_network_master(1) 
 #### HEALTH
 remote func set_health(hp):
 	health_points = hp 

@@ -46,10 +46,12 @@ func set_network_owner(id : int):
 	rset("username", gamestate.player_names[id]) 
 	set_network_master(id)
 
+#also kills player
 func clear_network_owner():
 	rset("owner_id", -1)
 	rset("username", "")
 	set_network_master(1)
+	die()
 
 #todo optimize 
 remotesync func set_player_position(pos):
