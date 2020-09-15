@@ -3,7 +3,7 @@ extends State
 
 
 func enter():
-	if not fsm.history.size() == 0: #first spawned
+	if not fsm.history.size() == 0: #if not initial spawning (no player ever played) 
 		#drop gold
 		gamestate.blocks_node.spawn_golds_at(gamestate.blocks_node.get_overlapping_cell(fsm_root.position), fsm_root.get_gold())
 		fsm_root.set_gold(0)

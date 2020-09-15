@@ -11,13 +11,15 @@ func clear_player_golds() -> void:
 	for player in get_children():
 		player.set_gold(0)
 
-
 func remove_player(id : int):
 	var p = get_node_or_null(str(id))
 	if not p == null:
-		p.disconnect_die() 
+		p.die() 
+
+func get_player(index : int):
+	return get_children()[index]
 
 func update_player_owner(index : int, id : int) -> void:
 	var player = get_children()[index]
-	player.rpc("set_network_owner", id)
+	player.set_network_owner(id) 
 	player.respawn()

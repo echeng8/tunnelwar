@@ -8,9 +8,8 @@ var cameraReference
 var health_points
 var server_state : String
 remote var gold 
-var username
-
-remotesync var owner_id  = -1
+remotesync var username setget username_set 
+remotesync var owner_id  = -1 setget owner_id_set
 
 #signals
 signal on_server_state_change(state) 
@@ -48,17 +47,16 @@ remote func update_client_state(s_state : String):
 remotesync func destroy() -> void:
 	queue_free() 
 
-remotesync func set_network_owner(id : int):
-	owner_id = id
-	set_network_master(id) 
-	
-	if id == get_tree().get_network_unique_id():
-		gamestate.user_player = self 
-	
-remote func set_username(user_name: String) :
-	username = user_name
+func username_set(un: String):
+	username = un 
 	$GUI/PlayerName.text = username  
 	
+func owner_id_set(id : int):	
+	owner_id = id
+	if id == get_tree().get_network_unique_id():
+		gamestate.user_player = self 
+		set_network_master(get_tree().get_network_unique_id())
+		
 #### HEALTH
 remote func set_health(hp):
 	health_points = hp 

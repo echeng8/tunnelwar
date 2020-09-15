@@ -26,6 +26,7 @@ const block_size = 200.0
 
 #implementation
 var players = [] 
+var player_names = {}
 
 #signals
 signal on_match_begin
@@ -54,8 +55,12 @@ func _process(_delta):
 	if browser and server.is_listening(): # is_listening is true when the server is active and listening
 		server.poll();
 
-remote func register_player(_name : String) -> void: 
+remote func register_player(name : String) -> void: 
 	var caller_id = get_tree().get_rpc_sender_id() 	
+	
+	#set player_names dict
+	player_names[caller_id] = name
+	
 	set_player_master(get_open_player_index(), caller_id) 
 	rpc_id(caller_id, "instance_nodes", world_node.get_instance_nodes()) 
 	
@@ -69,13 +74,19 @@ func set_game_phase(gp : int) -> void:
 		emit_signal("on_match_begin")
 
 func get_player(id):
-	return world_node.get_node("Players/" + str(id))
+	return world_node.get_node("Players").get_player(get_player_index(id))
 
 #HELPER FUNCTIONS
 func get_open_player_index() -> int:
 	for i in range(players.size()): 
 		if players[i] == null:
-			return i 
+			return i
+	return -1
+
+func get_player_index(id: int) -> int:
+	for i in range(players.size()):
+		if players[i] == id:
+			return i
 	return -1 
 
 func set_player_master(index : int, id: int) -> void: 

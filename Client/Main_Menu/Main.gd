@@ -16,9 +16,9 @@ func _on_JoinButton_pressed():
 	gamestate.port = int($UIVBox/DEVServerConnect/ServerPortHBox/ServerPortEdit.text)
 	
 	#/DEV TOOLS - SERVER IP SET
-	
+
 	gamestate.connect_to_server()
-	
+
 func _on_connection_success():
 	$UIVBox/JoinButton.disabled = true
 

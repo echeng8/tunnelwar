@@ -14,9 +14,10 @@ export var health_points = 40
 
 #implementation vars 
 var velocity = Vector2.ZERO 
-remotesync var owner_id = -1 #-1 for no owner
+
 
 #puppet vars
+remotesync var owner_id = -1 #-1 for no owner
 puppet var input_direction =  Vector2.ZERO
 puppet var input_aim_pos = Vector2.ZERO
 puppet var input_pull_p = false 
@@ -31,7 +32,6 @@ remote func initialize_rpc_sender() -> void:
 	var s_id = get_tree().get_rpc_sender_id()
 	
 	rpc_id(s_id, "set_health", health_points)
-	#rpc_id(s_id, "set_username", username) 
 	rset_id(s_id,"gold", get_gold())
 	rset_id(s_id, "owner_id", owner_id) 
 	rpc_id(s_id, "set_player_position", position)
@@ -41,10 +41,16 @@ remote func initialize_rpc_sender() -> void:
 func update_client_state() -> void:
 	rpc("update_client_state", $StateMachine.state.name)
 
-remotesync func set_network_owner(id : int):
+func set_network_owner(id : int):
 	rset("owner_id", id) 
+	rset("username", gamestate.player_names[id]) 
 	set_network_master(id)
-	
+
+func clear_network_owner():
+	rset("owner_id", -1)
+	rset("username", "")
+	set_network_master(1)
+
 #todo optimize 
 remotesync func set_player_position(pos):
 	position = pos 
@@ -58,14 +64,11 @@ remote func respawn() -> void:
 		$StateMachine.state.respawn() 
 
 #die then delete 
-func disconnect_die() -> void:
+func die() -> void:
 	$StateMachine.change_to("PDeadState") 
 	broadcast_death() 
-	rpc("destroy")
 
-remotesync func destroy() -> void:
-	queue_free() 
-	
+
 func broadcast_death(killer_id = -1):
 	var msg = ""
 	if not killer_id == -1:

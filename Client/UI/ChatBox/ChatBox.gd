@@ -5,8 +5,6 @@ signal on_message_send(message)
 var firstMessage = true
 
 remote func add_message(message):
-	#If it's the first message EVER, then DON'T new line it.
-	#NOTE: this could be done better possibly, but this is how I solved this.
 	if firstMessage:
 		$ChatText.bbcode_text += str(message)
 		firstMessage = false
