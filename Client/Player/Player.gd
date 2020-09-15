@@ -2,8 +2,6 @@ extends KinematicBody2D
 class_name Player
 var cameraReference
 
-
-
 #PSEUDO PUPPETS - set by server 
 var health_points
 var server_state : String
@@ -13,6 +11,7 @@ remotesync var owner_id  = -1 setget owner_id_set
 
 #signals
 signal on_server_state_change(state) 
+signal on_loaded #emitted on network owner change or initialized from server
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -49,6 +48,7 @@ remotesync func destroy() -> void:
 
 func username_set(un: String):
 	username = un 
+	emit_signal("on_loaded")
 	$GUI/PlayerName.text = username  
 	
 func owner_id_set(id : int):	
@@ -58,6 +58,7 @@ func owner_id_set(id : int):
 		set_network_master(get_tree().get_network_unique_id())
 	else:
 		set_network_master(1) 
+
 #### HEALTH
 remote func set_health(hp):
 	health_points = hp 

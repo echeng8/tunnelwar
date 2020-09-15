@@ -12,6 +12,7 @@ const world = preload("res://World/World.tscn")
 
 #references 
 var world_node  #set by World.tcsn when loaded
+var players_node #set by playe
 var user_player : Player setget _on_user_player_set
 
 #signals
@@ -66,11 +67,12 @@ func _server_disconnected():
 # Callback from SceneTree, called when unabled to connect to server
 func _connected_fail():
 	get_tree().set_network_peer(null) # Remove peer
-	
-func get_player(id) -> Player:
-	return world_node.get_node("Players/" + str(id))
-	
+
 # SETTERS AND GETTERS
 func _on_user_player_set(player_ref):
 	user_player = player_ref
 	emit_signal("on_user_player_set")
+
+#helper functions
+func get_player_by_index(index : int):
+	return world_node.get_node("Players").get_children()[index]

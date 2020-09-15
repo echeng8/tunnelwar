@@ -2,10 +2,8 @@ extends KinematicBody2D
 
 class_name Player
 
-remotesync var username
-
 #STATS 
-var _gold = 0 setget set_gold, get_gold 
+export var _gold = 0 setget set_gold, get_gold 
 
 #MECHANICS 
 export var speed = 600
@@ -15,9 +13,10 @@ export var health_points = 40
 #implementation vars 
 var velocity = Vector2.ZERO 
 
-
 #puppet vars
+remotesync var username
 remotesync var owner_id = -1 #-1 for no owner
+
 puppet var input_direction =  Vector2.ZERO
 puppet var input_aim_pos = Vector2.ZERO
 puppet var input_pull_p = false 

@@ -12,24 +12,9 @@ const resources = {
 	"Shovel": preload("res://Weapons/Shovel/Shovel.tscn"), 
 }
 
-signal on_load_complete
-
 ### PLAYER STUFF 
 func _init():
 	gamestate.world_node = self
-
-puppet func emit_load_complete():
-	emit_signal("on_load_complete") 
-	print('emiting')
-	
-remote func instantiate_player(id):
-	if $Players.has_node(str(id)):
-		return 
-	
-	var p = Player.instance()
-	p.name = String(id)
-	p.set_network_master(int(id))
-	$Players.add_child(p) 
 
 ### BLOCKS AND SHOVELS 
 remote func spawn(file_name, node_name, transform_dict):

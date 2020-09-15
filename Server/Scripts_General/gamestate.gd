@@ -81,8 +81,7 @@ func set_game_phase(gp : int) -> void:
 	if game_phase == game_phases.IN_PROGRESS:
 		emit_signal("on_match_begin")
 
-func get_player(id):
-	return world_node.get_node("Players").get_player(get_player_index(id))
+
 
 #HELPER FUNCTIONS
 func get_open_player_index() -> int:
@@ -91,6 +90,12 @@ func get_open_player_index() -> int:
 			return i
 	return -1
 
+func get_player(id):
+	return world_node.get_node("Players").get_player(get_player_index(id))
+
+func get_player_by_index(index : int):
+	return world_node.get_node("Players").get_children()[index]
+	
 func get_player_index(id: int) -> int:
 	for i in range(players.size()):
 		if players[i] == id:
