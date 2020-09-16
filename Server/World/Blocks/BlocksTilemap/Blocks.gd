@@ -2,14 +2,15 @@ extends TileMap
 
 class_name Blocks
 
-#####gameplay
+#####MECHANICS  
 var length = 100
 var gold_percent = 0.25
 
 #MAKE SURE this lines up with tilesheet
 enum block {DIRT, GOLD, BEDROCK, RESET, EMPTY}
-
 const block_num = 5
+
+signal on_gold_block_break(player_id) 
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -23,7 +24,8 @@ master func initialize_rpc_sender() -> void:
 			rpc("set_block", cell, i)
 	
 	#rpc_id(get_tree().get_rpc_sender_id(), "load_world", block_array) #doesn't work on webgl
-	rset_id(get_tree().get_rpc_sender_id(), "initialized", true)
+	rset_id(get_tree().get_rpc_sender_id(), "initialized", true) 
+
 func generate_world() -> void:
 	generate_dirt(length)
 	generate_gold(int(length * length * gold_percent))
@@ -42,17 +44,17 @@ func reset():
 	gamestate.set_game_phase(gamestate.game_phases.INTERIM)
 	clear_inside()
 	yield(get_tree().create_timer(5), "timeout")
-	generate_world() 
+	generate_world()
 
-func break_block(cell : Vector2, player_id = -1):
+func break_block(cell : Vector2, player_index = -1):
 	match get_cellv(cell):
 		block.DIRT:
 			set_block(cell, block.EMPTY)
 		block.GOLD:
 			set_block(cell, block.EMPTY)
-			gamestate.get_player(player_id).add_gold(1)
+			emit_signal("on_gold_block_break", player_index)  
 		block.RESET:
-			$ResetBlockHandler.handle_hit(cell, player_id)
+			$ResetBlockHandler.handle_hit(cell, player_index)
 	
 func spawn_golds_at(origin_cell : Vector2, gold_count : int): 
 	var gold_to_spawn = gold_count

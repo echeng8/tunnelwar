@@ -11,20 +11,20 @@ export(float) var damage = 10
 const detached_lifespan = 10 #time it survives without a shovelgun 
 
 #implementation  
-var last_owner_id : int 
+var last_owner_index : int 
 
 #knockback stats
 const knockback_speed = 2000 #game units per second
 const knockback_duration = 0.1 #in seconds
 
 func _ready():
-	last_owner_id = int(HelperFunctions.get_parent_player_node(self).name)
+	last_owner_index = HelperFunctions.get_parent_player_node(self).get_index()
 	
 func break_touched_block() -> void:
 	if is_in_block(): 
 		gamestate.blocks_node.break_block(
 			gamestate.blocks_node.get_overlapping_cell($CollisionShape2D.global_position), 
-			last_owner_id 
+			last_owner_index 
 		)
 
 func is_in_block() -> bool:

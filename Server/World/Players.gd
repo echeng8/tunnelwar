@@ -10,6 +10,9 @@ func _ready():
 	gamestate.connect("on_match_begin", self, "clear_player_golds")
 # warning-ignore:return_value_discarded
 	gamestate.connect("on_player_id_set", self ,"update_player_owner") 
+# warning-ignore:return_value_discarded
+	gamestate.world_node.get_node("Blocks").connect("on_gold_block_break", self ,"add_gold") 
+
 
 #listen to player signals
 	for player in get_children():
@@ -32,6 +35,10 @@ func update_player_owner(index : int, id : int) -> void:
 
 func on_player_gold_change():
 	emit_signal("on_player_change") 
+
+func add_gold(player_index):
+	print(player_index) 
+	get_player(player_index).add_gold(1)   #todo move value elsewhere? 
 
 #helper functions 
 func get_player(index : int):

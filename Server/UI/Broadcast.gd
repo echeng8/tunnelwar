@@ -11,18 +11,16 @@ func _ready():
 master func initialize_rpc_sender():
 	rpc_id(get_tree().get_rpc_sender_id(), "update_broadcast", current_message) 
 
-func broadcast(message : String, duration : int, priority : int, target_player_id = -1) -> void:  
+func broadcast(message : String, duration : int, priority : int, target_player_index = -1) -> void:  
 	if priority >= current_message_priority: 
-		
-		target_player_id = int(target_player_id)
 		#replacing [p] with username
-		if not target_player_id == -1:
-			current_message = message.replace("[p]", gamestate.get_player(target_player_id).username)
+		if not target_player_index == -1:
+			current_message = message.replace("[p]", gamestate.get_player_by_index(target_player_index).username)
 		else:
 			current_message = message 
 			
 		current_message_priority = priority 
-		rpc("update_broadcast", current_message, target_player_id)
+		#rpc("update_broadcast", current_message, target_player_index) toodoo
 	
 		$Timer.start(duration) 
 

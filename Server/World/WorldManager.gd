@@ -11,7 +11,7 @@ func get_instance_nodes() -> Dictionary:
 	var node_names = {"Items": []}
 	for item in $Items.get_children():
 		node_names["Items"].append(item.name)
-	return node_names  
+	return node_names
 
 func add_item(item, reparent = true):
 	if(reparent):

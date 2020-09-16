@@ -23,7 +23,7 @@ func _process(delta):
 	if _current_hit_cd > 0:
 		_current_hit_cd -= delta 
 
-func handle_hit(cell : Vector2, player_id : int):
+func handle_hit(cell : Vector2, player_index : int):
 	#check if ht recently
 	if not _current_hit_cd <= 0:
 		return 
@@ -33,7 +33,7 @@ func handle_hit(cell : Vector2, player_id : int):
 		_current_rb_hp -= 1 
 		gamestate.broadcast_node.broadcast(
 			"[p] strikes the reset block. %s hits remain." % _current_rb_hp, 
-			3, 1, player_id)
+			3, 1, player_index)
 		_current_hit_cd = hit_cd
 	#breaking the rb 
 	else:
